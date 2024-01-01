@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { Dimensions } from '../../types/TreeTypes';
 
 interface SettingsState {
     theme: string;
@@ -6,6 +7,7 @@ interface SettingsState {
     speed: number;
     memo: boolean;
     sidebarWidth: number;
+    dimensions: Dimensions;
 }
 
 const initialState: SettingsState = {
@@ -13,7 +15,12 @@ const initialState: SettingsState = {
     input: 5,
     speed: 100,
     memo: false,
-    sidebarWidth: 320
+    sidebarWidth: 320,
+    dimensions: {
+        verticalSpacing: 50,
+        horizontalSpacing: 50,
+        circleRadius: 20,
+    }
 };
 
 export const settingsSlice = createSlice({

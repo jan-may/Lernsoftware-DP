@@ -1,7 +1,9 @@
 import { useState } from "react";
 
 export function ButtonGroupElem() {
-  const [activeButton, setActiveButton] = useState<string | null>(null);
+  const [activeButton, setActiveButton] = useState<string | null>(
+    "recursiveTree"
+  );
 
   const handleClick = (buttonName: string) => {
     setActiveButton(buttonName);
@@ -10,22 +12,28 @@ export function ButtonGroupElem() {
   return (
     <div>
       <button
+        onClick={() => handleClick("problem")}
+        className={activeButton === "problem" ? "active" : ""}
+      >
+        Problem
+      </button>
+      <button
         onClick={() => handleClick("recursiveTree")}
         className={activeButton === "recursiveTree" ? "active" : ""}
       >
-        Recursive Tree
+        Top Down (recursive tree)
       </button>
       <button
-        onClick={() => handleClick("bottomUpMemo")}
-        className={activeButton === "bottomUpMemo" ? "active" : ""}
+        onClick={() => handleClick("topDownMemo")}
+        className={activeButton === "topDownMemo" ? "active" : ""}
       >
-        Bottom Up Memo
+        Top Dowm Memo
       </button>
       <button
-        onClick={() => handleClick("topDown")}
-        className={activeButton === "topDown" ? "active" : ""}
+        onClick={() => handleClick("bottomUp")}
+        className={activeButton === "bottomUp" ? "active" : ""}
       >
-        Top Down
+        Bottom Up
       </button>
     </div>
   );

@@ -1,5 +1,8 @@
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { a11yDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import {
+  a11yDark,
+  atomDark,
+} from "react-syntax-highlighter/dist/esm/styles/prism";
 import { useAppSelector } from "../hooks/redux";
 
 interface CodeProps {
@@ -17,11 +20,11 @@ export function CodeDisplay({ code, language }: CodeProps) {
           flex: 1,
           width: "100%",
           flexDirection: "column",
-          fontSize: "18px",
+          fontSize: "16px",
           padding: "0px",
         }}
       >
-        <SyntaxHighlighter language={language} style={a11yDark}>
+        <SyntaxHighlighter language={language} style={atomDark}>
           {code}
         </SyntaxHighlighter>
       </div>
