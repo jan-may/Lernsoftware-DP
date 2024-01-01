@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export function ButtonGroupElem() {
+export function Navbar() {
   const [activeButton, setActiveButton] = useState<string | null>(
     "recursiveTree"
   );
@@ -10,7 +10,7 @@ export function ButtonGroupElem() {
   };
 
   return (
-    <div>
+    <nav>
       <button
         onClick={() => handleClick("problem")}
         className={activeButton === "problem" ? "active" : ""}
@@ -35,6 +35,6 @@ export function ButtonGroupElem() {
       >
         Bottom Up
       </button>
-    </div>
+    </nav>
   );
 }

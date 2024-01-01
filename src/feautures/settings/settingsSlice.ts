@@ -1,5 +1,4 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { Dimensions } from '../../types/TreeTypes';
 
 interface SettingsState {
     theme: string;
@@ -7,7 +6,9 @@ interface SettingsState {
     speed: number;
     memo: boolean;
     sidebarWidth: number;
-    dimensions: Dimensions;
+    verticalSpacing: number;
+    horizontalSpacing: number;
+    circleRadius: number;
 }
 
 const initialState: SettingsState = {
@@ -16,11 +17,9 @@ const initialState: SettingsState = {
     speed: 100,
     memo: false,
     sidebarWidth: 320,
-    dimensions: {
-        verticalSpacing: 50,
-        horizontalSpacing: 50,
-        circleRadius: 20,
-    }
+    verticalSpacing: 52,
+    horizontalSpacing: 52,
+    circleRadius: 21,
 };
 
 export const settingsSlice = createSlice({
@@ -41,9 +40,18 @@ export const settingsSlice = createSlice({
         },
         setSidebarWidth: (state, action: PayloadAction<number>) => {
             state.sidebarWidth = action.payload;
-        }
+        },
+        setVerticalSpacing: (state, action: PayloadAction<number>) => {
+            state.verticalSpacing = action.payload;
+        },
+        setHorizontalSpacing: (state, action: PayloadAction<number>) => {
+            state.horizontalSpacing = action.payload;
+        },
+        setCircleRadius: (state, action: PayloadAction<number>) => {
+            state.circleRadius = action.payload;
+        },
     },
 });
 
-export const { setTheme, setInput, setSpeed, setMemo, setSidebarWidth} = settingsSlice.actions;
+export const { setTheme, setInput, setSpeed, setMemo, setSidebarWidth, setVerticalSpacing, setHorizontalSpacing, setCircleRadius} = settingsSlice.actions;
 export default settingsSlice.reducer;

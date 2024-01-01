@@ -1,13 +1,23 @@
+import { useEffect, useState } from "react";
 import {
+  setCircleRadius,
   setInput,
   setSpeed,
-  setMemo,
+  setHorizontalSpacing,
+  setVerticalSpacing,
 } from "../feautures/settings/settingsSlice";
 import { useAppSelector, useAppDispatch } from "../hooks/redux";
+import { set } from "zod";
 
 export const SettingsForm = () => {
   const dispatch = useAppDispatch();
-  const { input, speed, memo } = useAppSelector((store) => store.settings);
+  const { input, speed, circleRadius, verticalSpacing, horizontalSpacing } =
+    useAppSelector((store) => store.settings);
+  const [localDimensions, setLocalDimensions] = useState({
+    horizontalSpacing: horizontalSpacing,
+    verticalSpacing: verticalSpacing,
+    circleRadius: circleRadius,
+  });
 
   function getValueFromForm(
     form: HTMLFormElement,
@@ -30,20 +40,33 @@ export const SettingsForm = () => {
       dispatch(setInput(newValue as number));
     }
 
-    const memoValue = getValueFromForm(
-      form,
-      '.form-input[type="checkbox"]',
-      true
-    );
-    if (memoValue !== null) {
-      dispatch(setMemo(memoValue as boolean));
-    }
-
     const newSpeed = getValueFromForm(form, '.form-input[name="speed"]');
     if (newSpeed !== null) {
       dispatch(setSpeed(newSpeed as number));
     }
+
+    if (localDimensions.horizontalSpacing !== horizontalSpacing) {
+      dispatch(
+        setHorizontalSpacing(localDimensions.horizontalSpacing as number)
+      );
+    }
+
+    if (localDimensions.verticalSpacing !== verticalSpacing) {
+      dispatch(setVerticalSpacing(localDimensions.verticalSpacing as number));
+    }
+
+    if (localDimensions.circleRadius !== circleRadius) {
+      dispatch(setCircleRadius(localDimensions.circleRadius as number));
+    }
   }
+
+  useEffect(() => {
+    setLocalDimensions({
+      horizontalSpacing: horizontalSpacing,
+      verticalSpacing: verticalSpacing,
+      circleRadius: circleRadius,
+    });
+  }, [verticalSpacing, horizontalSpacing, circleRadius]);
 
   return (
     <form className="settings-form-container" onSubmit={handleSubmit}>
@@ -66,25 +89,52 @@ export const SettingsForm = () => {
         />
       </div>
       <div className="form-group">
-        <label className="form-label">memo</label>
+        <label className="form-label">x-spacing</label>
         <input
+          name="horizontalSpacing"
           className="form-input"
-          type="checkbox"
-          name="memo"
-          defaultChecked={memo}
+          type="number"
+          defaultValue={Math.floor(localDimensions.horizontalSpacing)}
+          value={Math.floor(localDimensions.horizontalSpacing)}
+          onChange={(e) => {
+            setLocalDimensions({
+              ...localDimensions,
+              horizontalSpacing: parseInt(e.target.value),
+            });
+          }}
         />
       </div>
       <div className="form-group">
-        <label className="form-label">x-spacing</label>
-        <input className="form-input" type="number" />
-      </div>
-      <div className="form-group">
         <label className="form-label">y-Spacing</label>
-        <input className="form-input" type="number" />
+        <input
+          name="verticalSpacing"
+          className="form-input"
+          type="number"
+          defaultValue={Math.floor(localDimensions.verticalSpacing)}
+          value={Math.floor(localDimensions.verticalSpacing)}
+          onChange={(e) => {
+            setLocalDimensions({
+              ...localDimensions,
+              verticalSpacing: parseInt(e.target.value),
+            });
+          }}
+        />
       </div>
       <div className="form-group">
         <label className="form-label">c-radius</label>
-        <input className="form-input" type="number" />
+        <input
+          name="circleRadius"
+          className="form-input"
+          type="number"
+          defaultValue={Math.floor(localDimensions.circleRadius)}
+          value={Math.floor(localDimensions.circleRadius)}
+          onChange={(e) => {
+            setLocalDimensions({
+              ...localDimensions,
+              circleRadius: parseInt(e.target.value),
+            });
+          }}
+        />
       </div>
       <button className="form-submit-btn" type="submit">
         calculate
