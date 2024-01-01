@@ -159,10 +159,26 @@ button {
   margin-top: 20px;
 }
 
+line{
+  z-index: -1;
+}
+
+circle{
+  z-index: 50000;
+  fill-opacity: 100000;
+  cursor: pointer;
+}
+
 .tree {
 position: absolute;
 top: 70px;
 left: 360px;
+}
+
+.node{
+  z-index: 1000;
+  fill-opacity: 1000;
+  
 }
 
 pre  {

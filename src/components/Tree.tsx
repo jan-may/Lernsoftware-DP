@@ -3,6 +3,7 @@ import { TreeNodeModel } from "../TreeBuilder/TreeNodeModel";
 import { Node } from "./Node";
 import { useAppSelector } from "../hooks/redux";
 import { useResizeDimensions } from "../hooks/resize";
+import React, { useState } from "react";
 
 function buildFibonacciTree(
   n: number,
@@ -26,11 +27,20 @@ function createFibonacciTree(input: number) {
 
 export const Tree: React.FC = () => {
   const { input, sidebarWidth } = useAppSelector((store) => store.settings);
-  const tree = createFibonacciTree(input);
+  const [clickedValue, setClickedValue] = useState(-1);
 
+  const tree = createFibonacciTree(input);
   const maxDepth = TreeHelper.getMaxDepth(tree);
   const maxWidth = TreeHelper.getMaxWidth(tree);
   const dimensions = useResizeDimensions(maxDepth, maxWidth);
+
+  const handleClick = (value: number) => {
+    if (value === clickedValue) {
+      setClickedValue(-10);
+    } else {
+      setClickedValue(value);
+    }
+  };
 
   return (
     <>
@@ -40,7 +50,14 @@ export const Tree: React.FC = () => {
         width={window.innerWidth - sidebarWidth - 50}
         height={window.innerHeight - 70}
       >
-        {tree && <Node node={tree} dimensions={dimensions} />}
+        {tree && (
+          <Node
+            node={tree}
+            dimensions={dimensions}
+            clickedValue={clickedValue}
+            handleClick={handleClick}
+          />
+        )}
       </svg>
     </>
   );
