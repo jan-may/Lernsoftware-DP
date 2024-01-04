@@ -17,12 +17,12 @@ export const Node: React.FC<NodeProps> = ({
   handleClick,
 }) => {
   const { input, speed } = useAppSelector((store) => store.settings);
-  const { active } = useAppSelector((store) => store.navbar);
+  const { activeButton } = useAppSelector((store) => store.navbar);
   const [children, setChildren] = useState<TreeNodeModel<number>[]>([]);
 
   useEffect(() => {
     setChildren([]);
-  }, [input, speed, active]);
+  }, [input, speed, activeButton]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -35,6 +35,7 @@ export const Node: React.FC<NodeProps> = ({
     }, speed);
     return () => clearInterval(timer);
   }, [node, children]);
+
   return (
     <g>
       {children.map((child, index) => (

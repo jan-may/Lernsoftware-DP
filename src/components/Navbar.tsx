@@ -1,37 +1,37 @@
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import { setActive } from "../feautures/navbar/navbarSlice";
+import { setActive, ActivButton } from "../feautures/navbar/navbarSlice";
 
 export function Navbar() {
   const dispatch = useAppDispatch();
-  const { active } = useAppSelector((store) => store.navbar);
+  const { activeButton } = useAppSelector((store) => store.navbar);
 
-  const handleClick = (buttonName: string) => {
+  const handleClick = (buttonName: ActivButton) => {
     dispatch(setActive(buttonName));
   };
 
   return (
     <nav>
       <button
-        onClick={() => handleClick("problem")}
-        className={active === "problem" ? "active" : ""}
+        onClick={() => handleClick(ActivButton.problem)}
+        className={activeButton === ActivButton.problem ? "active" : ""}
       >
         Problem
       </button>
       <button
-        onClick={() => handleClick("recursiveTree")}
-        className={active === "recursiveTree" ? "active" : ""}
+        onClick={() => handleClick(ActivButton.recursiveTree)}
+        className={activeButton === ActivButton.recursiveTree ? "active" : ""}
       >
         Top Down (recursive tree)
       </button>
       <button
-        onClick={() => handleClick("topDownMemo")}
-        className={active === "topDownMemo" ? "active" : ""}
+        onClick={() => handleClick(ActivButton.topDownMemo)}
+        className={activeButton === ActivButton.topDownMemo ? "active" : ""}
       >
         Top Dowm Memo
       </button>
       <button
-        onClick={() => handleClick("bottomUp")}
-        className={active === "bottomUp" ? "active" : ""}
+        onClick={() => handleClick(ActivButton.bottomUp)}
+        className={activeButton === ActivButton.bottomUp ? "active" : ""}
       >
         Bottom Up
       </button>

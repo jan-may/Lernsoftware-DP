@@ -4,6 +4,7 @@ import { Node } from "./Node";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { useResizeDimensions } from "../hooks/resize";
 import React, { useState } from "react";
+import { ActivButton } from "../feautures/navbar/navbarSlice";
 import {
   setCircleRadius,
   setHorizontalSpacing,
@@ -57,21 +58,17 @@ export const Tree: React.FC = () => {
     horizontalSpacing,
     circleRadius,
   } = useAppSelector((store) => store.settings);
-  const { active } = useAppSelector((store) => store.navbar);
+  const { activeButton } = useAppSelector((store) => store.navbar);
   const [clickedValue, setClickedValue] = useState(-1);
 
   let tree = TreeHelper.createEmptyTree<number>();
 
-  switch (active) {
-    case "problem":
-      break;
-    case "recursiveTree":
+  switch (activeButton) {
+    case ActivButton.recursiveTree:
       tree = createFibonacciTree(input);
       break;
-    case "topDownMemo":
+    case ActivButton.topDownMemo:
       tree = createFibonacciMemoTree(input);
-      break;
-    case "bottomUp":
       break;
     default:
       break;
@@ -106,7 +103,8 @@ export const Tree: React.FC = () => {
 
   return (
     <>
-      {active === "problem" || active === "bottomUp" ? (
+      {activeButton === ActivButton.problem ||
+      activeButton === ActivButton.bottomUp ? (
         <h1 style={{ marginTop: "100px" }}>not implemented yet</h1>
       ) : (
         <svg
