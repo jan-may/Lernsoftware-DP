@@ -5,6 +5,13 @@ export class TreeHelper {
   static siblingDistance: number = 1.0;
   static treeDistance: number = 2.0;
 
+  static createEmptyTree<T>(): TreeNodeModel<T> {
+    return new TreeNodeModel(
+      (null as unknown) as T,
+      (null as unknown) as TreeNodeModel<T>
+    );
+  }
+
   static calculateNodePositions<T>(rootNode: TreeNodeModel<T>): void {
     this.initializeNodes(rootNode, 0);
     this.calculateInitialX(rootNode);

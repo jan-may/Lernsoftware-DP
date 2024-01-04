@@ -1,37 +1,37 @@
-import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import { setActive } from "../feautures/navbar/navbarSlice";
 
 export function Navbar() {
-  const [activeButton, setActiveButton] = useState<string | null>(
-    "recursiveTree"
-  );
+  const dispatch = useAppDispatch();
+  const { active } = useAppSelector((store) => store.navbar);
 
   const handleClick = (buttonName: string) => {
-    setActiveButton(buttonName);
+    dispatch(setActive(buttonName));
   };
 
   return (
     <nav>
       <button
         onClick={() => handleClick("problem")}
-        className={activeButton === "problem" ? "active" : ""}
+        className={active === "problem" ? "active" : ""}
       >
         Problem
       </button>
       <button
         onClick={() => handleClick("recursiveTree")}
-        className={activeButton === "recursiveTree" ? "active" : ""}
+        className={active === "recursiveTree" ? "active" : ""}
       >
         Top Down (recursive tree)
       </button>
       <button
         onClick={() => handleClick("topDownMemo")}
-        className={activeButton === "topDownMemo" ? "active" : ""}
+        className={active === "topDownMemo" ? "active" : ""}
       >
         Top Dowm Memo
       </button>
       <button
         onClick={() => handleClick("bottomUp")}
-        className={activeButton === "bottomUp" ? "active" : ""}
+        className={active === "bottomUp" ? "active" : ""}
       >
         Bottom Up
       </button>

@@ -17,11 +17,12 @@ export const Node: React.FC<NodeProps> = ({
   handleClick,
 }) => {
   const { input, speed } = useAppSelector((store) => store.settings);
+  const { active } = useAppSelector((store) => store.navbar);
   const [children, setChildren] = useState<TreeNodeModel<number>[]>([]);
 
   useEffect(() => {
     setChildren([]);
-  }, [input, speed]);
+  }, [input, speed, active]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -68,7 +69,7 @@ export const Node: React.FC<NodeProps> = ({
         y={(node.y * dimensions.horizontalSpacing) / 2 + 4}
         fontSize={dimensions.circleRadius + 7}
         textAnchor="middle"
-        fill="white"
+        fill={node.isMemo ? "green" : "white"}
       >
         {node.item}
       </text>
