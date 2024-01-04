@@ -10,26 +10,7 @@ import {
   setVerticalSpacing,
 } from "../feautures/settings/settingsSlice";
 import { useEffect } from "react";
-
-function buildFibonacciTree(
-  n: number,
-  parent?: TreeNodeModel<number>
-): TreeNodeModel<number> {
-  const node = new TreeNodeModel(n, parent);
-
-  if (n >= 2) {
-    node.children.push(buildFibonacciTree(n - 1, node));
-    node.children.push(buildFibonacciTree(n - 2, node));
-  }
-  return node;
-}
-
-function createFibonacciTree(input: number) {
-  const tree = buildFibonacciTree(input);
-  TreeHelper.calculateNodePositions(tree);
-  TreeHelper.shiftTree(tree, 1);
-  return tree;
-}
+import { createFibonacciTree } from "../trees/fibonacci";
 
 export const Tree: React.FC = () => {
   const [localDimensions, setLocalDimensions] = useState({
@@ -37,6 +18,36 @@ export const Tree: React.FC = () => {
     verticalSpacing: 0,
     circleRadius: 0,
   });
+
+  const memo = new Map<number, TreeNodeModel<number>>();
+  function buildFibonacciTreeMemoized(
+    n: number,
+    parent?: TreeNodeModel<number>
+  ): TreeNodeModel<number> {
+    if (memo.has(n)) {
+      return memo.get(n)!;
+    }
+    const node = new TreeNodeModel(n, parent);
+    if (n >= 2) {
+      node.children.push(buildFibonacciTreeMemoized(n - 1, node));
+      const memo_node = new TreeNodeModel(n);
+      memo_node.isMemo = true;
+      memo.set(n, memo_node);
+
+      node.children.push(buildFibonacciTreeMemoized(n - 2, node));
+      const memo_node2 = new TreeNodeModel(n);
+      memo_node2.isMemo = true;
+      memo.set(n, memo_node2);
+    }
+    return node;
+  }
+
+  function createFibonacciMemoTree(input: number) {
+    const tree = buildFibonacciTreeMemoized(input);
+    TreeHelper.calculateNodePositions(tree);
+    TreeHelper.shiftTree(tree, 1);
+    return tree;
+  }
 
   const dispatch = useAppDispatch();
   const {
@@ -46,9 +57,26 @@ export const Tree: React.FC = () => {
     horizontalSpacing,
     circleRadius,
   } = useAppSelector((store) => store.settings);
+  const { active } = useAppSelector((store) => store.navbar);
   const [clickedValue, setClickedValue] = useState(-1);
 
-  const tree = createFibonacciTree(input);
+  let tree = TreeHelper.createEmptyTree<number>();
+
+  switch (active) {
+    case "problem":
+      break;
+    case "recursiveTree":
+      tree = createFibonacciTree(input);
+      break;
+    case "topDownMemo":
+      tree = createFibonacciMemoTree(input);
+      break;
+    case "bottomUp":
+      break;
+    default:
+      break;
+  }
+
   const maxDepth = TreeHelper.getMaxDepth(tree);
   const maxWidth = TreeHelper.getMaxWidth(tree);
   const dimensions = useResizeDimensions(maxDepth, maxWidth);
@@ -78,21 +106,25 @@ export const Tree: React.FC = () => {
 
   return (
     <>
-      <svg
-        className="tree"
-        width={window.innerWidth - sidebarWidth - 50}
-        // width={verticalSpacing * (maxWidth + 1) + 100}
-        height={window.innerHeight - 70}
-      >
-        {tree && (
-          <Node
-            node={tree}
-            dimensions={localDimensions}
-            clickedValue={clickedValue}
-            handleClick={handleClick}
-          />
-        )}
-      </svg>
+      {active === "problem" || active === "bottomUp" ? (
+        <h1 style={{ marginTop: "100px" }}>not implemented yet</h1>
+      ) : (
+        <svg
+          className="tree"
+          width={window.innerWidth - sidebarWidth - 50}
+          // width={verticalSpacing * (maxWidth + 1) + 100}
+          height={window.innerHeight - 70}
+        >
+          {tree && (
+            <Node
+              node={tree}
+              dimensions={localDimensions}
+              clickedValue={clickedValue}
+              handleClick={handleClick}
+            />
+          )}
+        </svg>
+      )}
     </>
   );
 };
