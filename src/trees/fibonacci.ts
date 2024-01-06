@@ -2,90 +2,42 @@ import { TreeHelper } from "../TreeBuilder/TreeHelper";
 import { TreeNodeModel } from "../TreeBuilder/TreeNodeModel";
 
 function buildFibonacciTree(
-    n: number,
-    parent?: TreeNodeModel<number>
-  ): TreeNodeModel<number> {
-    const node = new TreeNodeModel(n, parent);
-  
-    if (n >= 2) {
-      node.children.push(buildFibonacciTree(n - 1, node));
-      node.children.push(buildFibonacciTree(n - 2, node));
-    }
-    return node;
-  }
-  
-export function createFibonacciTree(input: number) {
-    const tree = buildFibonacciTree(input);
-    TreeHelper.calculateNodePositions(tree);
-    TreeHelper.shiftTree(tree, 1);
-    return tree;
-  }
-
-
-  const memo = new Map<number, TreeNodeModel<number>>();
-  
-  export function buildFibonacciTreeMemoized(
   n: number,
   parent?: TreeNodeModel<number>
 ): TreeNodeModel<number> {
-  if (memo.has(n)) {
-    return memo.get(n)!;
-  }
   const node = new TreeNodeModel(n, parent);
-  if (n >= 2) {
-    node.children.push(buildFibonacciTreeMemoized(n - 1, node));
-    const memo_node = new TreeNodeModel(n);
-    memo_node.isMemo = true;
-    memo.set(n, memo_node);
 
-    node.children.push(buildFibonacciTreeMemoized(n - 2, node));
-    const memo_node2 = new TreeNodeModel(n);
-    memo_node2.isMemo = true;
-    memo.set(n, memo_node2);
+  if (n >= 2) {
+    node.children.push(buildFibonacciTree(n - 1, node));
+    node.children.push(buildFibonacciTree(n - 2, node));
   }
   return node;
 }
 
-export function createFibonacciMemoTree(input: number) {
-    const tree = buildFibonacciTreeMemoized(input);
-    TreeHelper.calculateNodePositions(tree);
-    TreeHelper.shiftTree(tree, 1);
-    return tree;
-  }
+export function createFibonacciTree(input: number) {
+  const tree = buildFibonacciTree(input);
+  TreeHelper.calculateNodePositions(tree);
+  TreeHelper.shiftTree(tree, 1);
+  return tree;
+}
 
-  function buildFibonacciTreeIterative(n: number): TreeNodeModel<number> {
-    if (n < 0) return new TreeNodeModel(0);
-  
-    // Create root node
-    const root = new TreeNodeModel(n);
-  
-    // Stack to keep nodes that need processing
-    const stack: { node: TreeNodeModel<number>; val: number }[] = [];
-    stack.push({ node: root, val: n });
-  
-    while (stack.length > 0) {
-      const { node, val } = stack.pop()!;
-  
-      if (val >= 2) {
-        // Create child nodes for n-1 and n-2
-        const child1 = new TreeNodeModel(val - 1, node);
-        const child2 = new TreeNodeModel(val - 2, node);
-  
-        // Add children to current node
-        node.children.push(child1, child2);
-  
-        // Push children onto stack to process their children later
-        stack.push({ node: child1, val: val - 1 });
-        stack.push({ node: child2, val: val - 2 });
-      }
-    }
-  
-    return root;
+// simulate memoization
+export function createFibonacciTreeMemo(n: number): TreeNodeModel<number> {
+  const array = new Array(n * 2).fill(0);
+  const root = new TreeNodeModel<number>(n);
+  array[n] = root;
+  array[n + 1] = new TreeNodeModel<number>(n - 1, array[n]);
+  array[n + 2] = new TreeNodeModel<number>(n - 2, array[n]);
+  array[n + 2].isMemo = true;
+  array[n].children.push(array[n + 1], array[n + 2]);
+
+  for (let i = 3, j = 2; i < n * 2 - 2; i += 2, j++) {
+    array[n + i] = new TreeNodeModel<number>(n - j, array[n + i - 2]);
+    array[n + i + 1] = new TreeNodeModel<number>(n - (j + 1), array[n + i - 2]);
+    array[n + i + 1].isMemo = true;
+    array[n + i - 2].children.push(array[n + i], array[n + i + 1]);
   }
-  
- export function createFiboncaacciTreeIterative(input: number) {
-    const tree = buildFibonacciTreeIterative(input);
-    TreeHelper.calculateNodePositions(tree);
-    TreeHelper.shiftTree(tree, 1);
-    return tree;
-  }  
+  TreeHelper.calculateNodePositions(array[n]);
+  TreeHelper.shiftTree(array[n], 1);
+  return array[n];
+}
