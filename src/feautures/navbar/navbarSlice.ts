@@ -5,11 +5,7 @@ export enum ActivButton {
     "recursiveTree",
     "topDownMemo",
     "bottomUp",
-}
-
-
-    
-    
+}   
 
 interface NavbarState {
     activeButton: ActivButton
