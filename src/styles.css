@@ -111,6 +111,15 @@ button {
   width: 200px;
 }
 
+.form-group-select{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* text-align: start; */
+  /* width: 200px; */
+  width: 350px;
+}
+
 .form-label{
   margin-right: 5px;
   width: 75px;

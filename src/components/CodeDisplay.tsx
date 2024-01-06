@@ -20,11 +20,16 @@ export function CodeDisplay({ code, language }: CodeProps) {
           flex: 1,
           width: "100%",
           flexDirection: "column",
-          fontSize: "16px",
+          fontSize: "15px",
           padding: "0px",
         }}
       >
-        <SyntaxHighlighter language={language} style={atomDark}>
+        <SyntaxHighlighter
+          language={language}
+          style={atomDark}
+          wrapLines
+          wrapLongLines
+        >
           {code}
         </SyntaxHighlighter>
       </div>
