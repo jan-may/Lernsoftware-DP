@@ -94,12 +94,11 @@ export const SettingsForm = () => {
           name="horizontalSpacing"
           className="form-input"
           type="number"
-          defaultValue={Math.floor(localDimensions.horizontalSpacing)}
           value={Math.floor(localDimensions.horizontalSpacing)}
           onChange={(e) => {
             setLocalDimensions({
               ...localDimensions,
-              horizontalSpacing: parseInt(e.target.value),
+              horizontalSpacing: Number(e.target.value),
             });
           }}
         />
@@ -110,12 +109,11 @@ export const SettingsForm = () => {
           name="verticalSpacing"
           className="form-input"
           type="number"
-          defaultValue={Math.floor(localDimensions.verticalSpacing)}
           value={Math.floor(localDimensions.verticalSpacing)}
           onChange={(e) => {
             setLocalDimensions({
               ...localDimensions,
-              verticalSpacing: parseInt(e.target.value),
+              verticalSpacing: Number(e.target.value),
             });
           }}
         />
@@ -126,12 +124,11 @@ export const SettingsForm = () => {
           name="circleRadius"
           className="form-input"
           type="number"
-          defaultValue={Math.floor(localDimensions.circleRadius)}
           value={Math.floor(localDimensions.circleRadius)}
           onChange={(e) => {
             setLocalDimensions({
               ...localDimensions,
-              circleRadius: parseInt(e.target.value),
+              circleRadius: Number(e.target.value),
             });
           }}
         />
