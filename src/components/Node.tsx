@@ -38,8 +38,8 @@ export const Node: React.FC<NodeProps> = ({
 
   return (
     <g>
-      {children.map((child, index) => (
-        <React.Fragment key={child.item + index}>
+      {children.map((child, _index) => (
+        <React.Fragment key={child.key}>
           <line
             x1={node.x * dimensions.verticalSpacing}
             y1={(node.y * dimensions.horizontalSpacing) / 2}
@@ -47,7 +47,27 @@ export const Node: React.FC<NodeProps> = ({
             y2={(child.y * dimensions.horizontalSpacing) / 2}
             stroke="black"
             strokeWidth={2}
+            // marker-start="url(#arrowRotated)"
           />
+          {/* <text
+            x={
+              (node.x * dimensions.verticalSpacing +
+                child.x * dimensions.verticalSpacing) /
+              2
+            }
+            y={
+              (node.y * dimensions.horizontalSpacing +
+                child.y * dimensions.horizontalSpacing) /
+                4 -
+              -5
+            }
+            fontSize={Math.max(dimensions.circleRadius - 3, 8)}
+            textAnchor="middle"
+            fill="white"
+          >
+            {child.item}
+          </text> */}
+
           <Node
             node={child}
             dimensions={dimensions}
@@ -62,7 +82,7 @@ export const Node: React.FC<NodeProps> = ({
         cx={node.x * dimensions.verticalSpacing - 1}
         cy={(node.y * dimensions.horizontalSpacing) / 2}
         r={dimensions.circleRadius + 7}
-        fill={node.item === clickedValue ? "red" : "black"} // Change this line
+        fill={node.item === clickedValue ? "red" : "black"}
       />
       <text
         onClick={() => handleClick(node.item)}

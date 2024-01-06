@@ -158,7 +158,7 @@ export class TreeHelper {
   static calculateFinalPositions<T>(node: TreeNodeModel<T>, modSum: number): void {
     node.x += modSum;
     modSum += node.mod;
-
+    node.key = node.x + "-" + node.y + "-" + node.item + "-" + node.isMemo;
     node.children.forEach((child) => this.calculateFinalPositions(child, modSum));
 
     if (node.isLeaf()) {
@@ -193,5 +193,9 @@ export class TreeHelper {
       return 1;
     }
     return 1 + Math.max(...node.children.map((child) => this.getMaxDepth(child)));
+  }
+
+  static setKey<T>(node: TreeNodeModel<T>): void {
+    node.children.forEach((child) => this.setKey(child));
   }
 }

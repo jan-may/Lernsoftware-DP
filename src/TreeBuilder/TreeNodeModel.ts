@@ -9,7 +9,8 @@ export class TreeNodeModel<T> {
   height: number;
 
   item: T;
-  isMemo: boolean = false;
+  isMemo: boolean;
+  key: string;
 
   constructor(item: T, parent: TreeNodeModel<T> | null = null) {
     this.x = -1.0;
@@ -22,6 +23,8 @@ export class TreeNodeModel<T> {
     this.height = 0;
 
     this.item = item;
+    this.isMemo = false;
+    this.key = "";
   }
   createEmptyTree(): TreeNodeModel<T> {
     return new TreeNodeModel(this.item);
