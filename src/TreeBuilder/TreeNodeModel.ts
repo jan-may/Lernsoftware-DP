@@ -1,3 +1,10 @@
+/**
+ * TreeNodeModel is a class that represents a node in a tree.
+ * Each node has a value of type T, a parent, a list of children, and properties for its position and size.
+ * It also has methods for querying its position in the tree and its siblings.
+ * @class TreeNodeModel
+ * @template T - The type of the value in the node.
+ */
 export class TreeNodeModel<T> {
   x: number;
   y: number;
@@ -12,6 +19,11 @@ export class TreeNodeModel<T> {
   isMemo: boolean;
   key: string;
 
+  /**
+   * Constructs a new TreeNodeModel instance.
+   * @param item - The value of the node.
+   * @param parent - The parent of the node.
+   */
   constructor(item: T, parent: TreeNodeModel<T> | null = null) {
     this.x = -1.0;
     this.y = 0;
