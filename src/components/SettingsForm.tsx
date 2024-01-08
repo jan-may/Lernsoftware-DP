@@ -7,7 +7,6 @@ import {
   setVerticalSpacing,
 } from "../feautures/settings/settingsSlice";
 import { useAppSelector, useAppDispatch } from "../hooks/redux";
-import { set } from "zod";
 
 export const SettingsForm = () => {
   const dispatch = useAppDispatch();

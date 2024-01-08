@@ -41,3 +41,46 @@ export function createFibonacciTreeMemo(n: number): TreeNodeModel<number> {
   TreeHelper.shiftTree(array[n], 1);
   return array[n];
 }
+
+export function createFibonacciTab(n: number): number[] {
+  const array = new Array(n + 1).fill(0);
+  array[0] = 0;
+  array[1] = 1;
+  for (let i = 2; i <= n; i++) {
+    array[i] = array[i - 1] + array[i - 2];
+  }
+  return array;
+}
+
+export const fibCode = `public static int Fib(int n)
+{
+  if (n <= 1) return n;
+  return Fib(n - 1) + Fib(n - 2);
+}`;
+
+export const fibMemoCode = `public static int Fib(int n)
+{
+  int[] memo = new int[n + 1];
+  return Fib(n, memo);
+}
+  
+private static int Fib(int n, int[] memo)
+{
+  if (n <= 1) return n;
+  if (memo[n] != 0) return memo[n];
+  memo[n] = Fib(n - 1, memo) + Fib(n - 2, memo);
+  return memo[n];
+}`;
+
+export const fibTabCode = `public static int Fib(int n)
+{
+  if (n <= 1) return n;
+  int[] table = new int[n + 1];
+  table[0] = 0;
+  table[1] = 1;
+  for (int i = 2; i <= n; i++)
+  {
+    table[i] = table[i - 1] + table[i - 2];
+  }
+  return table[n];
+}`;
