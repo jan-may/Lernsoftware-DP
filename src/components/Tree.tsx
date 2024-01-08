@@ -30,6 +30,10 @@ export const Tree: React.FC = () => {
     horizontalSpacing,
     circleRadius,
   } = useAppSelector((store) => store.settings);
+
+  const { isTourCompleted, isQuizCompleted } = useAppSelector(
+    (store) => store.io
+  );
   const { activeButton } = useAppSelector((store) => store.navbar);
   const [clickedValue, setClickedValue] = useState(-1);
 
@@ -75,9 +79,12 @@ export const Tree: React.FC = () => {
 
   return (
     <>
-      {activeButton === ActivButton.problem ||
-      activeButton === ActivButton.bottomUp ? (
-        <h1 style={{ marginTop: "100px" }}>not implemented yet</h1>
+      {activeButton === ActivButton.problem ? (
+        <>
+          <h1 style={{ marginTop: "100px" }}>not implemented yet</h1>
+          <p>tour completed: {isTourCompleted ? "true" : "false"}</p>
+          <p>quiz completed: {isQuizCompleted ? "true" : "false"}</p>
+        </>
       ) : (
         <svg
           className="tree"
