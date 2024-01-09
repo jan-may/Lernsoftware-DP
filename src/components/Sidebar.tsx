@@ -10,6 +10,7 @@ import {
 import { useSaveFile } from "../hooks/fileOperations";
 import { BaseDirectory, writeTextFile } from "@tauri-apps/api/fs";
 import { fibCode, fibMemoCode, fibTabCode } from "../trees/fibonacci";
+import { Button } from "../components/ui/button";
 
 const SAVEFILE = "save.txt";
 
@@ -18,7 +19,8 @@ export const Sidebar = () => {
   const isTourCompleted = useAppSelector((state) => state.io.isTourCompleted);
   const isQuizCompleted = useAppSelector((state) => state.io.isQuizCompleted);
   const dispatch = useAppDispatch();
-  function handleCompleteQuiz() {
+
+  async function handleCompleteQuiz() {
     const data = {
       isTourCompleted: isTourCompleted,
       isQuizCompleted: !isQuizCompleted,
@@ -107,8 +109,8 @@ export const Sidebar = () => {
       </div>
       <SettingsForm />
       <div style={{ marginTop: "30px" }}>
-        <button onClick={() => handleCompleteQuiz()}>complete Quiz</button>
-        <button onClick={() => handleCompleteTour()}>complete Tour</button>
+        <Button onClick={() => handleCompleteQuiz()}>complete Quiz</Button>
+        <Button onClick={() => handleCompleteTour()}>complete Tour</Button>
       </div>
     </div>
   );

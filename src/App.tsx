@@ -13,6 +13,11 @@ import {
 import { path } from "@tauri-apps/api";
 import { useAppDispatch } from "./hooks/redux";
 import { setIsQuizCompleted, setIsTourCompleted } from "./feautures/io/ioSlice";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "./components/ui/resizable";
 
 const BASEDIR = "com.jan.may";
 const SAVEFILE = "save.txt";
@@ -67,9 +72,26 @@ function App() {
 
   return (
     <div className="container">
-      <Sidebar />
-      <Navbar />
-      <Display />
+      <ResizablePanelGroup
+        direction="horizontal"
+        className="max-w-100 min-h-screen rounded-lg border"
+      >
+        <ResizablePanel defaultSize={30} className="max-w-[420px]">
+          <Sidebar />
+        </ResizablePanel>
+        <ResizableHandle />
+        <ResizablePanel defaultSize={100}>
+          <ResizablePanelGroup direction="vertical">
+            <ResizablePanel defaultSize={10}>
+              <Navbar />
+            </ResizablePanel>
+            {/* <ResizableHandle /> */}
+            <ResizablePanel defaultSize={75}>
+              <Display />
+            </ResizablePanel>
+          </ResizablePanelGroup>
+        </ResizablePanel>
+      </ResizablePanelGroup>
     </div>
   );
 }

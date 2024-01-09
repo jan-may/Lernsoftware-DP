@@ -1,14 +1,26 @@
+import {
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+} from "../components/ui/select";
+
 export const CodeSelect = () => {
   return (
     <>
       <form>
         <div className="form-group-select">
-          <label className="form-label">Problemauswahl</label>
-          <select className="form-select">
-            <option>fibonacci</option>
-            <option>CanSum</option>
-            <option>GridTraveler</option>
-          </select>
+          <Select>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Problemauswahl" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="light">Fibonacci</SelectItem>
+              <SelectItem value="dark">CanSum</SelectItem>
+              <SelectItem value="system">GridTraveler</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       </form>
     </>

@@ -7,6 +7,8 @@ import {
   setVerticalSpacing,
 } from "../feautures/settings/settingsSlice";
 import { useAppSelector, useAppDispatch } from "../hooks/redux";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
 
 export const SettingsForm = () => {
   const dispatch = useAppDispatch();
@@ -71,7 +73,7 @@ export const SettingsForm = () => {
     <form className="settings-form-container" onSubmit={handleSubmit}>
       <div className="form-group">
         <label className="form-label">input-n</label>
-        <input
+        <Input
           name="inputN2"
           className="form-input"
           type="number"
@@ -80,7 +82,7 @@ export const SettingsForm = () => {
       </div>
       <div className="form-group">
         <label className="form-label">speed (ms)</label>
-        <input
+        <Input
           className="form-input"
           type="number"
           name="speed"
@@ -89,7 +91,7 @@ export const SettingsForm = () => {
       </div>
       <div className="form-group">
         <label className="form-label">x-spacing</label>
-        <input
+        <Input
           name="horizontalSpacing"
           className="form-input"
           type="number"
@@ -104,7 +106,7 @@ export const SettingsForm = () => {
       </div>
       <div className="form-group">
         <label className="form-label">y-Spacing</label>
-        <input
+        <Input
           name="verticalSpacing"
           className="form-input"
           type="number"
@@ -119,7 +121,7 @@ export const SettingsForm = () => {
       </div>
       <div className="form-group">
         <label className="form-label">c-radius</label>
-        <input
+        <Input
           name="circleRadius"
           className="form-input"
           type="number"
@@ -132,9 +134,9 @@ export const SettingsForm = () => {
           }}
         />
       </div>
-      <button className="form-submit-btn" type="submit">
+      <Button className="form-submit-btn" type="submit">
         calculate
-      </button>
+      </Button>
     </form>
   );
 };
