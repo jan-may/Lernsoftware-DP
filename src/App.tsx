@@ -76,20 +76,13 @@ function App() {
         direction="horizontal"
         className="max-w-100 min-h-screen rounded-lg border"
       >
-        <ResizablePanel defaultSize={30} className="max-w-[420px]">
+        <ResizablePanel defaultSize={34} className="max-w-[350px]">
           <Sidebar />
         </ResizablePanel>
-        <ResizableHandle />
-        <ResizablePanel defaultSize={100}>
-          <ResizablePanelGroup direction="vertical">
-            <ResizablePanel defaultSize={10}>
-              <Navbar />
-            </ResizablePanel>
-            {/* <ResizableHandle /> */}
-            <ResizablePanel defaultSize={75}>
-              <Display />
-            </ResizablePanel>
-          </ResizablePanelGroup>
+        <ResizableHandle className=" w-2 " />
+        <ResizablePanel defaultSize={66}>
+          <Navbar />
+          <Display />
         </ResizablePanel>
       </ResizablePanelGroup>
     </div>

@@ -9,6 +9,8 @@ import {
 import { useAppSelector, useAppDispatch } from "../hooks/redux";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
+import { Label } from "./ui/label";
+import { Separator } from "./ui/separator";
 
 export const SettingsForm = () => {
   const dispatch = useAppDispatch();
@@ -71,29 +73,39 @@ export const SettingsForm = () => {
 
   return (
     <form className="settings-form-container" onSubmit={handleSubmit}>
-      <div className="form-group">
-        <label className="form-label">input-n</label>
+      <div className="flex justify-between mb-1">
+        <Label htmlFor="inputN" className="text-md">
+          input-n
+        </Label>
         <Input
           name="inputN2"
-          className="form-input"
+          id="inputN"
+          className="w-20 form-input"
           type="number"
           defaultValue={input}
         />
       </div>
-      <div className="form-group">
-        <label className="form-label">speed (ms)</label>
+      <Separator className="my-2" />
+      <div className="flex justify-between mb-1">
+        <Label htmlFor="speed" className="text-md">
+          speed (ms)
+        </Label>
         <Input
-          className="form-input"
+          className="w-20 form-input"
           type="number"
           name="speed"
+          id="speed"
           defaultValue={speed}
         />
       </div>
-      <div className="form-group">
-        <label className="form-label">x-spacing</label>
+      <div className="flex justify-between mb-1">
+        <Label htmlFor="horizontalSpacing" className="text-md">
+          x-spacing
+        </Label>
         <Input
           name="horizontalSpacing"
-          className="form-input"
+          id="horizontalSpacing"
+          className="w-20 form-input"
           type="number"
           value={Math.floor(localDimensions.horizontalSpacing)}
           onChange={(e) => {
@@ -104,11 +116,14 @@ export const SettingsForm = () => {
           }}
         />
       </div>
-      <div className="form-group">
-        <label className="form-label">y-Spacing</label>
+      <div className="flex justify-between mb-1">
+        <Label htmlFor="verticalSpacing" className="text-md">
+          y-Spacing
+        </Label>
         <Input
           name="verticalSpacing"
-          className="form-input"
+          id="verticalSpacing"
+          className="w-20 form-input"
           type="number"
           value={Math.floor(localDimensions.verticalSpacing)}
           onChange={(e) => {
@@ -119,11 +134,14 @@ export const SettingsForm = () => {
           }}
         />
       </div>
-      <div className="form-group">
-        <label className="form-label">c-radius</label>
+      <div className="flex justify-between mb-1">
+        <Label htmlFor="circleRadius" className="text-md">
+          c-radius
+        </Label>
         <Input
           name="circleRadius"
-          className="form-input"
+          id="circleRadius"
+          className="w-20 form-input"
           type="number"
           value={Math.floor(localDimensions.circleRadius)}
           onChange={(e) => {
@@ -134,6 +152,8 @@ export const SettingsForm = () => {
           }}
         />
       </div>
+      <Separator className="my-2" />
+
       <Button className="form-submit-btn" type="submit">
         calculate
       </Button>
