@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { TreeNodeModel } from "../TreeBuilder/TreeNodeModel";
 import { useAppSelector } from "../hooks/redux";
 import { Dimensions } from "../types/TreeTypes";
+import { TreeHelper } from "../TreeBuilder/TreeHelper";
+import { useTheme } from "./theme-provider";
 
 interface NodeProps {
   node: TreeNodeModel<number>;
@@ -10,90 +12,97 @@ interface NodeProps {
   handleClick: (value: number) => void;
 }
 
+interface NodeWithParent {
+  node: TreeNodeModel<number>;
+  parent: TreeNodeModel<number> | null;
+}
+
 export const Node: React.FC<NodeProps> = ({
   node,
   dimensions,
   clickedValue,
   handleClick,
 }) => {
-  const { input, speed } = useAppSelector((store) => store.settings);
+  const { speed, input } = useAppSelector((store) => store.settings);
   const { activeButton } = useAppSelector((store) => store.navbar);
-  const [children, setChildren] = useState<TreeNodeModel<number>[]>([]);
+  const [renderQueue, setRenderQueue] = useState<NodeWithParent[]>([]);
+  const [renderedNodes, setRenderedNodes] = useState<NodeWithParent[]>([]);
+
+  const { theme } = useTheme();
 
   useEffect(() => {
-    setChildren([]);
-  }, [input, speed, activeButton]);
+    setRenderedNodes([]);
+  }, [activeButton, input, speed]);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      if (node.children.length > children.length) {
-        setChildren((prevChildren) => [
-          ...prevChildren,
-          node.children[prevChildren.length],
-        ]);
-      }
-    }, speed);
-    return () => clearInterval(timer);
-  }, [node, children]);
+    setRenderQueue(TreeHelper.newpreorderedWithParent(node, null));
+  }, [activeButton, input, speed]);
+
+  useEffect(() => {
+    if (renderQueue.length > 0 && speed > 0) {
+      const timer = setTimeout(() => {
+        const nextNode = renderQueue.shift();
+        if (nextNode) {
+          setRenderedNodes((prevNodes) => [...prevNodes, nextNode]);
+        }
+        setRenderQueue([...renderQueue]);
+      }, speed);
+
+      return () => clearTimeout(timer);
+    } else if (renderQueue.length > 0 && speed === 0) {
+      setRenderedNodes(renderQueue);
+    }
+  }, [renderQueue, speed, activeButton]);
 
   return (
     <g>
-      {children.map((child, _index) => (
-        <React.Fragment key={child.key}>
-          <line
-            x1={node.x * dimensions.verticalSpacing}
-            y1={(node.y * dimensions.horizontalSpacing) / 2}
-            x2={child.x * dimensions.verticalSpacing}
-            y2={(child.y * dimensions.horizontalSpacing) / 2}
-            stroke="black"
-            strokeWidth={2}
-            // marker-start="url(#arrowRotated)"
+      {renderedNodes.map(({ node: renderedNode, parent }, _index) => (
+        <React.Fragment key={renderedNode.key}>
+          {/* @ts-ignore */}
+          {parent && (
+            <line
+              x1={parent.x * dimensions.verticalSpacing}
+              y1={(parent.y * dimensions.horizontalSpacing) / 2}
+              x2={renderedNode.x * dimensions.verticalSpacing}
+              y2={(renderedNode.y * dimensions.horizontalSpacing) / 2}
+              stroke={theme === "dark" ? "white" : "black"}
+              strokeWidth={1}
+              className="ease-in-out duration-50"
+            />
+          )}
+          <circle
+            className="cursor-pointer ease-in-out duration-100 animate-fadeIn"
+            onClick={() => handleClick(renderedNode.item)}
+            cx={renderedNode.x * dimensions.verticalSpacing - 1}
+            cy={(renderedNode.y * dimensions.horizontalSpacing) / 2}
+            r={dimensions.circleRadius + 7}
+            fill={
+              renderedNode.item === clickedValue
+                ? "red"
+                : theme === "dark"
+                ? "black"
+                : "white"
+            }
+            stroke={theme === "dark" ? "white" : "black"}
           />
-          {/* <text
-            x={
-              (node.x * dimensions.verticalSpacing +
-                child.x * dimensions.verticalSpacing) /
-              2
-            }
-            y={
-              (node.y * dimensions.horizontalSpacing +
-                child.y * dimensions.horizontalSpacing) /
-                4 -
-              -5
-            }
-            fontSize={Math.max(dimensions.circleRadius - 3, 8)}
+          <text
+            onClick={() => handleClick(renderedNode.item)}
+            x={renderedNode.x * dimensions.verticalSpacing - 1}
+            y={(renderedNode.y * dimensions.horizontalSpacing) / 2 + 4}
+            fontSize={dimensions.circleRadius + 7}
             textAnchor="middle"
-            fill="white"
+            fill={
+              renderedNode.isMemo
+                ? "green"
+                : theme === "dark"
+                ? "white"
+                : "black"
+            }
           >
-            {child.item}
-          </text> */}
-
-          <Node
-            node={child}
-            dimensions={dimensions}
-            clickedValue={clickedValue}
-            handleClick={handleClick}
-          />
+            {renderedNode.item}
+          </text>
         </React.Fragment>
       ))}
-      <circle
-        className="node"
-        onClick={() => handleClick(node.item)}
-        cx={node.x * dimensions.verticalSpacing - 1}
-        cy={(node.y * dimensions.horizontalSpacing) / 2}
-        r={dimensions.circleRadius + 7}
-        fill={node.item === clickedValue ? "red" : "black"}
-      />
-      <text
-        onClick={() => handleClick(node.item)}
-        x={node.x * dimensions.verticalSpacing - 1}
-        y={(node.y * dimensions.horizontalSpacing) / 2 + 4}
-        fontSize={dimensions.circleRadius + 7}
-        textAnchor="middle"
-        fill={node.isMemo ? "green" : "white"}
-      >
-        {node.item}
-      </text>
     </g>
   );
 };
