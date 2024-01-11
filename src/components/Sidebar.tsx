@@ -28,7 +28,7 @@ export const Sidebar = () => {
 
   return (
     <Card className="p-2 m-2">
-      <div className="sidbar-container">
+      <div style={{ minHeight: "calc(100vh - 37px)" }}>
         <div className="sidebar-code-wrapper">
           <CodeSelect />
           <CodeDisplay code={codeMap[activeButton]} language="cs" />
