@@ -4,7 +4,6 @@ interface SettingsState {
   theme: string;
   input: number;
   speed: number;
-  memo: boolean;
   sidebarWidth: number;
   verticalSpacing: number;
   horizontalSpacing: number;
@@ -15,7 +14,6 @@ const initialState: SettingsState = {
   theme: "dark",
   input: 5,
   speed: 500,
-  memo: false,
   sidebarWidth: 320,
   verticalSpacing: 52,
   horizontalSpacing: 52,
@@ -34,9 +32,6 @@ export const settingsSlice = createSlice({
     },
     setSpeed: (state, action: PayloadAction<number>) => {
       state.speed = action.payload;
-    },
-    setMemo: (state, action: PayloadAction<boolean>) => {
-      state.memo = action.payload;
     },
     setSidebarWidth: (state, action: PayloadAction<number>) => {
       state.sidebarWidth = action.payload;
@@ -57,7 +52,6 @@ export const {
   setTheme,
   setInput,
   setSpeed,
-  setMemo,
   setSidebarWidth,
   setVerticalSpacing,
   setHorizontalSpacing,

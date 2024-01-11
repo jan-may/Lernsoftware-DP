@@ -55,19 +55,13 @@ function App() {
       const contents = await readTextFile(SAVEFILE, {
         dir: BaseDirectory.AppData,
       });
-      console.log(contents);
       const data = JSON.parse(contents);
-      console.log(data);
-
       dispatch(setIsTourCompleted(data.tourCompleted));
       dispatch(setIsQuizCompleted(data.quizCompleted));
     };
 
     fetchData();
-    // fetch data -> save file must exist at this point
     readSaveFile();
-
-    // read save file data
   }, [dispatch]);
 
   return (
