@@ -5,14 +5,7 @@ import { ActivButton } from "../feautures/navbar/navbarSlice";
 import { fibCode, fibMemoCode, fibTabCode } from "../trees/fibonacci";
 import { useAppSelector } from "../hooks/redux";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "./ui/card";
+import { Card } from "./ui/card";
 
 export const Sidebar = () => {
   const { activeButton } = useAppSelector((store) => store.navbar);
@@ -29,10 +22,8 @@ export const Sidebar = () => {
   return (
     <Card className="p-2 m-2">
       <div style={{ minHeight: "calc(100vh - 37px)" }}>
-        <div className="sidebar-code-wrapper">
-          <CodeSelect />
-          <CodeDisplay code={codeMap[activeButton]} language="cs" />
-        </div>
+        <CodeSelect />
+        <CodeDisplay code={codeMap[activeButton]} language="cs" />
         <SettingsForm />
         <div style={{ marginTop: "30px" }}></div>
       </div>

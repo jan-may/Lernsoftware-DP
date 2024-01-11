@@ -72,91 +72,92 @@ export const SettingsForm = () => {
   }, [verticalSpacing, horizontalSpacing, circleRadius]);
 
   return (
-    <form className="settings-form-container" onSubmit={handleSubmit}>
-      <div className="flex justify-between mb-1">
-        <Label htmlFor="inputN" className="text-md">
-          input-n
-        </Label>
-        <Input
-          name="inputN2"
-          id="inputN"
-          className="w-20 form-input"
-          type="number"
-          defaultValue={input}
-        />
-      </div>
-      <Separator className="my-2" />
-      <div className="flex justify-between mb-1">
-        <Label htmlFor="speed" className="text-md">
-          speed (ms)
-        </Label>
-        <Input
-          className="w-20 form-input"
-          type="number"
-          name="speed"
-          id="speed"
-          defaultValue={speed}
-        />
-      </div>
-      <div className="flex justify-between mb-1">
-        <Label htmlFor="horizontalSpacing" className="text-md">
-          x-spacing
-        </Label>
-        <Input
-          name="horizontalSpacing"
-          id="horizontalSpacing"
-          className="w-20 form-input"
-          type="number"
-          value={Math.floor(localDimensions.horizontalSpacing)}
-          onChange={(e) => {
-            setLocalDimensions({
-              ...localDimensions,
-              horizontalSpacing: Number(e.target.value),
-            });
-          }}
-        />
-      </div>
-      <div className="flex justify-between mb-1">
-        <Label htmlFor="verticalSpacing" className="text-md">
-          y-Spacing
-        </Label>
-        <Input
-          name="verticalSpacing"
-          id="verticalSpacing"
-          className="w-20 form-input"
-          type="number"
-          value={Math.floor(localDimensions.verticalSpacing)}
-          onChange={(e) => {
-            setLocalDimensions({
-              ...localDimensions,
-              verticalSpacing: Number(e.target.value),
-            });
-          }}
-        />
-      </div>
-      <div className="flex justify-between mb-1">
-        <Label htmlFor="circleRadius" className="text-md">
-          c-radius
-        </Label>
-        <Input
-          name="circleRadius"
-          id="circleRadius"
-          className="w-20 form-input"
-          type="number"
-          value={Math.floor(localDimensions.circleRadius)}
-          onChange={(e) => {
-            setLocalDimensions({
-              ...localDimensions,
-              circleRadius: Number(e.target.value),
-            });
-          }}
-        />
-      </div>
-      <Separator className="my-2" />
+    <form onSubmit={handleSubmit}>
+      <div className="flex flex-col justify-around">
+        <div className="flex justify-between mb-1">
+          <Label htmlFor="inputN" className="text-md">
+            input-n
+          </Label>
+          <Input
+            name="inputN2"
+            id="inputN"
+            className="w-20 form-input"
+            type="number"
+            defaultValue={input}
+          />
+        </div>
+        <Separator className="my-2" />
+        <div className="flex justify-between mb-1">
+          <Label htmlFor="speed" className="text-md">
+            speed (ms)
+          </Label>
+          <Input
+            className="w-20 form-input"
+            type="number"
+            name="speed"
+            id="speed"
+            defaultValue={speed}
+          />
+        </div>
+        <div className="flex justify-between mb-1">
+          <Label htmlFor="horizontalSpacing" className="text-md">
+            x-spacing
+          </Label>
+          <Input
+            name="horizontalSpacing"
+            id="horizontalSpacing"
+            className="w-20 form-input"
+            type="number"
+            value={Math.floor(localDimensions.horizontalSpacing)}
+            onChange={(e) => {
+              setLocalDimensions({
+                ...localDimensions,
+                horizontalSpacing: Number(e.target.value),
+              });
+            }}
+          />
+        </div>
+        <div className="flex justify-between mb-1">
+          <Label htmlFor="verticalSpacing" className="text-md">
+            y-Spacing
+          </Label>
+          <Input
+            name="verticalSpacing"
+            id="verticalSpacing"
+            className="w-20 form-input"
+            type="number"
+            value={Math.floor(localDimensions.verticalSpacing)}
+            onChange={(e) => {
+              setLocalDimensions({
+                ...localDimensions,
+                verticalSpacing: Number(e.target.value),
+              });
+            }}
+          />
+        </div>
+        <div className="flex justify-between mb-1">
+          <Label htmlFor="circleRadius" className="text-md">
+            c-radius
+          </Label>
+          <Input
+            name="circleRadius"
+            id="circleRadius"
+            className="w-20 form-input"
+            type="number"
+            value={Math.floor(localDimensions.circleRadius)}
+            onChange={(e) => {
+              setLocalDimensions({
+                ...localDimensions,
+                circleRadius: Number(e.target.value),
+              });
+            }}
+          />
+        </div>
 
-      <Button className="form-submit-btn" type="submit">
-        calculate
-      </Button>
+        <Button className="form-submit-btn" type="submit">
+          calculate
+        </Button>
+      </div>
     </form>
   );
 };

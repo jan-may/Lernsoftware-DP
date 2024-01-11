@@ -45,7 +45,6 @@ export const FaqAccordion = () => {
       },
       { dir: BaseDirectory.AppData }
     );
-    console.log("saved");
   }
 
   useSaveFile(dispatch, setIsTourCompleted, setIsQuizCompleted, {
@@ -58,7 +57,7 @@ export const FaqAccordion = () => {
       <AccordionItem value="item-1">
         <AccordionTrigger>Tour durch die App erneut starten?</AccordionTrigger>
         <AccordionContent>
-          <Button onClick={() => handleCompleteQuiz()}>complete Quiz</Button>
+          <Button onClick={() => handleCompleteTour()}>complete Tour</Button>
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-2">
@@ -66,7 +65,7 @@ export const FaqAccordion = () => {
           Quiz zurücksetzen und erneut starten?
         </AccordionTrigger>
         <AccordionContent>
-          <Button onClick={() => handleCompleteTour()}>complete Tour</Button>
+          <Button onClick={() => handleCompleteQuiz()}>complete Quiz</Button>
         </AccordionContent>
       </AccordionItem>
     </Accordion>

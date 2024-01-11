@@ -8,7 +8,7 @@ export const Display = () => {
   const { activeButton } = useAppSelector((store) => store.navbar);
   return (
     <div className="display-container">
-      <Card className="p-2 m-2 h-100">
+      <Card className="p-2 m-2 max-h-[calc(100vh-86px)]">
         {activeButton === ActivButton.bottomUp ? <Grid /> : <Tree />}
       </Card>
     </div>
