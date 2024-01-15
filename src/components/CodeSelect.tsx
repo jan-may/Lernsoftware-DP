@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react";
+import { useAppDispatch } from "../hooks/redux";
+import { setSelectedProblem } from "../feautures/settings/settingsSlice";
 import {
   Select,
   SelectTrigger,
@@ -7,18 +10,29 @@ import {
 } from "../components/ui/select";
 
 export const CodeSelect = () => {
+  const [value, setValue] = useState<string>("");
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(setSelectedProblem(value));
+  }, [value, dispatch]);
+
   return (
     <>
       <form>
         <div className="form-group-select">
-          <Select>
+          <Select value={value} onValueChange={setValue}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Problemauswahl" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="light">Fibonacci</SelectItem>
-              <SelectItem value="dark">CanSum</SelectItem>
-              <SelectItem value="system">GridTraveler</SelectItem>
+              <SelectItem value="Fibonacci">Fibonacci</SelectItem>
+              <SelectItem value="CanSum" disabled>
+                CanSum
+              </SelectItem>
+              <SelectItem value="GridTraveler" disabled>
+                GridTraveler
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>

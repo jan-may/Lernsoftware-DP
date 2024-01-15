@@ -8,6 +8,7 @@ import { Card } from "./ui/card";
 export function Navbar() {
   const dispatch = useAppDispatch();
   const { activeButton } = useAppSelector((store) => store.navbar);
+  const { selectedProblem } = useAppSelector((store) => store.settings);
 
   const handleClick = (buttonName: ActivButton) => {
     dispatch(setActive(buttonName));
@@ -18,42 +19,48 @@ export function Navbar() {
       <Card className="m-2 px-2 pt-1">
         <nav className="flex justify-between">
           <div>
-            <Button
-              variant="secondary"
-              onClick={() => handleClick(ActivButton.problem)}
-              className={
-                activeButton === ActivButton.problem
-                  ? "bg-red-500 focus:bg-red-500"
-                  : ""
-              }
-            >
-              Problem
-            </Button>
-            <Button
-              variant="secondary"
-              onClick={() => handleClick(ActivButton.recursiveTree)}
-              className={
-                activeButton === ActivButton.recursiveTree ? "active" : ""
-              }
-            >
-              Top Down (recursive tree)
-            </Button>
-            <Button
-              variant="secondary"
-              onClick={() => handleClick(ActivButton.topDownMemo)}
-              className={
-                activeButton === ActivButton.topDownMemo ? "active" : ""
-              }
-            >
-              Top Dowm Memo
-            </Button>
-            <Button
-              variant="secondary"
-              onClick={() => handleClick(ActivButton.bottomUp)}
-              className={activeButton === ActivButton.bottomUp ? "active" : ""}
-            >
-              Bottom Up
-            </Button>
+            {selectedProblem ? (
+              <>
+                <Button
+                  variant="secondary"
+                  onClick={() => handleClick(ActivButton.problem)}
+                  className={
+                    activeButton === ActivButton.problem
+                      ? "bg-red-500 focus:bg-red-500"
+                      : ""
+                  }
+                >
+                  Problem
+                </Button>
+                <Button
+                  variant="secondary"
+                  onClick={() => handleClick(ActivButton.recursiveTree)}
+                  className={
+                    activeButton === ActivButton.recursiveTree ? "active" : ""
+                  }
+                >
+                  Top Down (recursive tree)
+                </Button>
+                <Button
+                  variant="secondary"
+                  onClick={() => handleClick(ActivButton.topDownMemo)}
+                  className={
+                    activeButton === ActivButton.topDownMemo ? "active" : ""
+                  }
+                >
+                  Top Dowm Memo
+                </Button>
+                <Button
+                  variant="secondary"
+                  onClick={() => handleClick(ActivButton.bottomUp)}
+                  className={
+                    activeButton === ActivButton.bottomUp ? "active" : ""
+                  }
+                >
+                  Bottom Up
+                </Button>
+              </>
+            ) : null}
           </div>
           <div>
             <Faq />
