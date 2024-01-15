@@ -3,11 +3,14 @@ import { CodeDisplay } from "./CodeDisplay";
 import { CodeSelect } from "./CodeSelect";
 import { ActivButton } from "../feautures/navbar/navbarSlice";
 import { fibCode, fibMemoCode, fibTabCode } from "../trees/fibonacci";
-import { useAppSelector } from "../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import { setBluredCode } from "../feautures/settings/settingsSlice";
 
 import { Card } from "./ui/card";
+import { useEffect } from "react";
 
 export const Sidebar = () => {
+  const dispatch = useAppDispatch();
   const { activeButton } = useAppSelector((store) => store.navbar);
 
   const noCode = `// no code to display`;
@@ -18,6 +21,12 @@ export const Sidebar = () => {
     [ActivButton.bottomUp]: fibTabCode,
     [ActivButton.problem]: noCode,
   };
+
+  useEffect(() => {
+    activeButton === ActivButton.problem
+      ? dispatch(setBluredCode(false))
+      : dispatch(setBluredCode(true));
+  }, [activeButton, dispatch]);
 
   return (
     <Card className="p-2 m-2">

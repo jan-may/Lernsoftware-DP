@@ -1,32 +1,31 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface SettingsState {
-  theme: string;
+  selectedProblem: string;
   input: number;
   speed: number;
   sidebarWidth: number;
   verticalSpacing: number;
   horizontalSpacing: number;
   circleRadius: number;
+  bluredCode: boolean;
 }
 
 const initialState: SettingsState = {
-  theme: "dark",
+  selectedProblem: "",
   input: 5,
   speed: 500,
   sidebarWidth: 320,
   verticalSpacing: 52,
   horizontalSpacing: 52,
   circleRadius: 21,
+  bluredCode: true,
 };
 
 export const settingsSlice = createSlice({
   name: "settings",
   initialState,
   reducers: {
-    setTheme: (state, action) => {
-      state.theme = action.payload;
-    },
     setInput: (state, action: PayloadAction<number>) => {
       state.input = action.payload;
     },
@@ -45,16 +44,23 @@ export const settingsSlice = createSlice({
     setCircleRadius: (state, action: PayloadAction<number>) => {
       state.circleRadius = action.payload;
     },
+    setSelectedProblem: (state, action: PayloadAction<string>) => {
+      state.selectedProblem = action.payload;
+    },
+    setBluredCode: (state, action: PayloadAction<boolean>) => {
+      state.bluredCode = action.payload;
+    },
   },
 });
 
 export const {
-  setTheme,
   setInput,
   setSpeed,
   setSidebarWidth,
   setVerticalSpacing,
   setHorizontalSpacing,
   setCircleRadius,
+  setSelectedProblem,
+  setBluredCode,
 } = settingsSlice.actions;
 export default settingsSlice.reducer;
