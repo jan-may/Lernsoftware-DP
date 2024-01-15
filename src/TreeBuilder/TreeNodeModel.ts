@@ -93,4 +93,15 @@ export class TreeNodeModel<T> {
     }
     return this.children[this.children.length - 1];
   }
+
+  preorderTraversal(): TreeNodeModel<T>[] {
+    const result: TreeNodeModel<T>[] = [];
+    this.preorderTraversalHelper(result);
+    return result;
+  }
+
+  preorderTraversalHelper(result: TreeNodeModel<T>[]): void {
+    result.push(this);
+    this.children.forEach((child) => child.preorderTraversalHelper(result));
+  }
 }

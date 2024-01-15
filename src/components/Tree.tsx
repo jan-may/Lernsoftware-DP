@@ -14,6 +14,7 @@ import {
   createFibonacciTree,
   createFibonacciTreeMemo,
 } from "../trees/fibonacci";
+import { Problem } from "./Problem";
 
 export const Tree: React.FC = () => {
   const [localDimensions, setLocalDimensions] = useState({
@@ -31,9 +32,6 @@ export const Tree: React.FC = () => {
     circleRadius,
   } = useAppSelector((store) => store.settings);
 
-  const { isTourCompleted, isQuizCompleted } = useAppSelector(
-    (store) => store.io
-  );
   const { activeButton } = useAppSelector((store) => store.navbar);
   const [clickedValue, setClickedValue] = useState(-1);
 
@@ -41,7 +39,11 @@ export const Tree: React.FC = () => {
 
   switch (activeButton) {
     case ActivButton.recursiveTree:
-      tree = createFibonacciTree(input);
+      if (input >= 15) {
+        tree = TreeHelper.createEmptyTree<number>();
+      } else {
+        tree = createFibonacciTree(input);
+      }
       break;
     case ActivButton.topDownMemo:
       tree = createFibonacciTreeMemo(input);
@@ -80,11 +82,7 @@ export const Tree: React.FC = () => {
   return (
     <>
       {activeButton === ActivButton.problem ? (
-        <>
-          <h1 style={{ marginTop: "100px" }}>not implemented yet</h1>
-          <p>tour completed: {isTourCompleted ? "true" : "false"}</p>
-          <p>quiz completed: {isQuizCompleted ? "true" : "false"}</p>
-        </>
+        <Problem />
       ) : (
         <svg
           className="tree"

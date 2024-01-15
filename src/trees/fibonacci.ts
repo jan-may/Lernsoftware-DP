@@ -52,10 +52,13 @@ export function createFibonacciTab(n: number): number[] {
   return array;
 }
 
-export const fibCode = `public static int Fib(int n)
+export const fibCode = `public class FibonacciCalculator
 {
-  if (n <= 1) return n;
-  return Fib(n - 1) + Fib(n - 2);
+  public static int Fib(int n)
+  {
+    if (n <= 1) return n;
+    return Fib(n - 1) + Fib(n - 2);
+  }
 }`;
 
 export const fibMemoCode = `public static int Fib(int n)
@@ -83,4 +86,42 @@ export const fibTabCode = `public static int Fib(int n)
     table[i] = table[i - 1] + table[i - 2];
   }
   return table[n];
+}`;
+
+export const fibUnitTests: string = `using NUnit.Framework;
+
+[TestFixture]
+public class FibonacciCalculatorTests
+{
+    [Test]
+    public void Fib_WithZero_ShouldReturnZero()
+    {
+        Assert.AreEqual(0, FibonacciCalculator.Fib(0));
+    }
+
+    [Test]
+    public void Fib_WithOne_ShouldReturnOne()
+    {
+        Assert.AreEqual(1, FibonacciCalculator.Fib(1));
+    }
+
+    [Test]
+    public void Fib_WithPositiveNumber_ShouldReturnCorrectValue()
+    {
+        Assert.AreEqual(1, FibonacciCalculator.Fib(2));
+        Assert.AreEqual(2, FibonacciCalculator.Fib(3));
+        Assert.AreEqual(5, FibonacciCalculator.Fib(5));
+        Assert.AreEqual(8, FibonacciCalculator.Fib(6));
+        Assert.AreEqual(610 ,FibonacciCalculator.Fib(15));
+        Assert.AreEqual(75025 ,FibonacciCalculator.Fib(25));
+    }
+
+    [Test]
+    public void Fib_WithNegativeNumber_ShouldHandleAccordingly(int input)
+    {
+      if (input < 0)
+      {
+          Assert.Catch(() => FibonacciCalculator.Fib(input), "Exception was not thrown for negative input.");
+      }
+    }
 }`;

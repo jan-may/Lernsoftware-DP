@@ -1,5 +1,10 @@
 import { TreeNodeModel } from "./TreeNodeModel"; // Ensure this path is correct
 
+interface NodeWithParent {
+  node: TreeNodeModel<number>;
+  parent: TreeNodeModel<number> | null;
+}
+
 /**
  * TreeHelper is a utility class that provides static methods for manipulating and querying tree structures.
  * It is designed to work with TreeNodeModel objects.
@@ -342,4 +347,38 @@ export class TreeHelper {
       1 + Math.max(...node.children.map((child) => this.getMaxDepth(child)))
     );
   }
+
+  static preorder<T>(node: TreeNodeModel<T>): void {
+    if (node === null) return;
+    console.log(node.item);
+    node.children.forEach((child) => this.preorder(child));
+  }
+
+  static newpreordered<T>(node: TreeNodeModel<T>): TreeNodeModel<T>[] {
+    if (node === null) return [];
+    let result: TreeNodeModel<T>[] = [];
+    result.push(node);
+    node.children.forEach((child) => {
+      result = result.concat(this.newpreordered(child));
+    });
+    return result;
+  }
+
+  static newpreorderedWithParent = (
+    node: TreeNodeModel<number>,
+    parent: TreeNodeModel<number> | null = null
+  ): NodeWithParent[] => {
+    let result: any = [];
+    if (node) {
+      result.push({ node, parent });
+      node.children.forEach((child: TreeNodeModel<number>) => {
+        result = [
+          ...result,
+          ...TreeHelper.newpreorderedWithParent(child, node as any),
+        ];
+      });
+    }
+    console.log(result);
+    return result;
+  };
 }

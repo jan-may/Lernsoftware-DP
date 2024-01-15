@@ -1,42 +1,36 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface SettingsState {
-  theme: string;
+  selectedProblem: string;
   input: number;
   speed: number;
-  memo: boolean;
   sidebarWidth: number;
   verticalSpacing: number;
   horizontalSpacing: number;
   circleRadius: number;
+  bluredCode: boolean;
 }
 
 const initialState: SettingsState = {
-  theme: "dark",
+  selectedProblem: "",
   input: 5,
   speed: 500,
-  memo: false,
   sidebarWidth: 320,
   verticalSpacing: 52,
   horizontalSpacing: 52,
   circleRadius: 21,
+  bluredCode: true,
 };
 
 export const settingsSlice = createSlice({
   name: "settings",
   initialState,
   reducers: {
-    setTheme: (state, action) => {
-      state.theme = action.payload;
-    },
     setInput: (state, action: PayloadAction<number>) => {
       state.input = action.payload;
     },
     setSpeed: (state, action: PayloadAction<number>) => {
       state.speed = action.payload;
-    },
-    setMemo: (state, action: PayloadAction<boolean>) => {
-      state.memo = action.payload;
     },
     setSidebarWidth: (state, action: PayloadAction<number>) => {
       state.sidebarWidth = action.payload;
@@ -50,17 +44,23 @@ export const settingsSlice = createSlice({
     setCircleRadius: (state, action: PayloadAction<number>) => {
       state.circleRadius = action.payload;
     },
+    setSelectedProblem: (state, action: PayloadAction<string>) => {
+      state.selectedProblem = action.payload;
+    },
+    setBluredCode: (state, action: PayloadAction<boolean>) => {
+      state.bluredCode = action.payload;
+    },
   },
 });
 
 export const {
-  setTheme,
   setInput,
   setSpeed,
-  setMemo,
   setSidebarWidth,
   setVerticalSpacing,
   setHorizontalSpacing,
   setCircleRadius,
+  setSelectedProblem,
+  setBluredCode,
 } = settingsSlice.actions;
 export default settingsSlice.reducer;
