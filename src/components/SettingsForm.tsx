@@ -11,8 +11,11 @@ import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "./ui/label";
 import { Separator } from "./ui/separator";
+import { useToast } from "./ui/use-toast";
 
 export const SettingsForm = () => {
+  const { toast } = useToast();
+
   const dispatch = useAppDispatch();
   const { input, speed, circleRadius, verticalSpacing, horizontalSpacing } =
     useAppSelector((store) => store.settings);
@@ -41,6 +44,14 @@ export const SettingsForm = () => {
     const newValue = getValueFromForm(form, '.form-input[type="number"]');
     if (newValue !== null) {
       dispatch(setInput(newValue as number));
+      if ((newValue as number) > 30) {
+        toast({
+          title: "Input für rekursive Berechnung zu groß",
+          description:
+            "Ein recursiver Aufruf mit diesem Input bedeutet enormen Rechenaufwand. Bitte eine dynamisch programmierte Lösung zur Visualisierung verwenden.",
+          variant: "destructive",
+        });
+      }
     }
 
     const newSpeed = getValueFromForm(form, '.form-input[name="speed"]');

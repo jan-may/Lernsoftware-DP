@@ -18,6 +18,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "./components/ui/resizable";
+import { Toaster } from "./components/ui/toaster";
 
 const BASEDIR = "com.jan.may";
 const SAVEFILE = "save.txt";
@@ -77,6 +78,7 @@ function App() {
         <ResizablePanel defaultSize={66}>
           <Navbar />
           <Display />
+          <Toaster />
         </ResizablePanel>
       </ResizablePanelGroup>
     </div>
