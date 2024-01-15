@@ -41,6 +41,9 @@ export const Tree: React.FC = () => {
 
   switch (activeButton) {
     case ActivButton.recursiveTree:
+      if (input >= 15) {
+        tree = TreeHelper.createEmptyTree<number>();
+      }
       tree = createFibonacciTree(input);
       break;
     case ActivButton.topDownMemo:

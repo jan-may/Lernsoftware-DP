@@ -4,6 +4,8 @@ import { useAppSelector } from "../hooks/redux";
 import { Dimensions } from "../types/TreeTypes";
 import { TreeHelper } from "../TreeBuilder/TreeHelper";
 import { useTheme } from "./theme-provider";
+import { ActivButton } from "../feautures/navbar/navbarSlice";
+import { useToast } from "./ui/use-toast";
 
 interface NodeProps {
   node: TreeNodeModel<number>;
@@ -27,19 +29,33 @@ export const Node: React.FC<NodeProps> = ({
   const { activeButton } = useAppSelector((store) => store.navbar);
   const [renderQueue, setRenderQueue] = useState<NodeWithParent[]>([]);
   const [renderedNodes, setRenderedNodes] = useState<NodeWithParent[]>([]);
-
   const { theme } = useTheme();
+  const { toast } = useToast();
 
   useEffect(() => {
     setRenderedNodes([]);
   }, [activeButton, input, speed]);
 
   useEffect(() => {
-    setRenderQueue(TreeHelper.newpreorderedWithParent(node, null));
+    if (activeButton === ActivButton.recursiveTree && input >= 15) {
+      toast({
+        title: "Input für rekursive Berechnung zu groß",
+        description:
+          "Ein recursiver Aufruf mit diesem Input bedeutet enormen Rechenaufwand. Bitte eine dynamisch programmierte Lösung zur Visualisierung verwenden.",
+        variant: "destructive",
+      });
+      setRenderQueue([]);
+      setRenderedNodes([]);
+    } else {
+      setRenderQueue(TreeHelper.newpreorderedWithParent(node, null));
+    }
   }, [activeButton, input, speed]);
 
   useEffect(() => {
-    if (renderQueue.length > 0 && speed > 0) {
+    if (activeButton === ActivButton.recursiveTree && input >= 15) {
+      setRenderQueue([]);
+      setRenderedNodes([]);
+    } else if (renderQueue.length > 0 && speed > 0) {
       const timer = setTimeout(() => {
         const nextNode = renderQueue.shift();
         if (nextNode) {
@@ -58,7 +74,6 @@ export const Node: React.FC<NodeProps> = ({
     <g>
       {renderedNodes.map(({ node: renderedNode, parent }, _index) => (
         <React.Fragment key={renderedNode.key}>
-          {/* @ts-ignore */}
           {parent && (
             <line
               x1={parent.x * dimensions.verticalSpacing}
