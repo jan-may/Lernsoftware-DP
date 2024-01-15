@@ -21,7 +21,9 @@
       },
       "fs": {
         "all": true,
-        "scope": ["$APPDATA/*", "$APPCONFIG/*"]
+        "scope": ["$DOWNLOAD/*"]
+      },  "dialog": {
+        "all": true
       }
     },
     "bundle": {
