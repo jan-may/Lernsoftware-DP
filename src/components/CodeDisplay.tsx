@@ -35,7 +35,7 @@ export function CodeDisplay({ code, language }: CodeProps) {
   };
 
   return (
-    <TooltipProvider delayDuration={400}>
+    <TooltipProvider delayDuration={250}>
       <Tooltip>
         <TooltipTrigger>
           <div

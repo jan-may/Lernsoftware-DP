@@ -9,7 +9,7 @@ import {
 
 export const WriteUpButton = () => {
   return (
-    <TooltipProvider>
+    <TooltipProvider delayDuration={250}>
       <Tooltip>
         <TooltipTrigger asChild>
           <Button variant="secondary" className="absolute bottom-1 right-2">
