@@ -14,6 +14,9 @@ export function Navbar() {
     dispatch(setActive(buttonName));
   };
 
+  const commonClasses = "hover:bg-primary hover:text-primary-foreground";
+  const activeClasses = "bg-primary text-primary-foreground";
+
   return (
     <>
       <Card className="m-2 px-2 pt-1">
@@ -22,40 +25,48 @@ export function Navbar() {
             {selectedProblem ? (
               <>
                 <Button
-                  variant="secondary"
+                  variant="outline"
                   onClick={() => handleClick(ActivButton.problem)}
-                  className={
-                    activeButton === ActivButton.problem
-                      ? "bg-red-500 focus:bg-red-500"
-                      : ""
-                  }
+                  // className={
+                  //   activeButton === ActivButton.problem
+                  //     ? // ? "bg-accent/90 text-accent-foreground"
+                  //       "hover:bg-primary hover:text-primary-foreground bg-primary text-primary-foreground "
+                  //     : "hover:bg-primary hover:text-primary-foreground"
+                  // }
+                  className={`${commonClasses}  ${
+                    activeButton === ActivButton.problem ? activeClasses : ""
+                  }`}
                 >
                   Problem
                 </Button>
                 <Button
-                  variant="secondary"
+                  variant="outline"
                   onClick={() => handleClick(ActivButton.recursiveTree)}
-                  className={
-                    activeButton === ActivButton.recursiveTree ? "active" : ""
-                  }
+                  className={`${commonClasses}  ${
+                    activeButton === ActivButton.recursiveTree
+                      ? activeClasses
+                      : ""
+                  }`}
                 >
                   Top Down (recursive tree)
                 </Button>
                 <Button
-                  variant="secondary"
+                  variant="outline"
                   onClick={() => handleClick(ActivButton.topDownMemo)}
-                  className={
-                    activeButton === ActivButton.topDownMemo ? "active" : ""
-                  }
+                  className={`${commonClasses}  ${
+                    activeButton === ActivButton.topDownMemo
+                      ? activeClasses
+                      : ""
+                  }`}
                 >
                   Top Dowm Memo
                 </Button>
                 <Button
-                  variant="secondary"
+                  variant="outline"
                   onClick={() => handleClick(ActivButton.bottomUp)}
-                  className={
-                    activeButton === ActivButton.bottomUp ? "active" : ""
-                  }
+                  className={`${commonClasses}  ${
+                    activeButton === ActivButton.bottomUp ? activeClasses : ""
+                  }`}
                 >
                   Bottom Up
                 </Button>
