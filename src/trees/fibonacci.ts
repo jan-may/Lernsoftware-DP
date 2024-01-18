@@ -17,7 +17,9 @@ function buildFibonacciTree(
 export function createFibonacciTree(input: number) {
   const tree = buildFibonacciTree(input);
   TreeHelper.calculateNodePositions(tree);
-  TreeHelper.shiftTree(tree, 1);
+  input <= 5
+    ? TreeHelper.shiftTree(tree, 0.5)
+    : TreeHelper.shiftTree(tree, 0.25);
   return tree;
 }
 
@@ -38,7 +40,9 @@ export function createFibonacciTreeMemo(n: number): TreeNodeModel<number> {
     array[n + i - 2].children.push(array[n + i], array[n + i + 1]);
   }
   TreeHelper.calculateNodePositions(array[n]);
-  TreeHelper.shiftTree(array[n], 1);
+  n <= 5
+    ? TreeHelper.shiftTree(array[n], 1)
+    : TreeHelper.shiftTree(array[n], 0.2);
   return array[n];
 }
 
