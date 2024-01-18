@@ -20,7 +20,6 @@ const downloadDataTauri = async (dataUrl: any) => {
       { path: filePath!, contents: dataUrl },
       { dir: BaseDirectory.Download }
     );
-    console.log("File saved");
   } catch (e) {
     console.log(e);
   }

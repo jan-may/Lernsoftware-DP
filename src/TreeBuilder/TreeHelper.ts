@@ -350,7 +350,6 @@ export class TreeHelper {
 
   static preorder<T>(node: TreeNodeModel<T>): void {
     if (node === null) return;
-    console.log(node.item);
     node.children.forEach((child) => this.preorder(child));
   }
 
@@ -378,7 +377,6 @@ export class TreeHelper {
         ];
       });
     }
-    console.log(result);
     return result;
   };
 }
