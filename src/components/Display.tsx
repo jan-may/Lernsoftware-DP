@@ -11,7 +11,7 @@ export const Display = () => {
   return (
     <div className="relative">
       <WriteUpButton />
-      <Card className="p-2 m-2 max-h-[calc(100vh-86px)]">
+      <Card className="p-2 m-2 max-h-[calc(100vh-78px)]">
         {activeButton === ActivButton.bottomUp ? (
           <Grid />
         ) : selectedProblem ? (

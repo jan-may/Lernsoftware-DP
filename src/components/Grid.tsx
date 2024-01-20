@@ -74,7 +74,7 @@ export const Grid: FC = () => {
       style={{
         display: "flex",
         flexWrap: "wrap",
-        // minHeight: "calc(100vh - 58px)",
+        minHeight: "calc(100vh - 58px)",
         alignContent: "flex-start",
       }}
     >
