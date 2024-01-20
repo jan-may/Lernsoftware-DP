@@ -58,41 +58,56 @@ export function createFibonacciTab(n: number): number[] {
 
 export const fibCode = `public class FibonacciCalculator
 {
-  public static int Fib(int n)
+  public int fib(int n)
   {
     if (n <= 1) return n;
     return Fib(n - 1) + Fib(n - 2);
   }
 }`;
 
-export const fibMemoCode = `public static int Fib(int n)
+export const fibMemoCode = `public class FibonacciCalculator
 {
-  int[] memo = new int[n + 1];
-  return Fib(n, memo);
-}
-  
-private static int Fib(int n, int[] memo)
-{
-  if (n <= 1) return n;
-  if (memo[n] != 0) return memo[n];
-  memo[n] = Fib(n - 1, memo) + Fib(n - 2, memo);
-  return memo[n];
-}`;
-
-export const fibTabCode = `public static int Fib(int n)
-{
-  if (n <= 1) return n;
-  int[] table = new int[n + 1];
-  table[0] = 0;
-  table[1] = 1;
-  for (int i = 2; i <= n; i++)
+  public int fibMemo(int n, int[] memo)
   {
-    table[i] = table[i - 1] + table[i - 2];
+    if (memo[n] != 0) return memo[n];
+    if (n <= 1) return n;
+    {
+        memo[n] = FibMemo(n - 1, memo) + FibMemo(n - 2, memo);
+        return memo[n];
+    }
   }
-  return table[n];
 }`;
 
-export const fibUnitTests: string = `using NUnit.Framework;
+export const fibTabCode = `public class FibonacciCalculator
+{
+  public int fibTab(int n)
+  {
+    int[] table = new int[n + 1];
+    table[0] = 0;
+    table[1] = 1;
+    for (int i = 2; i <= n; i++)
+    {
+      table[i] = table[i - 1] + table[i - 2];
+    }
+      return table[n];
+  }
+}`;
+
+export const fibonacciDefinition = `F(n) = 
+\\begin{cases} 
+0 & \\text{if } n = 0 \\\\
+1 & \\text{if } n = 1 \\\\
+F(n-1) + F(n-2) & \\text{if } n > 1 
+\\end{cases}`;
+
+export const aufgabeCode = `public class FibonacciCalculator
+{
+  public int fib(int n) {} //recursive
+  public int fibMemo(int n, int[] memo){} //top-down with memoization
+  public int fibTab(int n) {} //bottom-up with tabulation
+}`;
+
+export const fibUnitTests = `using NUnit.Framework;
 
 [TestFixture]
 public class FibonacciCalculatorTests

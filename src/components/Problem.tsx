@@ -8,13 +8,8 @@ import {
 } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { useTheme } from "./theme-provider";
 import { FibTable } from "./FibTable";
-
-const code = `public class FibonacciCalculator
-{
-    public int Fib(int n) {} //recursive
-    public int FibMemo(int n, int[] memo){} //top-down with memoization
-    public int FibTab(int n) {} //bottom-up with tabulation
-}`;
+import { ClipboardBtn } from "./ClipboardBtn";
+import { aufgabeCode, fibonacciDefinition } from "../trees/fibonacci";
 
 export const Problem = () => {
   const { theme } = useTheme();
@@ -22,14 +17,7 @@ export const Problem = () => {
     <div style={{ minHeight: "calc(100vh - 54px)", maxHeight: "100vh" }}>
       <p>Die Fibonacci-Folge ist rekursiv wie folgt definiert:</p>
       <div className="my-10 w-32">
-        <BlockMath
-          math="F(n) = 
-\begin{cases} 
-0 & \text{if } n = 0 \\
-1 & \text{if } n = 1 \\
-F(n-1) + F(n-2) & \text{if } n > 1 
-\end{cases}"
-        />
+        <BlockMath math={fibonacciDefinition} />
       </div>
       <FibTable />
       <h1 className="text-lg mb-2">Bedingung für dynamische Programmierung:</h1>
@@ -46,15 +34,19 @@ F(n-1) + F(n-2) & \text{if } n > 1
         Implementiere folgende Methoden der Klasse{" "}
         <code>FibonacciCalculator</code>:
       </p>
-      <div style={{ fontSize: "14px", maxWidth: "650px" }}>
+      <div
+        style={{ fontSize: "14px", maxWidth: "650px", position: "relative" }}
+      >
         <SyntaxHighlighter
           language={"cs"}
           style={theme === "light" ? oneLight : oneDark}
           wrapLines
           wrapLongLines
         >
-          {code}
+          {aufgabeCode}
         </SyntaxHighlighter>
+
+        <ClipboardBtn code={aufgabeCode} bluredCode={false} />
       </div>
       <DownloadBtn />
     </div>
