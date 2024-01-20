@@ -8,9 +8,14 @@ export type ActionCreators = {
   circleRadius: typeof setCircleRadius;
 };
 
+export type Problem = "fibonacci" | "gridTraveler" | "canSum" | "";
+export type FunctionName = "fib" | "fibMemo" | "fibTab" | "";
+
 interface SettingsState {
-  selectedProblem: string;
+  selectedProblem: Problem;
+  functionName: FunctionName;
   input: number;
+  inputText: string;
   speed: number;
   sidebarWidth: number;
   verticalSpacing: number;
@@ -21,7 +26,9 @@ interface SettingsState {
 
 const initialState: SettingsState = {
   selectedProblem: "",
+  functionName: "",
   input: 5,
+  inputText: "5",
   speed: 500,
   sidebarWidth: 320,
   verticalSpacing: 0,
@@ -36,6 +43,9 @@ export const settingsSlice = createSlice({
   reducers: {
     setInput: (state, action: PayloadAction<number>) => {
       state.input = action.payload;
+    },
+    setInputText: (state, action: PayloadAction<string>) => {
+      state.inputText = action.payload;
     },
     setSpeed: (state, action: PayloadAction<number>) => {
       state.speed = action.payload;
@@ -52,17 +62,21 @@ export const settingsSlice = createSlice({
     setCircleRadius: (state, action: PayloadAction<number>) => {
       state.circleRadius = action.payload;
     },
-    setSelectedProblem: (state, action: PayloadAction<string>) => {
+    setSelectedProblem: (state, action: PayloadAction<Problem>) => {
       state.selectedProblem = action.payload;
     },
     setBluredCode: (state, action: PayloadAction<boolean>) => {
       state.bluredCode = action.payload;
+    },
+    setFunctionName: (state, action: PayloadAction<FunctionName>) => {
+      state.functionName = action.payload;
     },
   },
 });
 
 export const {
   setInput,
+  setInputText,
   setSpeed,
   setSidebarWidth,
   setVerticalSpacing,
@@ -70,5 +84,6 @@ export const {
   setCircleRadius,
   setSelectedProblem,
   setBluredCode,
+  setFunctionName,
 } = settingsSlice.actions;
 export default settingsSlice.reducer;

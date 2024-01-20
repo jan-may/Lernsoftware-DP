@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "../hooks/redux";
-import { setSelectedProblem } from "../feautures/settings/settingsSlice";
+import {
+  Problem,
+  setSelectedProblem,
+} from "../feautures/settings/settingsSlice";
 import {
   Select,
   SelectTrigger,
@@ -14,7 +17,7 @@ export const CodeSelect = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(setSelectedProblem(value));
+    dispatch(setSelectedProblem(value as Problem));
   }, [value, dispatch]);
 
   return (
@@ -26,11 +29,11 @@ export const CodeSelect = () => {
               <SelectValue placeholder="Problemauswahl" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="Fibonacci">Fibonacci</SelectItem>
-              <SelectItem value="CanSum" disabled>
+              <SelectItem value="fibonacci">Fibonacci</SelectItem>
+              <SelectItem value="canSum" disabled>
                 CanSum
               </SelectItem>
-              <SelectItem value="GridTraveler" disabled>
+              <SelectItem value="gridTraveler" disabled>
                 GridTraveler
               </SelectItem>
             </SelectContent>

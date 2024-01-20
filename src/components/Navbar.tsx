@@ -4,6 +4,7 @@ import { Button } from "./ui/button";
 import { ModeToggle } from "./mode-toggle";
 import { Faq } from "./Faq";
 import { Card } from "./ui/card";
+import { setFunctionName } from "../feautures/settings/settingsSlice";
 
 export function Navbar() {
   const dispatch = useAppDispatch();
@@ -12,6 +13,15 @@ export function Navbar() {
 
   const handleClick = (buttonName: ActivButton) => {
     dispatch(setActive(buttonName));
+    if (selectedProblem === "fibonacci") {
+      if (buttonName === ActivButton.recursiveTree) {
+        dispatch(setFunctionName("fib"));
+      } else if (buttonName === ActivButton.topDownMemo) {
+        dispatch(setFunctionName("fibMemo"));
+      } else if (buttonName === ActivButton.bottomUp) {
+        dispatch(setFunctionName("fibTab"));
+      }
+    }
   };
 
   const commonClasses = "hover:bg-primary hover:text-primary-foreground";
@@ -27,12 +37,6 @@ export function Navbar() {
                 <Button
                   variant="outline"
                   onClick={() => handleClick(ActivButton.problem)}
-                  // className={
-                  //   activeButton === ActivButton.problem
-                  //     ? // ? "bg-accent/90 text-accent-foreground"
-                  //       "hover:bg-primary hover:text-primary-foreground bg-primary text-primary-foreground "
-                  //     : "hover:bg-primary hover:text-primary-foreground"
-                  // }
                   className={`${commonClasses}  ${
                     activeButton === ActivButton.problem ? activeClasses : ""
                   }`}
