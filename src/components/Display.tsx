@@ -10,7 +10,7 @@ export const Display = () => {
   const { selectedProblem } = useAppSelector((store) => store.settings);
   return (
     <div className="relative">
-      <WriteUpButton />
+      {activeButton !== ActivButton.problem ? <WriteUpButton /> : null}
       <Card className="p-2 m-2 max-h-[calc(100vh-78px)]">
         {activeButton === ActivButton.bottomUp ? (
           <Grid />
