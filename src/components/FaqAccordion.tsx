@@ -16,12 +16,12 @@ export const FaqAccordion = () => {
 
   function handleCompleteQuiz() {
     dispatch(setIsQuizCompleted(false));
-    localStorage.setItem("quizCompleted", "false");
+    localStorage.removeItem("quizCompleted");
   }
 
   function handleCompleteTour() {
     dispatch(setIsTourCompleted(false));
-    localStorage.setItem("tourCompleted", "false");
+    localStorage.removeItem("tourCompleted");
   }
 
   return (
