@@ -9,13 +9,14 @@ import { useDispatch } from "react-redux";
 import { setBluredCode } from "../feautures/settings/settingsSlice";
 import { ActivButton } from "../feautures/navbar/navbarSlice";
 import { Button } from "./ui/button";
-import { Clipboard, Eye } from "lucide-react";
+import { Eye } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "../components/ui/tooltip";
+import { ClipboardBtn } from "./ClipboardBtn";
 
 interface CodeProps {
   code: string;
@@ -34,10 +35,6 @@ export function CodeDisplay({ code, language }: CodeProps) {
     if (activeButton !== ActivButton.problem) {
       dispatch(setBluredCode(!bluredCode));
     }
-  };
-
-  const handleCopyToClipboard = () => {
-    navigator.clipboard.writeText(code);
   };
 
   return (
@@ -74,17 +71,7 @@ export function CodeDisplay({ code, language }: CodeProps) {
         {activeButton !== ActivButton.problem && (
           <Tooltip>
             <TooltipTrigger>
-              <Button
-                variant={"outline"}
-                className={
-                  bluredCode
-                    ? "hidden"
-                    : "absolute top-1 right-0 cursor-pointer p-1 m-1 h-6"
-                }
-                onClick={handleCopyToClipboard}
-              >
-                <Clipboard size={18} />
-              </Button>
+              <ClipboardBtn code={code} bluredCode={bluredCode} />
             </TooltipTrigger>
             <TooltipContent side="right" sideOffset={320} align="start">
               <p>Code kopieren</p>
