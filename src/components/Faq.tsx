@@ -13,7 +13,9 @@ export const Faq = () => {
   return (
     <Sheet>
       <SheetTrigger>
-        <Button className="-translate-y-1">FAQ</Button>
+        <Button className="-translate-y-1" variant="secondary">
+          FAQ
+        </Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
