@@ -19,7 +19,7 @@ const code = `public class FibonacciCalculator
 export const Problem = () => {
   const { theme } = useTheme();
   return (
-    <div>
+    <div style={{ minHeight: "calc(100vh - 54px)", maxHeight: "100vh" }}>
       <p>Die Fibonacci-Folge ist rekursiv wie folgt definiert:</p>
       <div className="my-10 w-32">
         <BlockMath
