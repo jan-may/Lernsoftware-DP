@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {
   setCircleRadius,
   setInput,
+  setInputText,
   setSpeed,
   setHorizontalSpacing,
   setVerticalSpacing,
@@ -12,6 +13,7 @@ import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "./ui/label";
 import { Separator } from "./ui/separator";
+import { ActivButton } from "../feautures/navbar/navbarSlice";
 
 interface LocalDimensions {
   horizontalSpacing: number;
@@ -30,6 +32,7 @@ const actionCreators: ActionCreators = {
 export const SettingsForm: React.FC = () => {
   const dispatch = useAppDispatch();
   const settings = useAppSelector((store) => store.settings);
+  const { activeButton } = useAppSelector((store) => store.navbar);
   const [localDimensions, setLocalDimensions] = useState<LocalDimensions>({
     horizontalSpacing: settings.horizontalSpacing,
     verticalSpacing: settings.verticalSpacing,
@@ -52,8 +55,18 @@ export const SettingsForm: React.FC = () => {
         if (actionCreator) {
           dispatch(actionCreator(value));
         }
+        if (field === "input") {
+          dispatch(setInputText(value.toString()));
+        }
       }
     });
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value, 10);
+    if (!isNaN(value)) {
+      dispatch(setInputText(value.toString()));
+    }
   };
 
   useEffect(() => {
@@ -77,8 +90,9 @@ export const SettingsForm: React.FC = () => {
         <div>
           <Field
             name="input"
-            label="input-n"
+            label="input"
             defaultValue={settings.input.toString()}
+            onChange={(e) => handleInputChange(e)}
           />
           <Separator className="my-2" />
           <Field
@@ -108,8 +122,14 @@ export const SettingsForm: React.FC = () => {
             onChange={(e) => handleChange(e, "circleRadius")}
           />
         </div>
-        <Button type="submit" className="absolute bottom-2 w-[calc(100%-16px)]">
-          calculate
+        <Button
+          type="submit"
+          className="absolute bottom-2 w-[calc(100%-16px)]"
+          disabled={activeButton === ActivButton.problem}
+        >
+          {activeButton === ActivButton.problem
+            ? "Implementierung wählen"
+            : `run ${settings.functionName}(${settings.inputText})`}
         </Button>
       </div>
     </form>
