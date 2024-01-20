@@ -47,7 +47,9 @@
         "resizable": true,
         "title": "Lehrsoftware dynamisches Programmieren",
         "width": 1300,
-        "height": 800
+        "height": 800,
+        "minWidth": 1024,
+        "minHeight": 680
       }
     ]
   }
