@@ -5,6 +5,7 @@ import {
   setSpeed,
   setHorizontalSpacing,
   setVerticalSpacing,
+  ActionCreators,
 } from "../feautures/settings/settingsSlice";
 import { useAppSelector, useAppDispatch } from "../hooks/redux";
 import { Button } from "../components/ui/button";
@@ -12,152 +13,136 @@ import { Input } from "../components/ui/input";
 import { Label } from "./ui/label";
 import { Separator } from "./ui/separator";
 
-export const SettingsForm = () => {
+interface LocalDimensions {
+  horizontalSpacing: number;
+  verticalSpacing: number;
+  circleRadius: number;
+}
+
+const actionCreators: ActionCreators = {
+  input: setInput,
+  speed: setSpeed,
+  horizontalSpacing: setHorizontalSpacing,
+  verticalSpacing: setVerticalSpacing,
+  circleRadius: setCircleRadius,
+};
+
+export const SettingsForm: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { input, speed, circleRadius, verticalSpacing, horizontalSpacing } =
-    useAppSelector((store) => store.settings);
-  const [localDimensions, setLocalDimensions] = useState({
-    horizontalSpacing: horizontalSpacing,
-    verticalSpacing: verticalSpacing,
-    circleRadius: circleRadius,
+  const settings = useAppSelector((store) => store.settings);
+  const [localDimensions, setLocalDimensions] = useState<LocalDimensions>({
+    horizontalSpacing: settings.horizontalSpacing,
+    verticalSpacing: settings.verticalSpacing,
+    circleRadius: settings.circleRadius,
   });
 
-  function getValueFromForm(
-    form: HTMLFormElement,
-    selector: string,
-    isCheckbox: boolean = false
-  ) {
-    const element = form.querySelector(selector) as HTMLInputElement;
-    if (!element) return null;
-    if (isCheckbox) return element.checked;
-    const value = parseInt(element.value, 10);
-    return isNaN(value) ? null : value;
-  }
-
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
-
-    const newValue = getValueFromForm(form, '.form-input[type="number"]');
-    if (newValue !== null) {
-      dispatch(setInput(newValue as number));
-    }
-
-    const newSpeed = getValueFromForm(form, '.form-input[name="speed"]');
-    if (newSpeed !== null) {
-      dispatch(setSpeed(newSpeed as number));
-    }
-
-    if (localDimensions.horizontalSpacing !== horizontalSpacing) {
-      dispatch(
-        setHorizontalSpacing(localDimensions.horizontalSpacing as number)
-      );
-    }
-
-    if (localDimensions.verticalSpacing !== verticalSpacing) {
-      dispatch(setVerticalSpacing(localDimensions.verticalSpacing as number));
-    }
-
-    if (localDimensions.circleRadius !== circleRadius) {
-      dispatch(setCircleRadius(localDimensions.circleRadius as number));
-    }
-  }
+    [
+      "input",
+      "speed",
+      "verticalSpacing",
+      "horizontalSpacing",
+      "circleRadius",
+    ].forEach((field) => {
+      const value = getValueFromForm(form, `.form-input[name="${field}"]`);
+      if (value !== null) {
+        const actionCreator = actionCreators[field as keyof ActionCreators];
+        if (actionCreator) {
+          dispatch(actionCreator(value));
+        }
+      }
+    });
+  };
 
   useEffect(() => {
     setLocalDimensions({
-      horizontalSpacing: horizontalSpacing,
-      verticalSpacing: verticalSpacing,
-      circleRadius: circleRadius,
+      horizontalSpacing: settings.horizontalSpacing,
+      verticalSpacing: settings.verticalSpacing,
+      circleRadius: settings.circleRadius,
     });
-  }, [verticalSpacing, horizontalSpacing, circleRadius]);
+  }, [settings]);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    field: keyof LocalDimensions
+  ) => {
+    setLocalDimensions({ ...localDimensions, [field]: Number(e.target.value) });
+  };
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="flex flex-col justify-around">
-        <div className="flex justify-between mb-1">
-          <Label htmlFor="inputN" className="text-md">
-            input-n
-          </Label>
-          <Input
-            name="inputN2"
-            id="inputN"
-            className="w-20 form-input"
-            type="number"
-            defaultValue={input}
+      <div className="flex flex-col">
+        <div>
+          <Field
+            name="input"
+            label="input-n"
+            defaultValue={settings.input.toString()}
           />
-        </div>
-        <Separator className="my-2" />
-        <div className="flex justify-between mb-1">
-          <Label htmlFor="speed" className="text-md">
-            speed (ms)
-          </Label>
-          <Input
-            className="w-20 form-input"
-            type="number"
+          <Separator className="my-2" />
+          <Field
             name="speed"
-            id="speed"
-            defaultValue={speed}
+            label="speed (ms)"
+            defaultValue={settings.speed.toString()}
           />
-        </div>
-        <div className="flex justify-between mb-1">
-          <Label htmlFor="horizontalSpacing" className="text-md">
-            x-spacing
-          </Label>
-          <Input
-            name="horizontalSpacing"
-            id="horizontalSpacing"
-            className="w-20 form-input"
-            type="number"
-            value={Math.floor(localDimensions.horizontalSpacing)}
-            onChange={(e) => {
-              setLocalDimensions({
-                ...localDimensions,
-                horizontalSpacing: Number(e.target.value),
-              });
-            }}
-          />
-        </div>
-        <div className="flex justify-between mb-1">
-          <Label htmlFor="verticalSpacing" className="text-md">
-            y-Spacing
-          </Label>
-          <Input
+          <Field
+            key="verticalSpacing"
             name="verticalSpacing"
-            id="verticalSpacing"
-            className="w-20 form-input"
-            type="number"
-            value={Math.floor(localDimensions.verticalSpacing)}
-            onChange={(e) => {
-              setLocalDimensions({
-                ...localDimensions,
-                verticalSpacing: Number(e.target.value),
-              });
-            }}
+            label="x-spacing"
+            value={Math.floor(localDimensions.verticalSpacing).toString()}
+            onChange={(e) => handleChange(e, "verticalSpacing")}
           />
-        </div>
-        <div className="flex justify-between mb-1">
-          <Label htmlFor="circleRadius" className="text-md">
-            c-radius
-          </Label>
-          <Input
+          <Field
+            key="horizontalSpacing"
+            name="horizontalSpacing"
+            label="y-spacing"
+            value={Math.floor(localDimensions.horizontalSpacing).toString()}
+            onChange={(e) => handleChange(e, "horizontalSpacing")}
+          />
+          <Field
+            key="circleRadius"
             name="circleRadius"
-            id="circleRadius"
-            className="w-20 form-input"
-            type="number"
-            value={Math.floor(localDimensions.circleRadius)}
-            onChange={(e) => {
-              setLocalDimensions({
-                ...localDimensions,
-                circleRadius: Number(e.target.value),
-              });
-            }}
+            label="circle-size"
+            value={Math.floor(localDimensions.circleRadius).toString()}
+            onChange={(e) => handleChange(e, "circleRadius")}
           />
         </div>
-
-        <Button className="form-submit-btn" type="submit">
+        <Button type="submit" className="absolute bottom-2 w-[calc(100%-16px)]">
           calculate
         </Button>
       </div>
     </form>
   );
 };
+
+interface FieldProps {
+  name: string;
+  label: string;
+  defaultValue?: string;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const Field: React.FC<FieldProps> = ({ name, label, ...props }) => (
+  <div className="flex justify-between mb-1">
+    <Label htmlFor={name} className="text-md">
+      {label}
+    </Label>
+    <Input
+      {...props}
+      name={name}
+      id={name}
+      className="w-20 form-input"
+      type="number"
+    />
+  </div>
+);
+
+function getValueFromForm(
+  form: HTMLFormElement,
+  selector: string
+): number | null {
+  const element = form.querySelector(selector) as HTMLInputElement | null;
+  return element ? parseInt(element.value, 10) : null;
+}

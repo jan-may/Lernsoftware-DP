@@ -1,5 +1,13 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
+export type ActionCreators = {
+  input: typeof setInput;
+  speed: typeof setSpeed;
+  horizontalSpacing: typeof setHorizontalSpacing;
+  verticalSpacing: typeof setVerticalSpacing;
+  circleRadius: typeof setCircleRadius;
+};
+
 interface SettingsState {
   selectedProblem: string;
   input: number;
@@ -16,9 +24,9 @@ const initialState: SettingsState = {
   input: 5,
   speed: 500,
   sidebarWidth: 320,
-  verticalSpacing: 52,
-  horizontalSpacing: 52,
-  circleRadius: 21,
+  verticalSpacing: 0,
+  horizontalSpacing: 0,
+  circleRadius: 0,
   bluredCode: true,
 };
 
