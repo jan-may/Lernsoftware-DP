@@ -36,7 +36,10 @@
         "icons/128x128@2x.png",
         "icons/icon.icns",
         "icons/icon.ico"
-      ]
+      ],
+      "shortDescription": "Lehrsoftware dynamisches Programmieren",
+      "publisher": "Jan May",
+      "category": "DeveloperTool"
     },
     "security": {
       "csp": null
@@ -49,7 +52,8 @@
         "width": 1300,
         "height": 800,
         "minWidth": 1024,
-        "minHeight": 680
+        "minHeight": 680,
+        "maximized": true
       }
     ]
   }
