@@ -16,11 +16,16 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "../components/ui/accordion";
+import { useState } from "react";
+import { Eye } from "lucide-react";
+import { Button } from "./ui/button";
 
 export const Problem = () => {
   const { theme } = useTheme();
+  const [teilstrukturBlur, setTeilstrukturBlur] = useState(true);
+  const [teilproblemBlur, setTeilproblemBlur] = useState(true);
   return (
-    <div style={{ minHeight: "calc(100vh - 54px)",  }}>
+    <div style={{ minHeight: "calc(100vh - 78px)" }}>
       <Accordion type="multiple">
         <AccordionItem value="beschreibung">
           <AccordionTrigger className="text-xl">
@@ -38,7 +43,7 @@ export const Problem = () => {
         </AccordionItem>
         <AccordionItem value="bedingung">
           <AccordionTrigger className="text-xl">
-            Bedingungen Für dynamische Programmierung
+            Bedingungen für dynamische Programmierung
           </AccordionTrigger>
           <AccordionContent>
             <div className="max-w-3xl">
@@ -61,20 +66,69 @@ export const Problem = () => {
                 lassen. Der Lernerfolg ist jedoch größer, wenn Sie die Lösung
                 selbst erarbeiten.
               </p>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="aufgabe-dyn">
+          <AccordionTrigger className="text-xl">
+            Selbstlernaufgabe - Dynamische Programmierung
+          </AccordionTrigger>
+          <AccordionContent>
+            <div className="max-w-3xl">
+              <p className="mb-4">
+                Versuchen Sie die beiden untenstehenden Eigenschaften für das
+                gegebene Problem zu definieren. Sollten Sie nach einiger Zeit zu
+                keiner Lösung kommen, können Sie sich die Lösung anzeigen
+                lassen. Der Lernerfolg ist jedoch größer, wenn Sie die Lösung
+                selbst erarbeiten.
+              </p>
               <p className="mb-2">
                 <span className="mr-4 ">Optimale Teilstruktur:</span>
-                <InlineMath math=" F(n-1)" /> und <InlineMath math="F(n-2)" />
+                <span className="relative inline-flex items-center">
+                  <div className={teilstrukturBlur ? "blur-md" : ""}>
+                    <InlineMath math=" F(n-1)" /> und{" "}
+                    <InlineMath math="F(n-2)" />
+                  </div>
+                  <Button
+                    className={
+                      teilstrukturBlur
+                        ? "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10000 blur-none p-0 h-6 w-8  "
+                        : "hidden"
+                    }
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setTeilstrukturBlur(!teilstrukturBlur)}
+                  >
+                    <Eye />
+                  </Button>
+                </span>
               </p>
               <p>
                 <span className="mr-4">Überlappende Teilprobleme:</span>
-                <InlineMath math="F(n) = F(n-1) + F(n-2)" />
+                <span className="relative inline-flex items-center">
+                  <div className={teilproblemBlur ? "blur-md" : ""}>
+                    <InlineMath math="F(n) = F(n-1) + F(n-2)" />
+                  </div>
+                  <Button
+                    className={
+                      teilproblemBlur
+                        ? "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10000 blur-none p-0 h-6 w-8  "
+                        : "hidden"
+                    }
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setTeilproblemBlur(!teilproblemBlur)}
+                  >
+                    <Eye />
+                  </Button>
+                </span>
               </p>
             </div>
           </AccordionContent>
         </AccordionItem>
-        <AccordionItem value="aufgabe">
+        <AccordionItem value="aufgabe-code">
           <AccordionTrigger className="text-xl">
-            Aufgabenstellug
+            Selbstlernaufgabe - Implementierung
           </AccordionTrigger>
           <AccordionContent>
             <p className="mb-1">
