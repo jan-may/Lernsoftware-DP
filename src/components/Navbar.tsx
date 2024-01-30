@@ -29,8 +29,8 @@ export function Navbar() {
 
   return (
     <>
-      <Card className="m-2 px-2 pt-1">
-        <nav className="flex justify-between">
+      <Card className="m-2 px-0">
+        <nav className="flex justify-between items-center">
           <div>
             {selectedProblem ? (
               <>

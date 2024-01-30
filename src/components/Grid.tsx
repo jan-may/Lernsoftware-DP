@@ -16,6 +16,10 @@ const Rectangle: FC<RectangleProps> = ({
   highlight2,
   highlight3,
 }) => {
+  if (!value) {
+    return null;
+  }
+
   const size = scale(Number(value));
   return (
     <div
@@ -74,7 +78,7 @@ export const Grid: FC = () => {
       style={{
         display: "flex",
         flexWrap: "wrap",
-        minHeight: "calc(100vh - 58px)",
+        minHeight: "calc(100vh - 78px)",
         alignContent: "flex-start",
       }}
     >

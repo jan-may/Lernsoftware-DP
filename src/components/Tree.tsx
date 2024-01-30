@@ -85,10 +85,10 @@ export const Tree: React.FC = () => {
         <Problem />
       ) : (
         <svg
-          className="tree"
-          width={window.innerWidth - sidebarWidth - 50}
+          className="relative"
+          width={window.innerWidth - sidebarWidth - 80}
           // width={verticalSpacing * (maxWidth + 1) + 100}
-          height={window.innerHeight - 70}
+          height={window.innerHeight - 80}
         >
           {tree && (
             <Node
