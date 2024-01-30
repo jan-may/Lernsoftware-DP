@@ -5,11 +5,6 @@ import { Display } from "./components/Display";
 import { Navbar } from "./components/Navbar";
 import { useAppDispatch, useAppSelector } from "./hooks/redux";
 import { setIsQuizCompleted, setIsTourCompleted } from "./feautures/io/ioSlice";
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "./components/ui/resizable";
 import { Toaster } from "./components/ui/toaster";
 import { Quiz } from "./components/Quiz";
 
@@ -40,21 +35,15 @@ function App() {
 
   // Main App
   return (
-    <div className="container">
-      <ResizablePanelGroup
-        direction="horizontal"
-        className="max-w-100 min-h-screen rounded-lg border"
-      >
-        <ResizablePanel defaultSize={34} className="max-w-[350px]">
-          <Sidebar />
-        </ResizablePanel>
-        <ResizableHandle className=" w-2 " />
-        <ResizablePanel defaultSize={66}>
-          <Navbar />
-          <Display />
-          <Toaster />
-        </ResizablePanel>
-      </ResizablePanelGroup>
+    <div className="flex w-100vw">
+      <div className="w-[350px]">
+        <Sidebar />
+      </div>
+      <div className="w-[calc(100vw-350px)]">
+        <Navbar />
+        <Display />
+        <Toaster />
+      </div>
     </div>
   );
 }
