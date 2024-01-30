@@ -35,7 +35,9 @@ export const FaqAccordion = () => {
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-2">
-        <AccordionTrigger>Tour durch die App erneut starten?</AccordionTrigger>
+        <AccordionTrigger className="text-left">
+          Wie kann ich die Tour durch die App erneut starten?
+        </AccordionTrigger>
         <AccordionContent>
           <Button onClick={() => handleCompleteTour()}>
             Tour zurücksetzten
@@ -43,8 +45,8 @@ export const FaqAccordion = () => {
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-3">
-        <AccordionTrigger>
-          Quiz zurücksetzen und erneut starten?
+        <AccordionTrigger className="text-left">
+          Wie kann ich das Quiz zurücksetzen und erneut starten?
         </AccordionTrigger>
         <AccordionContent>
           <Button onClick={() => handleCompleteQuiz()}>

@@ -27,18 +27,18 @@ export const Quiz = () => {
       <AlertDialog defaultOpen>
         <div className="flex w-screen justify-center">
           <AlertDialogTrigger asChild>
-            <Button className="w-32">Start Quiz</Button>
+            <Button className="w-32">Quiz starten</Button>
           </AlertDialogTrigger>
         </div>
 
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Lerneinstigskontrolle</AlertDialogTitle>
+            <AlertDialogTitle>Lernstandskontrolle</AlertDialogTitle>
             <AlertDialogDescription>
-              Um die App sinnvoll nutzen zu können, musst du einmalig die
-              Lerneinstigskontrolle bestehen. Diese dient der Sicherstellung
-              eines einheitlichen Wissenstandes. Bitte beantworte die folgenden
-              Fragen.
+              Um die App sinnvoll nutzen zu können, muss einmalig die
+              Lernstandskontrolle bestanden werden. Diese dient der
+              Sicherstellung eines ausreichenden Wissenstandes. Bitte beantworte
+              die folgenden Fragen.
             </AlertDialogDescription>
             <AlertDialogDescription>
               Geschätzte Bearbeitungszeit ~ 5 min
