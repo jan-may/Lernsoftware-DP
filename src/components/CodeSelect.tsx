@@ -36,6 +36,9 @@ export const CodeSelect = () => {
               <SelectItem value="gridTraveler" disabled>
                 GridTraveler
               </SelectItem>
+              <SelectItem value="levenshtein" disabled>
+                Levenshtein-Distanz
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>

@@ -8,7 +8,12 @@ export type ActionCreators = {
   circleRadius: typeof setCircleRadius;
 };
 
-export type Problem = "fibonacci" | "gridTraveler" | "canSum" | "";
+export type Problem =
+  | "fibonacci"
+  | "gridTraveler"
+  | "canSum"
+  | "levenshtein"
+  | "";
 export type FunctionName = "fib" | "fibMemo" | "fibTab" | "";
 
 interface SettingsState {
