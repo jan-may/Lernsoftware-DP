@@ -94,6 +94,8 @@ export const Node: React.FC<NodeProps> = ({
             fill={
               renderedNode.item === clickedValue
                 ? "red"
+                : renderedNode.isMemo
+                ? "#009B60"
                 : theme === "dark"
                 ? "black"
                 : "white"
@@ -106,13 +108,7 @@ export const Node: React.FC<NodeProps> = ({
             y={(renderedNode.y * dimensions.horizontalSpacing) / 2 + 4}
             fontSize={dimensions.circleRadius + 7}
             textAnchor="middle"
-            fill={
-              renderedNode.isMemo
-                ? "green"
-                : theme === "dark"
-                ? "white"
-                : "black"
-            }
+            fill={theme === "dark" ? "white" : "black"}
           >
             {renderedNode.item}
           </text>
