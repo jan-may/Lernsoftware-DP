@@ -52,7 +52,7 @@ export function Navbar() {
                       : ""
                   }`}
                 >
-                  Top Down (recursive tree)
+                  Top Down (Rekursion)
                 </Button>
                 <Button
                   variant="outline"

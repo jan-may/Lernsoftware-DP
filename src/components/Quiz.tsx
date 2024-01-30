@@ -47,7 +47,7 @@ export const Quiz = () => {
           <AlertDialogFooter>
             <AlertDialogCancel>Abbruch</AlertDialogCancel>
             <AlertDialogAction onClick={handleFinishQuiz}>
-              Quiz abschließen
+              Quiz starten
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

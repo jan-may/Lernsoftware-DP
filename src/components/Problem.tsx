@@ -48,8 +48,8 @@ export const Problem = () => {
           <AccordionContent>
             <div className="max-w-3xl">
               <p>
-                Um dynamische Programmierung anwenden zu können ist es
-                essenziell, die Rekursionbedingung des Problemes zu verstehen
+                Um dynamische Programmierung anwenden zu können, ist es
+                essenziell, die Rekursionsbedingung des Problemes zu verstehen
                 und das Problem gedanklich in Teilprobleme zu zerlegen. Die
                 Teilprobleme müssen in der Form vorliegen, dass sie sich
                 überlappen und somit die Lösung des Gesamtproblems aus den
@@ -60,7 +60,7 @@ export const Problem = () => {
                 Teilstruktur zu erkennen.
               </p>
               <p className="mb-4">
-                Versuchen Sie die beiden untenstehenden Eigenschaften für das
+                Versuchen Sie die beiden unten stehenden Eigenschaften für das
                 gegebene Problem zu definieren. Sollten Sie nach einiger Zeit zu
                 keiner Lösung kommen, können Sie sich die Lösung anzeigen
                 lassen. Der Lernerfolg ist jedoch größer, wenn Sie die Lösung
@@ -76,7 +76,7 @@ export const Problem = () => {
           <AccordionContent>
             <div className="max-w-3xl">
               <p className="mb-4">
-                Versuchen Sie die beiden untenstehenden Eigenschaften für das
+                Versuchen Sie, die beiden unten stehenden Eigenschaften für das
                 gegebene Problem zu definieren. Sollten Sie nach einiger Zeit zu
                 keiner Lösung kommen, können Sie sich die Lösung anzeigen
                 lassen. Der Lernerfolg ist jedoch größer, wenn Sie die Lösung
@@ -156,11 +156,11 @@ export const Problem = () => {
                 <p className="mb-2">
                   Die Implemnetierung der Methoden kann mit folgenden
                   bereitgestellten Testcases überprüft werden. Das Bestehen der
-                  Testcases setzt vorraus, dass konzete der dynamischen
-                  Programmierung angewand wurden.
+                  Testcases setzt voraus, dass Konzepte der dynamischen
+                  Programmierung angewandt wurden.
                 </p>
                 <p className="mb-4">
-                  Im FAQ Bereich befindet sich eine Anleitung zum Ausführen der
+                  Im FAQ-Bereich befindet sich eine Anleitung zum Ausführen der
                   Testcases.
                 </p>
               </div>

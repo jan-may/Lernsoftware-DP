@@ -61,7 +61,7 @@ export const fibCode = `public class FibonacciCalculator
   public int fib(int n)
   {
     if (n <= 1) return n;
-    return Fib(n - 1) + Fib(n - 2);
+    return fib(n - 1) + fib(n - 2);
   }
 }`;
 
@@ -72,7 +72,7 @@ export const fibMemoCode = `public class FibonacciCalculator
     if (memo[n] != 0) return memo[n];
     if (n <= 1) return n;
     {
-        memo[n] = FibMemo(n - 1, memo) + FibMemo(n - 2, memo);
+        memo[n] = fibMemo(n - 1, memo) + fibMemo(n - 2, memo);
         return memo[n];
     }
   }
@@ -115,24 +115,24 @@ public class FibonacciCalculatorTests
     [Test]
     public void Fib_WithZero_ShouldReturnZero()
     {
-        Assert.AreEqual(0, FibonacciCalculator.Fib(0));
+        Assert.AreEqual(0, FibonacciCalculator.fib(0));
     }
 
     [Test]
     public void Fib_WithOne_ShouldReturnOne()
     {
-        Assert.AreEqual(1, FibonacciCalculator.Fib(1));
+        Assert.AreEqual(1, FibonacciCalculator.fib(1));
     }
 
     [Test]
     public void Fib_WithPositiveNumber_ShouldReturnCorrectValue()
     {
-        Assert.AreEqual(1, FibonacciCalculator.Fib(2));
-        Assert.AreEqual(2, FibonacciCalculator.Fib(3));
-        Assert.AreEqual(5, FibonacciCalculator.Fib(5));
-        Assert.AreEqual(8, FibonacciCalculator.Fib(6));
-        Assert.AreEqual(610 ,FibonacciCalculator.Fib(15));
-        Assert.AreEqual(75025 ,FibonacciCalculator.Fib(25));
+        Assert.AreEqual(1, FibonacciCalculator.fib(2));
+        Assert.AreEqual(2, FibonacciCalculator.fib(3));
+        Assert.AreEqual(5, FibonacciCalculator.fib(5));
+        Assert.AreEqual(8, FibonacciCalculator.fib(6));
+        Assert.AreEqual(610 ,FibonacciCalculator.fib(15));
+        Assert.AreEqual(75025 ,FibonacciCalculator.fib(25));
     }
 
     [Test]
