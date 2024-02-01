@@ -41,7 +41,7 @@ export const Node: React.FC<NodeProps> = ({
       toast({
         title: "Input für rekursive Berechnung zu groß",
         description:
-          "Ein recursiver Aufruf mit diesem Input bedeutet enormen Rechenaufwand. Bitte eine dynamisch programmierte Lösung zur Visualisierung verwenden.",
+          "Bitte eine dynamisch programmierte Lösung zur Visualisierung verwenden.",
         variant: "destructive",
       });
       setRenderQueue([]);
