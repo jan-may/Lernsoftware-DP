@@ -39,12 +39,7 @@
       ],
       "shortDescription": "Lernsoftware dynamisches Programmieren",
       "publisher": "Jan May",
-      "category": "DeveloperTool",
-      "windows": {
-        "wix": {
-          "language": "de-DE"
-        }
-      }
+      "category": "DeveloperTool"
     },
     "security": {
       "csp": null
