@@ -37,7 +37,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "shortDescription": "Lehrsoftware dynamisches Programmieren",
+      "shortDescription": "Lernsoftware dynamisches Programmieren",
       "publisher": "Jan May",
       "category": "DeveloperTool",
       "windows": {
@@ -53,7 +53,7 @@
       {
         "fullscreen": false,
         "resizable": true,
-        "title": "Lehrsoftware dynamisches Programmieren",
+        "title": "Lernsoftware dynamisches Programmieren",
         "width": 1300,
         "height": 800,
         "minWidth": 1024,
