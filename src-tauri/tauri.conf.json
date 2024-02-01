@@ -20,7 +20,7 @@
         "all": true
       },
       "fs": {
-        "all": true,
+        "writeFile": true,
         "scope": ["$DOWNLOAD/*"]
       },  "dialog": {
         "all": true
