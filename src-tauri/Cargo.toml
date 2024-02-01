@@ -1,6 +1,6 @@
 [package]
 name = "lernsoftware-dynamisches-programmieren"
-version = "0.0.0"
+version = "0.1.0"
 description = "Lernsoftware dynamisches Programmieren"
 authors = ["Jan May"]
 license = "MIT"
