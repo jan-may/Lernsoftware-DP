@@ -16,11 +16,11 @@ Ein einleitendes Quiz prüft auf einen ausreichenden Wissensstand, um die App si
 
 ### Im Browser starten
 
-Besuchen Sie [Link zur Web-App] (lehrsoftware-dp.vercel.app), um die Anwendung ohne Aufwand direkt in Ihrem Webbrowser zu starten.
+Besuchen Sie [Link zur Web-App] (lernsoftware-dp.vercel.app), um die Anwendung ohne Aufwand direkt in Ihrem Webbrowser zu starten.
 
 ### Desktop-Anwendung
 
-1. Gehen Sie zum `Releases`-Tab im [GitHub-Repository](https://github.com/jan-may/Lehrsoftware-DP/releases) der App.
+1. Gehen Sie zum `Releases`-Tab im [GitHub-Repository](https://github.com/jan-may/Lernsoftware-DP/releases) der App.
 2. Wählen Sie das Release für Ihr Betriebssystem aus.
 3. Laden Sie die entsprechende Installationsdatei herunter und folgen Sie den Installationsanweisungen.
 
@@ -38,8 +38,8 @@ Nach dem Start der App werden Sie durch eine intuitive Benutzeroberfläche gefü
 Repository klonen und in das Repository wechseln.
 
 ```bash
-git clone https://github.com/jan-may/Lehrsoftware-DP.git
-cd Lehrsoftware-DP
+git clone https://github.com/jan-may/Lernsoftware-DP.git
+cd Lernsoftware-DP
 ```
 
 Node Dependencies installieren.
