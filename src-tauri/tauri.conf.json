@@ -6,7 +6,7 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": "Lehrsoftware dynamisches Programmieren",
+    "productName": "Lernsoftware-dynamisches-Programmieren",
     "version": "0.0.0"
   },
   "tauri": {
