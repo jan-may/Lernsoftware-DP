@@ -154,7 +154,7 @@ export const Problem = () => {
               <ClipboardBtn code={aufgabeCode} bluredCode={false} />
               <div className="max-w-3xl">
                 <p className="mb-2">
-                  Die Implemnetierung der Methoden kann mit folgenden
+                  Die Implementierung der Methoden kann mit folgenden
                   bereitgestellten Testcases überprüft werden. Das Bestehen der
                   Testcases setzt voraus, dass Konzepte der dynamischen
                   Programmierung angewandt wurden.
