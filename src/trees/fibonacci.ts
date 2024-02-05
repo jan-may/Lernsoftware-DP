@@ -56,32 +56,33 @@ export function createFibonacciTab(n: number): number[] {
   return array;
 }
 
-export const fibCode = `public class FibonacciCalculator
+export const fibCode = `public class Fibonacci
 {
-  public int fib(int n)
+  public int Fib(int n)
   {
     if (n <= 1) return n;
-    return fib(n - 1) + fib(n - 2);
+    return Fib(n - 1) + Fib(n - 2);
   }
 }`;
 
-export const fibMemoCode = `public class FibonacciCalculator
+export const fibMemoCode = `public class Fibonacci
 {
-  public int fibMemo(int n, int[] memo)
+  public int FibMemo(int n, int[] memo)
   {
     if (memo[n] != 0) return memo[n];
     if (n <= 1) return n;
     {
-        memo[n] = fibMemo(n - 1, memo) + fibMemo(n - 2, memo);
+        memo[n] = FibMemo(n - 1, memo) + FibMemo(n - 2, memo);
         return memo[n];
     }
   }
 }`;
 
-export const fibTabCode = `public class FibonacciCalculator
+export const fibTabCode = `public class Fibonacci
 {
-  public int fibTab(int n)
+  public int FibTab(int n)
   {
+    if (n <= 1) return n;
     int[] table = new int[n + 1];
     table[0] = 0;
     table[1] = 1;
@@ -100,47 +101,64 @@ export const fibonacciDefinition = `F(n) =
 F(n-1) + F(n-2) & \\text{if } n > 1 
 \\end{cases}`;
 
-export const aufgabeCode = `public class FibonacciCalculator
+export const fibCsCode = `public class Fibonacci
 {
-  public int fib(int n) {} //recursive
-  public int fibMemo(int n, int[] memo){} //top-down with memoization
-  public int fibTab(int n) {} //bottom-up with tabulation
+  public int Fib(int n) {return -1;} //recursive
+
+  public int FibMemo(int n, int[] memo){return -1;} //top-down with memoization
+
+  public int FibTab(int n) {return -1;} //bottom-up with tabulation
 }`;
 
-export const fibUnitTests = `using NUnit.Framework;
+export const testCases = `
 
-[TestFixture]
-public class FibonacciCalculatorTests
+class Tests
 {
-    [Test]
-    public void Fib_WithZero_ShouldReturnZero()
+    public static void Main(string[] args)
     {
-        Assert.AreEqual(0, FibonacciCalculator.fib(0));
-    }
+        Fibonacci fibonacci = new Fibonacci();
+        int[][] testCases = new int[][]
+        {
+            new int[] {0, 0},
+            new int[] {1, 1},
+            new int[] {2, 1},
+            new int[] {5, 5},
+            new int[] {10, 55},
+            new int[] {20, 6765},
+            new int[] {30, 832040},
+            new int[] {40, 102334155},
+            new int[] {46, 1836311903} // max for int
+        };
 
-    [Test]
-    public void Fib_WithOne_ShouldReturnOne()
-    {
-        Assert.AreEqual(1, FibonacciCalculator.fib(1));
-    }
+        // Testing fib method
+        foreach (var testCase in testCases)
+        {
+            int n = testCase[0];
+            int expected = testCase[1];
 
-    [Test]
-    public void Fib_WithPositiveNumber_ShouldReturnCorrectValue()
-    {
-        Assert.AreEqual(1, FibonacciCalculator.fib(2));
-        Assert.AreEqual(2, FibonacciCalculator.fib(3));
-        Assert.AreEqual(5, FibonacciCalculator.fib(5));
-        Assert.AreEqual(8, FibonacciCalculator.fib(6));
-        Assert.AreEqual(610 ,FibonacciCalculator.fib(15));
-        Assert.AreEqual(75025 ,FibonacciCalculator.fib(25));
-    }
+            if (n <= 20) // The recursive method is practical only for n <= 20
+            {
+                int actual = fibonacci.Fib(n);
+                Console.WriteLine($"Fib({n}) {expected} {actual} {(actual == expected ? "passed" : "failed")}");
+            }
+        }
 
-    [Test]
-    public void Fib_WithNegativeNumber_ShouldHandleAccordingly(int input)
-    {
-      if (input < 0)
-      {
-          Assert.Catch(() => FibonacciCalculator.Fib(input), "Exception was not thrown for negative input.");
-      }
+        // Testing fibMemo method
+        foreach (var testCase in testCases)
+        {
+            int n = testCase[0];
+            int expected = testCase[1];
+            int actual = fibonacci.FibMemo(n, new int[n + 1]);
+            Console.WriteLine($"FibMemo({n}) {expected} {actual} {(actual == expected ? "passed" : "failed")}");
+        }
+
+        // Testing fibTab method
+        foreach (var testCase in testCases)
+        {
+            int n = testCase[0];
+            int expected = testCase[1];
+            int actual = fibonacci.FibTab(n);
+            Console.WriteLine($"FibTab({n}) {expected} {actual} {(actual == expected ? "passed" : "failed")}");
+        }
     }
 }`;
