@@ -1,5 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { Problem } from "../feautures/settings/settingsSlice";
+import { fibCsCode } from "../trees/fibonacci";
 
 export const getCircularReplacer = () => {
   const seen = new WeakSet();
@@ -31,4 +33,23 @@ export function scale(value: number): number {
   const scaleFactor = 10;
   const size = 20 + countDigits(value) * scaleFactor;
   return size;
+}
+
+export function base64Encode(str: string) {
+  return btoa(unescape(encodeURIComponent(str)));
+}
+
+export function base64Decode(str: string) {
+  return decodeURIComponent(escape(atob(str)));
+}
+
+export function getInitEditorCode(problem: Problem) {
+  switch (problem) {
+    case "fibonacci":
+      return fibCsCode;
+    // other cases
+    // ...
+    default:
+      return "";
+  }
 }
