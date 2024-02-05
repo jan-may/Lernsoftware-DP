@@ -33,7 +33,7 @@ export function CodeDisplay({ code, language }: CodeProps) {
 
   const handleCodeBlur = () => {
     if (activeButton !== ActivButton.problem) {
-      dispatch(setBluredCode(!bluredCode));
+      dispatch(setBluredCode(false));
     }
   };
 

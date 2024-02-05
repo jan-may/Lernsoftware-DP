@@ -1,15 +1,7 @@
-import { DownloadBtn } from "./Download";
 import { InlineMath, BlockMath } from "react-katex";
 import "katex/dist/katex.min.css";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import {
-  oneLight,
-  oneDark,
-} from "react-syntax-highlighter/dist/esm/styles/prism";
-import { useTheme } from "./theme-provider";
 import { FibTable } from "./FibTable";
-import { ClipboardBtn } from "./ClipboardBtn";
-import { aufgabeCode, fibonacciDefinition } from "../trees/fibonacci";
+import { fibonacciDefinition } from "../trees/fibonacci";
 import {
   Accordion,
   AccordionContent,
@@ -19,9 +11,9 @@ import {
 import { useState } from "react";
 import { Eye } from "lucide-react";
 import { Button } from "./ui/button";
+import { Editor } from "./Editor";
 
 export const Problem = () => {
-  const { theme } = useTheme();
   const [teilstrukturBlur, setTeilstrukturBlur] = useState(true);
   const [teilproblemBlur, setTeilproblemBlur] = useState(true);
   return (
@@ -131,40 +123,12 @@ export const Problem = () => {
             Selbstlernaufgabe - Implementierung
           </AccordionTrigger>
           <AccordionContent>
-            <p className="mb-1">
-              Implementieren Sie folgende Methoden der Klasse{" "}
-              <code>FibonacciCalculator</code>:
-            </p>
-            <div
-              style={{
-                fontSize: "14px",
-                maxWidth: "650px",
-                position: "relative",
-              }}
-            >
-              <SyntaxHighlighter
-                language={"cs"}
-                style={theme === "light" ? oneLight : oneDark}
-                wrapLines
-                wrapLongLines
-              >
-                {aufgabeCode}
-              </SyntaxHighlighter>
-
-              <ClipboardBtn code={aufgabeCode} bluredCode={false} />
-              <div className="max-w-3xl">
-                <p className="mb-2">
-                  Die Implementierung der Methoden kann mit folgenden
-                  bereitgestellten Testcases überprüft werden. Das Bestehen der
-                  Testcases setzt voraus, dass Konzepte der dynamischen
-                  Programmierung angewandt wurden.
-                </p>
-                <p className="mb-4">
-                  Im FAQ-Bereich befindet sich eine Anleitung zum Ausführen der
-                  Testcases.
-                </p>
-              </div>
-              <DownloadBtn />
+            <div className="max-w-[800px]">
+              <p className="mb-1">
+                Implementieren Sie folgende Methoden der Klasse{" "}
+                <code>FibonacciCalculator</code>.
+              </p>
+              <Editor />
             </div>
           </AccordionContent>
         </AccordionItem>
