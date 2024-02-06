@@ -91,7 +91,10 @@ export function Editor() {
           } else if (response.data.status.id == 11) {
             setRuntimeError(base64Decode(response.data.stderr));
           } else if (response.data.status.id == 5) {
-            setRuntimeError(base64Decode(response.data.message));
+            setRuntimeError(
+              base64Decode(response.data.message) +
+                " -> Ihre Lösung ist für große Inputs nicht effizient genug. Bitte versuchen Sie es erneut. Referenzieren Sie gerne das Visualisierungstool und dessen Laufzeitanalyse für weitere Tipps."
+            );
           }
           if (response.data.stdout) {
             setResult(base64Decode(response.data.stdout));
