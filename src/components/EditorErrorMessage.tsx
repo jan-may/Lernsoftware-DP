@@ -7,7 +7,7 @@ export function EditorErrorMessage({
 }) {
   return (
     <>
-      <h2>{title}</h2>
+      <h2 className="text-lg">{title}</h2>
       <p className="text-red-500">{message}</p>
     </>
   );
