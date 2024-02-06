@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Table,
   TableBody,
@@ -7,8 +8,10 @@ import {
   TableHeader,
   TableRow,
 } from "./ui/table";
+import { Button } from "./ui/button";
+import { Microscope } from "lucide-react";
 
-type ResultProps = {
+type ResultTableProbs = {
   result: string;
 };
 
@@ -19,7 +22,8 @@ type Result = {
   expected: string;
 };
 
-export function TestResultsTable({ result }: ResultProps) {
+export function TestResultsTable({ result }: ResultTableProbs) {
+  const [showAllTests, setShowAllTests] = useState(false);
   const data: Result[] = result
     .split("\n")
     .filter((line) => line.trim())
@@ -40,40 +44,60 @@ export function TestResultsTable({ result }: ResultProps) {
   const total = data.length;
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead className="w-[20px]">Test#</TableHead>
-          <TableHead>Input</TableHead>
-          <TableHead>Erwartet</TableHead>
-          <TableHead>Output</TableHead>
-          <TableHead>Status</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {data.map((res, i) => (
-          <TableRow key={i + 1}>
-            <TableCell className="py-1">{i + 1}</TableCell>
-            <TableCell className="py-1">{res.input}</TableCell>
-            <TableCell className="py-1">{res.expected}</TableCell>
-            <TableCell className="py-1">{res.output}</TableCell>
-            <TableCell className="py-1">{res.status}</TableCell>
+    <>
+      <Table>
+        {showAllTests && (
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[20px]">Test#</TableHead>
+              <TableHead>Input</TableHead>
+              <TableHead>Erwartet</TableHead>
+              <TableHead>Output</TableHead>
+              <TableHead>Status</TableHead>
+            </TableRow>
+          </TableHeader>
+        )}
+        <TableBody>
+          <TableRow>
+            <TableCell colSpan={1}>
+              <Button
+                onClick={() => setShowAllTests(!showAllTests)}
+                size="sm"
+                variant="link"
+                className="pl-0"
+              >
+                <Microscope size={18} className="mr-2" /> Testbericht
+                {showAllTests ? " ausblenden" : " anzeigen"}
+              </Button>
+            </TableCell>
+            <TableCell colSpan={4}></TableCell>
           </TableRow>
-        ))}
-      </TableBody>
-      <TableFooter>
-        <TableRow>
-          <TableCell colSpan={1}>Bestanden: </TableCell>
-          <TableCell colSpan={3}>
-            {total_passed}/{total}
-          </TableCell>
-          <TableCell colSpan={1}>
-            {total_passed === total
-              ? "passed" + " \u2705"
-              : "failed" + " \u274C"}
-          </TableCell>
-        </TableRow>
-      </TableFooter>
-    </Table>
+          {showAllTests &&
+            data.map((res, i) => (
+              <TableRow key={i + 1}>
+                <TableCell className="py-1">{i + 1}</TableCell>
+                <TableCell className="py-1">{res.input}</TableCell>
+                <TableCell className="py-1">{res.expected}</TableCell>
+                <TableCell className="py-1">{res.output}</TableCell>
+                <TableCell className="py-1">{res.status}</TableCell>
+              </TableRow>
+            ))}
+        </TableBody>
+
+        <TableFooter>
+          <TableRow>
+            <TableCell colSpan={1}>Bestanden: </TableCell>
+            <TableCell colSpan={3}>
+              {total_passed}/{total}
+            </TableCell>
+            <TableCell colSpan={1}>
+              {total_passed === total
+                ? "passed" + " \u2705"
+                : "failed" + " \u274C"}
+            </TableCell>
+          </TableRow>
+        </TableFooter>
+      </Table>
+    </>
   );
 }
