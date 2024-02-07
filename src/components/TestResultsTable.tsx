@@ -26,15 +26,17 @@ export function TestResultsTable({ result }: ResultTableProbs) {
   const [showAllTests, setShowAllTests] = useState(false);
   const data: Result[] = result
     .split("\n")
-    .filter((line) => line.trim())
+    .filter((line) => line.startsWith("--TestBegin--") && line.trim())
     .map((line, _index) => {
+      line.split("--TestBegin--");
       const parts = line.split(" ");
+      console.log(parts);
       return {
-        input: parts[0],
-        output: parts[2],
-        expected: parts[1],
+        input: parts[1],
+        output: parts[3],
+        expected: parts[2],
         status:
-          parts[3] == "passed" ? parts[3] + " \u2705" : parts[3] + " \u274C",
+          parts[4] == "passed" ? parts[4] + " \u2705" : parts[4] + " \u274C",
       };
     });
 
@@ -59,7 +61,7 @@ export function TestResultsTable({ result }: ResultTableProbs) {
         )}
         <TableBody>
           <TableRow>
-            <TableCell colSpan={1}>
+            <TableCell colSpan={1} className="py-1">
               <Button
                 onClick={() => setShowAllTests(!showAllTests)}
                 size="sm"

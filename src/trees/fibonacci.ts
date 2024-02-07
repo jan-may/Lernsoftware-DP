@@ -139,7 +139,7 @@ class Tests
             if (n <= 20) // The recursive method is practical only for n <= 20
             {
                 int actual = fibonacci.Fib(n);
-                Console.WriteLine($"Fib({n}) {expected} {actual} {(actual == expected ? "passed" : "failed")}");
+                Console.WriteLine($"--TestBegin-- Fib({n}) {expected} {actual} {(actual == expected ? "passed" : "failed")}");
             }
         }
 
@@ -149,7 +149,7 @@ class Tests
             int n = testCase[0];
             int expected = testCase[1];
             int actual = fibonacci.FibMemo(n, new int[n + 1]);
-            Console.WriteLine($"FibMemo({n}) {expected} {actual} {(actual == expected ? "passed" : "failed")}");
+            Console.WriteLine($"--TestBegin-- FibMemo({n}) {expected} {actual} {(actual == expected ? "passed" : "failed")}");
         }
 
         // Testing fibTab method
@@ -158,7 +158,7 @@ class Tests
             int n = testCase[0];
             int expected = testCase[1];
             int actual = fibonacci.FibTab(n);
-            Console.WriteLine($"FibTab({n}) {expected} {actual} {(actual == expected ? "passed" : "failed")}");
+            Console.WriteLine($"--TestBegin-- FibTab({n}) {expected} {actual} {(actual == expected ? "passed" : "failed")}");
         }
     }
 }`;

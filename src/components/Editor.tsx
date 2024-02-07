@@ -15,6 +15,23 @@ import { setCode } from "../feautures/editor/editorSlice";
 import { Problem } from "../feautures/settings/settingsSlice";
 import { EditorErrorMessage } from "./EditorErrorMessage";
 import { useTheme } from "./theme-provider";
+import { CompilerTable } from "./CompilerTable";
+import { CompilerResponse } from "../types/CompilerTypes";
+
+const initResponse: CompilerResponse = {
+  memory: 0,
+  language_name: "",
+  compile_output: "",
+  message: "",
+  status_id: 0,
+  status_msg: "",
+  stdout: "",
+  filteredStdout: "",
+  stderr: "",
+  time: 0,
+  wall_time: 0,
+  wall_time_limit: 0,
+};
 
 export function Editor() {
   const { theme } = useTheme();
@@ -24,8 +41,7 @@ export function Editor() {
   const [sourceClicked, setSourceClicked] = React.useState(false);
   const [result, setResult] = React.useState("");
   const [loading, setLoading] = React.useState(false);
-  const [compileError, setCompileError] = React.useState("");
-  const [runtimeError, setRuntimeError] = React.useState("");
+  const [apiResponse, setApiResponse] = React.useState(initResponse);
   const [error, setError] = React.useState("");
   const onChange = React.useCallback((val: any, _viewUpdate: any) => {
     dispatch(setCode(val));
@@ -33,10 +49,8 @@ export function Editor() {
 
   function refreshValues() {
     setResult("");
-    setCompileError("");
-    setRuntimeError("");
-    setError("");
     setLoading(false);
+    setApiResponse(initResponse);
   }
 
   function handleRefresh(problem: Problem) {
@@ -82,28 +96,48 @@ export function Editor() {
       const fullCode = buildFullCode(codeText);
       judgeOptions.data.source_code = base64Encode(fullCode);
 
+      console.log(apiResponse);
+
       axios
         .request(judgeOptions)
         .then((response) => {
           console.log(response.data);
-          if (response.data.status.id == 6) {
-            setCompileError(base64Decode(response.data.compile_output));
-          } else if (response.data.status.id == 11) {
-            setRuntimeError(base64Decode(response.data.stderr));
-          } else if (response.data.status.id == 5) {
-            setRuntimeError(
-              base64Decode(response.data.message) +
-                " -> Ihre Lösung ist für große Inputs nicht effizient genug. Bitte versuchen Sie es erneut. Referenzieren Sie gerne das Visualisierungstool und dessen Laufzeitanalyse für weitere Tipps."
-            );
-          }
-          if (response.data.stdout) {
-            setResult(base64Decode(response.data.stdout));
-          }
+
+          const result = response.data.stdout
+            ? base64Decode(response.data.stdout)
+            : "";
+
+          const test = {
+            memory: response.data.memory,
+            language_name: response.data.language.name,
+            compile_output: response.data.compile_output
+              ? base64Decode(response.data.compile_output)
+              : "",
+            message: response.data.message
+              ? base64Decode(response.data.message)
+              : "",
+            status_id: response.data.status.id,
+            status_msg: response.data.status.description,
+            stdout: result,
+            stderr: response.data.stderr
+              ? base64Decode(response.data.stderr)
+              : "",
+            time: response.data.time,
+            wall_time: response.data.wall_time,
+            wall_time_limit: response.data.wall_time_limit,
+          };
+          setApiResponse(test);
+          setResult(result);
           setLoading(false);
         })
         .catch((error) => {
           console.error(error);
+          setApiResponse({
+            ...apiResponse,
+            message: "Error: " + error.message,
+          });
           setError(error.message);
+          setLoading(false);
         });
     },
     [code]
@@ -114,6 +148,10 @@ export function Editor() {
     // have to check for Problem later
     if (!code) dispatch(setCode(getInitEditorCode(selectedProblem)));
   }, [dispatch]);
+
+  React.useEffect(() => {
+    console.log(apiResponse);
+  }, [apiResponse]);
 
   return (
     <div className="relative">
@@ -129,7 +167,6 @@ export function Editor() {
           dropCursor: false,
           allowMultipleSelections: false,
           autocompletion: true,
-
           indentOnInput: false,
           highlightActiveLine: true,
           highlightSelectionMatches: true,
@@ -164,16 +201,25 @@ export function Editor() {
         </Button>
       </div>
       <div className="mt-4">
+        {apiResponse !== initResponse && (
+          <CompilerTable response={apiResponse} />
+        )}
         {loading ? (
           <p>loading...</p>
-        ) : error ? (
+        ) : apiResponse.stderr ? (
           <EditorErrorMessage title="Fehler:" message={error} />
-        ) : runtimeError ? (
-          <EditorErrorMessage title="Laufzeitfehler:" message={runtimeError} />
-        ) : compileError ? (
-          <EditorErrorMessage title="Compilefehler:" message={compileError} />
+        ) : apiResponse.status_id == 5 ? (
+          <EditorErrorMessage
+            title="Laufzeitfehler:"
+            message={apiResponse.message}
+          />
+        ) : apiResponse.status_id == 6 ? (
+          <EditorErrorMessage
+            title="Compilefehler:"
+            message={apiResponse.compile_output}
+          />
         ) : (
-          result && <TestResultsTable result={result} />
+          <>{result && <TestResultsTable result={result} />}</>
         )}
       </div>
     </div>
