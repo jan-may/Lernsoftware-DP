@@ -34,7 +34,7 @@ const initialState: SettingsState = {
   functionName: "",
   input: 5,
   inputText: "5",
-  speed: 500,
+  speed: 300,
   sidebarWidth: 320,
   verticalSpacing: 0,
   horizontalSpacing: 0,

@@ -9,7 +9,7 @@ export const Display = () => {
   const { activeButton } = useAppSelector((store) => store.navbar);
   const { selectedProblem } = useAppSelector((store) => store.settings);
   return (
-    <div className="relative">
+    <div className="relative tour-6">
       {activeButton !== ActivButton.problem ? <WriteUpButtons /> : null}
       <Card className=" px-2 mx-2 my-2 min-h-[calc(100vh-78px)]">
         {activeButton === ActivButton.bottomUp ? (

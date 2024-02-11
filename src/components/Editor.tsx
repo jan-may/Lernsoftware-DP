@@ -175,7 +175,7 @@ export function Editor() {
         theme={theme === "dark" ? oneDark : "light"}
         className="mt-4 rounded-md border-2  w-full"
       />
-      <div className="absolute top-1 right-1 h-7">
+      <div className="absolute top-1 right-1 h-7 tour-4">
         <Button size="sm" variant="outline" onClick={handleShowCode}>
           <Code2 size={18} />
         </Button>

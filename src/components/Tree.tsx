@@ -31,6 +31,7 @@ export const Tree: React.FC = () => {
     horizontalSpacing,
     circleRadius,
   } = useAppSelector((store) => store.settings);
+  const { isTourRunning } = useAppSelector((store) => store.tour);
 
   const { activeButton } = useAppSelector((store) => store.navbar);
   const [clickedValue, setClickedValue] = useState(-1);
@@ -78,6 +79,10 @@ export const Tree: React.FC = () => {
       circleRadius,
     });
   }, [verticalSpacing, horizontalSpacing, circleRadius]);
+
+  useEffect(() => {
+    isTourRunning ? setClickedValue(2) : setClickedValue(-1);
+  }, [dispatch, isTourRunning]);
 
   return (
     <>
