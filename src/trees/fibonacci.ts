@@ -56,42 +56,33 @@ export function createFibonacciTab(n: number): number[] {
   return array;
 }
 
-export const fibCode = `public class Fibonacci
+export const fibCode = `public int Fib(int n)
 {
-  public int Fib(int n)
+  if (n <= 1) return n;
+  return Fib(n - 1) + Fib(n - 2);
+}`;
+
+export const fibMemoCode = `public int FibMemo(int n, int[] memo)
+{
+  if (memo[n] != 0) return memo[n];
+  if (n <= 1) return n;
   {
-    if (n <= 1) return n;
-    return Fib(n - 1) + Fib(n - 2);
+      memo[n] = FibMemo(n - 1, memo) + FibMemo(n - 2, memo);
+      return memo[n];
   }
 }`;
 
-export const fibMemoCode = `public class Fibonacci
+export const fibTabCode = `public int FibTab(int n)
 {
-  public int FibMemo(int n, int[] memo)
+  if (n <= 1) return n;
+  int[] table = new int[n + 1];
+  table[0] = 0;
+  table[1] = 1;
+  for (int i = 2; i <= n; i++)
   {
-    if (memo[n] != 0) return memo[n];
-    if (n <= 1) return n;
-    {
-        memo[n] = FibMemo(n - 1, memo) + FibMemo(n - 2, memo);
-        return memo[n];
-    }
+    table[i] = table[i - 1] + table[i - 2];
   }
-}`;
-
-export const fibTabCode = `public class Fibonacci
-{
-  public int FibTab(int n)
-  {
-    if (n <= 1) return n;
-    int[] table = new int[n + 1];
-    table[0] = 0;
-    table[1] = 1;
-    for (int i = 2; i <= n; i++)
-    {
-      table[i] = table[i - 1] + table[i - 2];
-    }
-      return table[n];
-  }
+    return table[n];
 }`;
 
 export const fibonacciDefinition = `F(n) = 
