@@ -3,6 +3,7 @@ import settingsSlice from "./feautures/settings/settingsSlice";
 import navbarSlice from "./feautures/navbar/navbarSlice";
 import ioSlice from "./feautures/io/ioSlice";
 import editorSlice from "./feautures/editor/editorSlice";
+import tourSlice from "./feautures/tour/tourSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     navbar: navbarSlice,
     io: ioSlice,
     editor: editorSlice,
+    tour: tourSlice,
   },
 });
 

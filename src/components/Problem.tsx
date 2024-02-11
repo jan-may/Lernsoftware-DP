@@ -12,13 +12,16 @@ import { useState } from "react";
 import { Eye } from "lucide-react";
 import { Button } from "./ui/button";
 import { Editor } from "./Editor";
+import { useAppSelector } from "../hooks/redux";
 
 export const Problem = () => {
+  const { accordionOpen } = useAppSelector((store) => store.tour);
   const [teilstrukturBlur, setTeilstrukturBlur] = useState(true);
   const [teilproblemBlur, setTeilproblemBlur] = useState(true);
+
   return (
     <div style={{ minHeight: "calc(100vh - 78px)" }}>
-      <Accordion type="multiple">
+      <Accordion type="multiple" defaultValue={accordionOpen}>
         <AccordionItem value="beschreibung">
           <AccordionTrigger className="text-xl">
             Problembeschreibung
@@ -37,7 +40,7 @@ export const Problem = () => {
           <AccordionTrigger className="text-xl">
             Bedingungen für dynamische Programmierung
           </AccordionTrigger>
-          <AccordionContent>
+          <AccordionContent className="block">
             <div className="max-w-3xl">
               <p>
                 Um dynamische Programmierung anwenden zu können, ist es
@@ -123,7 +126,7 @@ export const Problem = () => {
             Selbstlernaufgabe - Implementierung
           </AccordionTrigger>
           <AccordionContent>
-            <div className="max-w-[800px]">
+            <div className="max-w-[800px] tour-3">
               <p className="mb-1">
                 Implementieren Sie folgende Methoden der Klasse{" "}
                 <code>FibonacciCalculator</code>.

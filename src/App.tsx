@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from "./hooks/redux";
 import { setIsQuizCompleted, setIsTourCompleted } from "./feautures/io/ioSlice";
 import { Toaster } from "./components/ui/toaster";
 import { Quiz } from "./components/Quiz";
+import { Tour } from "./components/Tour";
 
 const checkUserData = () => {
   const tourCompleted = localStorage.getItem("tourCompleted");
@@ -43,6 +44,7 @@ function App() {
         <Navbar />
         <Display />
         <Toaster />
+        {!checkUserData().tourCompleted && <Tour />}
       </div>
     </div>
   );

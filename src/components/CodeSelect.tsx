@@ -23,7 +23,7 @@ export const CodeSelect = () => {
   return (
     <>
       <form>
-        <div className="form-group-select">
+        <div className="form-group-select tour-2">
           <Select value={value} onValueChange={setValue}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Problemauswahl" />

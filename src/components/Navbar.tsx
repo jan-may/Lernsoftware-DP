@@ -29,9 +29,9 @@ export function Navbar() {
 
   return (
     <>
-      <Card className="m-2 px-0">
+      <Card className="m-2 px-0 ">
         <nav className="flex justify-between items-center">
-          <div>
+          <div className="flex">
             {selectedProblem ? (
               <>
                 <Button
@@ -43,37 +43,39 @@ export function Navbar() {
                 >
                   Problem
                 </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => handleClick(ActivButton.recursiveTree)}
-                  className={`${commonClasses}  ${
-                    activeButton === ActivButton.recursiveTree
-                      ? activeClasses
-                      : ""
-                  }`}
-                >
-                  Top Down (Rekursion)
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => handleClick(ActivButton.topDownMemo)}
-                  className={`${commonClasses}  ${
-                    activeButton === ActivButton.topDownMemo
-                      ? activeClasses
-                      : ""
-                  }`}
-                >
-                  Top Dowm Memo
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => handleClick(ActivButton.bottomUp)}
-                  className={`${commonClasses}  ${
-                    activeButton === ActivButton.bottomUp ? activeClasses : ""
-                  }`}
-                >
-                  Bottom Up
-                </Button>
+                <div className="tour-5">
+                  <Button
+                    variant="outline"
+                    onClick={() => handleClick(ActivButton.recursiveTree)}
+                    className={`${commonClasses}  ${
+                      activeButton === ActivButton.recursiveTree
+                        ? activeClasses
+                        : ""
+                    }`}
+                  >
+                    Top Down (Rekursion)
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => handleClick(ActivButton.topDownMemo)}
+                    className={`${commonClasses}  ${
+                      activeButton === ActivButton.topDownMemo
+                        ? activeClasses
+                        : ""
+                    }`}
+                  >
+                    Top Dowm Memo
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => handleClick(ActivButton.bottomUp)}
+                    className={`${commonClasses}  ${
+                      activeButton === ActivButton.bottomUp ? activeClasses : ""
+                    }`}
+                  >
+                    Bottom Up
+                  </Button>
+                </div>
               </>
             ) : null}
           </div>

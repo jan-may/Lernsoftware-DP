@@ -29,7 +29,7 @@ export const Sidebar = () => {
   }, [activeButton, dispatch]);
 
   return (
-    <Card className="p-2 m-2 fixed">
+    <Card className="p-2 m-2 fixed tour-7">
       <div style={{ minHeight: "calc(100vh - 37px)" }}>
         <CodeSelect />
         <CodeDisplay code={codeMap[activeButton]} language="cs" />

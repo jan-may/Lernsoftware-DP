@@ -12,7 +12,7 @@ import "katex/dist/katex.min.css";
 
 export const WriteUpButtons = () => {
   return (
-    <div className="absolute bottom-1 right-2 z-30">
+    <div className="absolute bottom-1 right-2 z-30 tour-8">
       <div>
         <HoverCard openDelay={1}>
           <HoverCardTrigger asChild>
