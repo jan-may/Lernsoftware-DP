@@ -8,11 +8,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "../components/ui/accordion";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Eye } from "lucide-react";
 import { Button } from "./ui/button";
 import { Editor } from "./Editor";
-import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import { useAppSelector } from "../hooks/redux";
 
 export const Problem = () => {
   const { accordionOpen } = useAppSelector((store) => store.tour);
