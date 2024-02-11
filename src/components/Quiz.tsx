@@ -151,7 +151,7 @@ export const Quiz = () => {
             </div>
             {wasWrongAnswer && (
               <p>
-                Die Antwort ist nicht korrekt. Bitte Versuchen Sie es erneut.
+                Die Antwort ist nicht korrekt. Bitte versuchen Sie es erneut.
               </p>
             )}
           </AlertDialogContent>
