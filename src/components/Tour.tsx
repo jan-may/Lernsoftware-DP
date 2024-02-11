@@ -99,7 +99,10 @@ export const Tour = () => {
             dispatch(setIsTourRunning(true));
             dispatch(setActive(ActivButton.topDownMemo));
           }
-          if (data.index === 7 && data.status === "finished") {
+          if (
+            (data.index === 7 && data.status === "finished") ||
+            data.action === "skip"
+          ) {
             dispatch(setAccordionOpen([]));
             dispatch(setSelectedProblem(""));
             dispatch(setActive(ActivButton.problem));
