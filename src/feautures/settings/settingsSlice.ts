@@ -16,6 +16,8 @@ export type Problem =
   | "";
 export type FunctionName = "fib" | "fibMemo" | "fibTab" | "";
 
+export const SPEED = 300;
+
 interface SettingsState {
   selectedProblem: Problem;
   functionName: FunctionName;
@@ -34,7 +36,7 @@ const initialState: SettingsState = {
   functionName: "",
   input: 5,
   inputText: "5",
-  speed: 300,
+  speed: SPEED,
   sidebarWidth: 320,
   verticalSpacing: 0,
   horizontalSpacing: 0,

@@ -1,5 +1,9 @@
 import { setActive } from "../feautures/navbar/navbarSlice";
-import { setSelectedProblem } from "../feautures/settings/settingsSlice";
+import {
+  setSelectedProblem,
+  setSpeed,
+  SPEED,
+} from "../feautures/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import JoyRide from "react-joyride";
 import { ActivButton } from "../feautures/navbar/navbarSlice";
@@ -81,6 +85,7 @@ export const Tour = () => {
         continuous
         hideBackButton
         disableOverlayClose
+        disableCloseOnEsc
         hideCloseButton
         callback={(data) => {
           console.log(data);
@@ -94,6 +99,7 @@ export const Tour = () => {
           }
           if (data.index == 4 && data.action == "update") {
             dispatch(setActive(ActivButton.recursiveTree));
+            dispatch(setSpeed(100)); // fast forward for visualisation
           }
           if (data.index == 5 && data.action == "update") {
             dispatch(setIsTourRunning(true));
@@ -105,6 +111,7 @@ export const Tour = () => {
           ) {
             dispatch(setAccordionOpen([]));
             dispatch(setSelectedProblem(""));
+            dispatch(setSpeed(SPEED));
             dispatch(setActive(ActivButton.problem));
             setIsTourRunning(false);
             handleFinishTour();
