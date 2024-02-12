@@ -12,6 +12,8 @@ import {
   setIsTourRunning,
 } from "../feautures/tour/tourSlice";
 import { setIsTourCompleted } from "../feautures/io/ioSlice";
+import { TourTooltip } from "./TourTooltip";
+import { useTheme } from "./theme-provider";
 
 const TOUR_STEPS = [
   {
@@ -67,6 +69,7 @@ const TOUR_STEPS = [
 
 // Tour component
 export const Tour = () => {
+  const { theme } = useTheme();
   const dispatch = useAppDispatch();
   const { accordionOpen } = useAppSelector((store) => store.tour);
 
@@ -79,6 +82,7 @@ export const Tour = () => {
   return (
     <>
       <JoyRide
+        tooltipComponent={TourTooltip as any}
         steps={TOUR_STEPS as any} // weird type error
         showSkipButton
         showProgress
@@ -121,6 +125,10 @@ export const Tour = () => {
           tooltipContainer: {
             textAlign: "left",
           },
+          tooltip: {
+            padding: "0px",
+            margin: "0px",
+          },
           buttonBack: {
             marginRight: 10,
           },
@@ -128,6 +136,9 @@ export const Tour = () => {
             borderRadius: 4,
             padding: 0,
             margin: 0,
+          },
+          options: {
+            arrowColor: theme == "dark" ? "#202c34" : "#fff",
           },
         }}
         locale={{
