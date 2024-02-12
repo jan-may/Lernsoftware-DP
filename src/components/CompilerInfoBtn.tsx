@@ -8,6 +8,7 @@ import {
 } from "../components/ui/tooltip";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { setShowCompilerInfo } from "../feautures/editor/editorSlice";
+import { useState } from "react";
 
 interface BtnProps {
   disabled: boolean;
@@ -16,9 +17,10 @@ interface BtnProps {
 export const CompilerInfoBtn = ({ disabled }: BtnProps) => {
   const dispatch = useAppDispatch();
   const { showCompilerInfo } = useAppSelector((store) => store.editor);
-
+  const [clicked, setClicked] = useState(false);
   const handleClick = () => {
     dispatch(setShowCompilerInfo(!showCompilerInfo));
+    setClicked(!clicked);
   };
 
   return (
@@ -36,7 +38,7 @@ export const CompilerInfoBtn = ({ disabled }: BtnProps) => {
           </Button>
         </TooltipTrigger>
         <TooltipContent>
-          <p>Compiler Output anzeigen</p>
+          <p>Compiler Output {clicked ? "ausblenden" : "anzeigen"}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

@@ -185,7 +185,7 @@ export function Editor() {
             {loading ? (
               <>
                 <svg
-                  className="animate-spin h-4 w-4 mr-4 bg-white"
+                  className="animate-spin h-4 w-4 mr-4 bg-white border-[1.5px] border-black"
                   viewBox="0 0 24 24"
                 ></svg>
                 Processing...

@@ -21,7 +21,7 @@ export const WriteUpButtons = () => {
             </Button>
           </HoverCardTrigger>
           <HoverCardContent className="w-fit h-10 text-center flex justify-center items-center">
-            <InlineMath math={"\\mathcal{O}(n\\log{}n)"} />
+            <InlineMath math={"\\mathcal{O}(n\\log{}n) - hardcoded"} />
           </HoverCardContent>
         </HoverCard>
 
