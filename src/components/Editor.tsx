@@ -17,6 +17,7 @@ import { EditorErrorMessage } from "./EditorErrorMessage";
 import { useTheme } from "./theme-provider";
 import { CompilerTable } from "./CompilerTable";
 import { CompilerResponse } from "../types/CompilerTypes";
+import { CompilerInfoBtn } from "./CompilerInfoBtn";
 
 const initResponse: CompilerResponse = {
   memory: 0,
@@ -35,7 +36,7 @@ const initResponse: CompilerResponse = {
 
 export function Editor() {
   const { theme } = useTheme();
-  const { code } = useAppSelector((store) => store.editor);
+  const { code, showCompilerInfo } = useAppSelector((store) => store.editor);
   const { selectedProblem } = useAppSelector((store) => store.settings);
   const dispatch = useAppDispatch();
   const [sourceClicked, setSourceClicked] = React.useState(false);
@@ -56,6 +57,7 @@ export function Editor() {
   function handleRefresh(problem: Problem) {
     refreshValues();
     dispatch(setCode(getInitEditorCode(problem)));
+    setSourceClicked(false);
   }
 
   function buildFullCode(code: string) {
@@ -96,13 +98,9 @@ export function Editor() {
       const fullCode = buildFullCode(codeText);
       judgeOptions.data.source_code = base64Encode(fullCode);
 
-      console.log(apiResponse);
-
       axios
         .request(judgeOptions)
         .then((response) => {
-          console.log(response.data);
-
           const result = response.data.stdout
             ? base64Decode(response.data.stdout)
             : "";
@@ -149,79 +147,79 @@ export function Editor() {
     if (!code) dispatch(setCode(getInitEditorCode(selectedProblem)));
   }, [dispatch]);
 
-  React.useEffect(() => {
-    console.log(apiResponse);
-  }, [apiResponse]);
-
   return (
-    <div className="relative">
-      <CodeMirror
-        value={code}
-        height="350px"
-        extensions={[
-          csharp(),
-          EditorView.contentAttributes.of({ style: "font-size: 14px" }),
-        ]}
-        basicSetup={{
-          foldGutter: false,
-          dropCursor: false,
-          allowMultipleSelections: false,
-          autocompletion: true,
-          indentOnInput: false,
-          highlightActiveLine: true,
-          highlightSelectionMatches: true,
-        }}
-        onChange={onChange}
-        theme={theme === "dark" ? oneDark : "light"}
-        className="mt-4 rounded-md border-2  w-full"
-      />
-      <div className="absolute top-1 right-1 h-7 tour-4">
-        <Button size="sm" variant="outline" onClick={handleShowCode}>
-          <Code2 size={18} />
-        </Button>
-        <Button
-          size="sm"
-          variant="outline"
-          onClick={() => handleRefresh(selectedProblem)}
-        >
-          <RefreshCcw size={18} />
-        </Button>
-        <Button size="sm" variant="outline" onClick={() => handleRun(code)}>
-          {loading ? (
-            <>
-              <svg
-                className="animate-spin h-4 w-4 mr-4 bg-white"
-                viewBox="0 0 24 24"
-              ></svg>
-              Processing...
-            </>
-          ) : (
-            <Play size={18} />
-          )}
-        </Button>
+    <>
+      <div className="relative">
+        <CodeMirror
+          value={code}
+          height="350px"
+          extensions={[
+            csharp(),
+            EditorView.contentAttributes.of({ style: "font-size: 14px" }),
+          ]}
+          basicSetup={{
+            foldGutter: false,
+            dropCursor: false,
+            allowMultipleSelections: false,
+            autocompletion: true,
+            indentOnInput: false,
+            highlightActiveLine: true,
+            highlightSelectionMatches: true,
+          }}
+          onChange={onChange}
+          theme={theme === "dark" ? oneDark : "light"}
+          className="mt-4 rounded-md border-2  w-full"
+        />
+        <div className="absolute top-1 right-1 h-7 tour-4">
+          <Button size="sm" variant="outline" onClick={handleShowCode}>
+            <Code2 size={18} />
+          </Button>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => handleRefresh(selectedProblem)}
+          >
+            <RefreshCcw size={18} />
+          </Button>
+          <Button size="sm" variant="outline" onClick={() => handleRun(code)}>
+            {loading ? (
+              <>
+                <svg
+                  className="animate-spin h-4 w-4 mr-4 bg-white"
+                  viewBox="0 0 24 24"
+                ></svg>
+                Processing...
+              </>
+            ) : (
+              <Play size={18} />
+            )}
+          </Button>
+        </div>
+
+        <CompilerInfoBtn disabled={result != "" ? false : true} />
       </div>
       <div className="mt-4">
-        {apiResponse !== initResponse && (
+        {apiResponse !== initResponse && showCompilerInfo && (
           <CompilerTable response={apiResponse} />
         )}
-        {loading ? (
-          <p>loading...</p>
-        ) : apiResponse.stderr ? (
-          <EditorErrorMessage title="Fehler:" message={error} />
-        ) : apiResponse.status_id == 5 ? (
-          <EditorErrorMessage
-            title="Laufzeitfehler:"
-            message={apiResponse.message}
-          />
-        ) : apiResponse.status_id == 6 ? (
-          <EditorErrorMessage
-            title="Compilefehler:"
-            message={apiResponse.compile_output}
-          />
-        ) : (
-          <>{result && <TestResultsTable result={result} />}</>
-        )}
       </div>
-    </div>
+      {loading ? (
+        <p>loading...</p>
+      ) : apiResponse.stderr ? (
+        <EditorErrorMessage title="Fehler:" message={error} />
+      ) : apiResponse.status_id == 5 ? (
+        <EditorErrorMessage
+          title="Laufzeitfehler:"
+          message={apiResponse.message}
+        />
+      ) : apiResponse.status_id == 6 ? (
+        <EditorErrorMessage
+          title="Compilefehler:"
+          message={apiResponse.compile_output}
+        />
+      ) : (
+        result && <TestResultsTable result={result} />
+      )}
+    </>
   );
 }
