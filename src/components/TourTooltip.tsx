@@ -1,5 +1,4 @@
-import React from "react";
-import Joyride, { BeaconRenderProps, TooltipRenderProps } from "react-joyride";
+import { BeaconRenderProps, TooltipRenderProps } from "react-joyride";
 import { Button } from "../components/ui/button";
 import {
   Card,
