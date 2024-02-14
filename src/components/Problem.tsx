@@ -81,8 +81,7 @@ export const Problem = () => {
                 <span className="mr-4 ">Optimale Teilstruktur:</span>
                 <span className="relative inline-flex items-center">
                   <div className={teilstrukturBlur ? "blur-md" : ""}>
-                    <InlineMath math=" F(n-1)" /> und{" "}
-                    <InlineMath math="F(n-2)" />
+                    <InlineMath math="F(n) = F(n-1) + F(n-2)" />
                   </div>
                   <Button
                     className={
@@ -102,7 +101,8 @@ export const Problem = () => {
                 <span className="mr-4">Überlappende Teilprobleme:</span>
                 <span className="relative inline-flex items-center">
                   <div className={teilproblemBlur ? "blur-md" : ""}>
-                    <InlineMath math="F(n) = F(n-1) + F(n-2)" />
+                    Für <InlineMath math="F(5)" /> muss bspw.{" "}
+                    <InlineMath math="F(3)" /> zwei mal berechnet werden.
                   </div>
                   <Button
                     className={
