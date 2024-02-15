@@ -22,7 +22,7 @@ export const Problem = () => {
   return (
     <div style={{ minHeight: "calc(100vh - 78px)" }}>
       <Accordion type="multiple" defaultValue={accordionOpen}>
-        <AccordionItem value="beschreibung">
+        <AccordionItem value="Beschreibung">
           <AccordionTrigger className="text-xl">
             Problembeschreibung
           </AccordionTrigger>
@@ -36,7 +36,7 @@ export const Problem = () => {
             <FibTable />
           </AccordionContent>
         </AccordionItem>
-        <AccordionItem value="bedingung">
+        <AccordionItem value="Bedingung">
           <AccordionTrigger className="text-xl">
             Bedingungen für dynamische Programmierung
           </AccordionTrigger>
@@ -44,7 +44,7 @@ export const Problem = () => {
             <div className="max-w-3xl">
               <p>
                 Um dynamische Programmierung anwenden zu können, ist es
-                essenziell, die Rekursionsbedingung des Problemes zu verstehen
+                essenziell, die Rekursionsbedingung des Problems zu verstehen
                 und das Problem gedanklich in Teilprobleme zu zerlegen. Die
                 Teilprobleme müssen in der Form vorliegen, dass sie sich
                 überlappen und somit die Lösung des Gesamtproblems aus den
@@ -102,7 +102,7 @@ export const Problem = () => {
                 <span className="relative inline-flex items-center">
                   <div className={teilproblemBlur ? "blur-md" : ""}>
                     Für <InlineMath math="F(5)" /> muss bspw.{" "}
-                    <InlineMath math="F(3)" /> zwei mal berechnet werden.
+                    <InlineMath math="F(3)" /> zwei Mal berechnet werden.
                   </div>
                   <Button
                     className={

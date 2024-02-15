@@ -11,7 +11,7 @@ import {
 import { Button } from "./ui/button";
 import { Microscope } from "lucide-react";
 
-type ResultTableProbs = {
+type ResultTableProps = {
   result: string;
 };
 
@@ -23,7 +23,7 @@ type Result = {
   time: string;
 };
 
-export function TestResultsTable({ result }: ResultTableProbs) {
+export function TestResultsTable({ result }: ResultTableProps) {
   const [showAllTests, setShowAllTests] = useState(false);
 
   // get total time
@@ -37,7 +37,7 @@ export function TestResultsTable({ result }: ResultTableProbs) {
     .filter((line) => line.startsWith("--TestBegin--") && line.trim())
     .map((line, _index) => {
       line.split("--TestBegin--");
-      // delete whitespaces
+      // delete whitespace
       line = line.replace(/\s+/g, " ");
       const parts = line.split(" ");
 
@@ -65,7 +65,6 @@ export function TestResultsTable({ result }: ResultTableProbs) {
         {showAllTests && (
           <TableHeader>
             <TableRow>
-              {/* <TableHead className="w-[20px]">Test#</TableHead> */}
               <TableHead>Input</TableHead>
               <TableHead>Erwartet</TableHead>
               <TableHead>Output</TableHead>

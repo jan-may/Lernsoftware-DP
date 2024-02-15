@@ -8,7 +8,7 @@ import {
 } from "./ui/table";
 import { CompilerResponse } from "../types/CompilerTypes";
 
-type ResultTableProbs = {
+type ResultTableProps = {
   response: CompilerResponse;
 };
 
@@ -27,7 +27,7 @@ function TableContent({
   );
 }
 
-export function CompilerTable({ response }: ResultTableProbs) {
+export function CompilerTable({ response }: ResultTableProps) {
   response.filteredStdout = response.stdout
     .split("\n")
     .filter((line) => !line.startsWith("--TestBegin--") && line.trim())

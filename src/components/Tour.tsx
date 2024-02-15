@@ -35,7 +35,7 @@ const TOUR_STEPS = [
   {
     target: ".tour-4",
     content:
-      "Code ausführen, Editor zurücksetzten und den Quellcode samt Tests einsehen. Die Tests könenn Sie auch lokal ausführen.",
+      "Code ausführen, Editor zurücksetzten und den Quellcode samt Tests einsehen. Die Tests können Sie auch lokal ausführen.",
     disableBeacon: true,
   },
   {
@@ -102,7 +102,7 @@ export const Tour = () => {
           }
           if (data.index == 4 && data.action == "update") {
             dispatch(setActive(ActivButton.recursiveTree));
-            dispatch(setSpeed(100)); // fast forward for visualisation
+            dispatch(setSpeed(100)); // fast forward for visualization
           }
           if (data.index == 5 && data.action == "update") {
             dispatch(setIsTourRunning(true));

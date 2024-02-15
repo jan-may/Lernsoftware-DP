@@ -64,7 +64,7 @@ export function Navbar() {
                         : ""
                     }`}
                   >
-                    Top Dowm Memo
+                    Top Down Memo
                   </Button>
                   <Button
                     variant="outline"
