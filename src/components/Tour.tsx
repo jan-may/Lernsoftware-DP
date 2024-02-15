@@ -29,14 +29,13 @@ const TOUR_STEPS = [
   },
   {
     target: ".tour-3",
-    content:
-      "Hier können Sie eine eigene Lösung implementieren! Zum Ausführen benötigen Sie einen API-Key. Weiteres dazu im FAQ-Bereich.",
+    content: "Hier können Sie eine eigene Lösung implementieren!",
     disableBeacon: true,
   },
   {
     target: ".tour-4",
     content:
-      "Code ausführen, Editor zurücksetzten und den Quellcode samt Tests einsehen. Die Tests könenn Sie auch lokal ausführen, wenn Sie keinen Api-Key haben.",
+      "Code ausführen, Editor zurücksetzten und den Quellcode samt Tests einsehen. Die Tests könenn Sie auch lokal ausführen.",
     disableBeacon: true,
   },
   {

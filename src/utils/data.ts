@@ -33,7 +33,7 @@ export const quizData: QuizType = {
         "Die Ausführungszeit von Algorithmen zu erhöhen",
         "Die Speichereffizienz von Programmen zu verringern",
         "Komplexe Probleme in kleinere, handhabbare Probleme zu zerlegen",
-        "Statische Typisierung in Programmiersprachen zu erzwingen.",
+        "Dynamische Typisierung in Programmiersprachen zu erzwingen.",
       ],
       answer: "Komplexe Probleme in kleinere, handhabbare Probleme zu zerlegen",
     },
@@ -65,19 +65,6 @@ export const quizData: QuizType = {
     },
     {
       id: 4,
-      question:
-        "Was kennzeichnet eine Problemstellung, die sich gut für die Lösung mit dynamischer Programmierung eignet?",
-      options: [
-        "Das Problem lässt sich in mehrere kleine Probleme aufteilen, die nicht voneinander abhängen.",
-        "Das Problem hat eine rekursive Struktur, bei der sich die gleichen Teilprobleme wiederholen.",
-        "Jedes Teilproblem ist völlig einzigartig und teilt keine Lösungen mit anderen Teilproblemen.",
-        "Das Problem kann nur durch Ausprobieren aller möglichen Lösungen gelöst werden.",
-      ],
-      answer:
-        "Das Problem hat eine rekursive Struktur, bei der sich die gleichen Teilprobleme wiederholen.",
-    },
-    {
-      id: 6,
       question: "Was wird generell unter einem Top-Down-Ansatz verstanden?",
       options: [
         "Beginnt mit der Lösung der kleinsten Teilprobleme und kombiniert diese, um das Gesamtproblem zu lösen.",
@@ -89,20 +76,20 @@ export const quizData: QuizType = {
         "Löst das Gesamtproblem durch Aufteilung in kleinere, handhabbare Teilprobleme, indem es von der allgemeinen Problemstellung ausgeht.",
     },
     {
-      id: 7,
+      id: 5,
       question:
-        "Was beschreibt am besten den Top-Down-Ansatz in der dynamischen Programmierung?",
+        "Was versteht man unter Memoisation im Rahmen von dynamischer Programmierung?",
       options: [
-        "Beginnt mit der Lösung der kleinsten Teilprobleme und kombiniert diese, um größere Probleme zu lösen.",
-        "Löst das Problem, indem es von der ursprünglichen Fragestellung ausgeht und sich durch rekursive Aufrufe zu den Basisfällen vorarbeitet.",
-        "Implementiert iterative Lösungen, die von Anfang bis Ende des Problems fortschreiten.",
-        "Nutzt eine Tiefensuche, um alle möglichen Lösungen zu erkunden, bevor eine Entscheidung getroffen wird.",
+        "Das wiederholte Lösen derselben Teilprobleme, um Laufzeit zu sparen.",
+        "Die Technik, vorherige Ergebnisse von Teilproblemen zu speichern, um redundante Berechnungen zu vermeiden.",
+        "Die direkte Implementierung von Lösungen, ohne vorherige Ergebnisse zu berücksichtigen.",
+        "Die Zerlegung eines Problems in immer kleinere Teilprobleme, ohne deren Lösungen zu speichern.",
       ],
       answer:
-        "Löst das Problem, indem es von der ursprünglichen Fragestellung ausgeht und sich durch rekursive Aufrufe zu den Basisfällen vorarbeitet.",
+        "Die Technik, vorherige Ergebnisse von Teilproblemen zu speichern, um redundante Berechnungen zu vermeiden.",
     },
     {
-      id: 8,
+      id: 6,
       question:
         "Wie funktioniert der Bottom-Up-Ansatz in der dynamischen Programmierung?",
       options: [
