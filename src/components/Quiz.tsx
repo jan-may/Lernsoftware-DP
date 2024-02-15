@@ -20,6 +20,7 @@ export const Quiz = () => {
   const [quizStarted, setQuizStarted] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
   const [wasWrongAnswer, setWasWrongAnswer] = useState(false);
+  const [correntAnwser, setCorrectAnswer] = useState(false);
   const question: Question = quizData.questions[currentQuestionIndex];
 
   const dispatch = useAppDispatch();
@@ -34,11 +35,13 @@ export const Quiz = () => {
   const handleOptionClick = (option: string) => {
     setWasWrongAnswer(false);
     setSelectedOption(option);
+    // check if answer is correct
   };
 
   const checkResult = () => {
     if (selectedOption === question.answer) {
       setWasWrongAnswer(false);
+      setCorrectAnswer(true);
       handleNextQuestion();
     } else {
       setWasWrongAnswer(true);
@@ -46,12 +49,16 @@ export const Quiz = () => {
   };
 
   const handleNextQuestion = () => {
-    if (currentQuestionIndex < quizData.questions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-      setSelectedOption("");
-    } else {
-      handleFinishQuiz();
-    }
+    // pause for 0.5 seconds to show feedback for correct answer
+    setTimeout(() => {
+      if (currentQuestionIndex < quizData.questions.length - 1) {
+        setCurrentQuestionIndex(currentQuestionIndex + 1);
+        setSelectedOption("");
+        setCorrectAnswer(false);
+      } else {
+        handleFinishQuiz();
+      }
+    }, 500);
   };
 
   const handlePreviousQuestion = () => {
@@ -124,6 +131,8 @@ export const Quiz = () => {
                       selectedOption === option
                         ? wasWrongAnswer
                           ? "animate-shake bg-red-500 text-white dark:bg-red-700"
+                          : correntAnwser
+                          ? "bg-green-500 text-white dark:bg-green-700"
                           : "bg-blue-500 text-white dark:bg-blue-700"
                         : "border-2 dark:bg-gray-500 dark:text-white"
                     } flex items-start w-full h-auto px-4 py-2 m-2 cursor-pointer rounded-md`}
