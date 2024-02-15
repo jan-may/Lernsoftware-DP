@@ -65,7 +65,7 @@ export function TestResultsTable({ result }: ResultTableProbs) {
         {showAllTests && (
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[20px]">Test#</TableHead>
+              {/* <TableHead className="w-[20px]">Test#</TableHead> */}
               <TableHead>Input</TableHead>
               <TableHead>Erwartet</TableHead>
               <TableHead>Output</TableHead>
@@ -87,12 +87,11 @@ export function TestResultsTable({ result }: ResultTableProbs) {
                 {showAllTests ? " ausblenden" : " anzeigen"}
               </Button>
             </TableCell>
-            <TableCell colSpan={4}></TableCell>
+            <TableCell colSpan={3}></TableCell>
           </TableRow>
           {showAllTests &&
             data.map((res, i) => (
               <TableRow key={i + 1}>
-                <TableCell className="py-1">{i + 1}</TableCell>
                 <TableCell className="py-1">{res.input}</TableCell>
                 <TableCell className="py-1">{res.expected}</TableCell>
                 <TableCell className="py-1">{res.output}</TableCell>
@@ -105,7 +104,7 @@ export function TestResultsTable({ result }: ResultTableProbs) {
         <TableFooter>
           <TableRow>
             <TableCell colSpan={1}>Bestanden: </TableCell>
-            <TableCell colSpan={3}>
+            <TableCell colSpan={2}>
               {total_passed}/{total}
             </TableCell>
             <TableCell colSpan={1}>
