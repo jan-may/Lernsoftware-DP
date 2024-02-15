@@ -121,16 +121,27 @@ class Tests
             new int[] {46, 1836311903} // max for int
         };
 
+        Console.WriteLine();
+        Console.WriteLine(String.Format("{0,-14} {1,-12} {2,-11} {3,-11} {4,-8} {5,-10}", "Debug_tag", "Input", "Expected", "Actual", "Status", "Elapsed Time"));
+        Console.WriteLine(new String('-', 80));
+
+        int start = Environment.TickCount;
+        int failed = 0;
+
         // Testing fib method
         foreach (var testCase in testCases)
         {
             int n = testCase[0];
             int expected = testCase[1];
+            int now = Environment.TickCount;
 
             if (n <= 20) // The recursive method is practical only for n <= 20
             {
                 int actual = fibonacci.Fib(n);
-                Console.WriteLine($"--TestBegin-- Fib({n}) {expected} {actual} {(actual == expected ? "passed" : "failed")}");
+                int elapsed = Environment.TickCount - now;
+                if (elapsed > 400 || actual != expected) failed++;
+                Console.WriteLine(String.Format("{0,13} {1,-12} {2,-11} {3,-11} {4,-8} {5,-10}", "--TestBegin-- ", "Fib(" + n + ")", expected, actual, (actual == expected ? elapsed <= 400 ? "passed" : "failed" : "failed"), (elapsed + "ms" + (elapsed > 400 ? " -> Time Limit exceeded" : ""))));
+                // Console.WriteLine($"--TestBegin-- Fib({n}) {expected} {actual} {(actual == expected ? elapsed <= 400 ? "passed" : "failed - Time Limit exceeded" : "failed")} {(elapsed > 400 ? elapsed + "ms" : "")}");
             }
         }
 
@@ -138,9 +149,13 @@ class Tests
         foreach (var testCase in testCases)
         {
             int n = testCase[0];
+            int now = Environment.TickCount;
             int expected = testCase[1];
             int actual = fibonacci.FibMemo(n, new int[n + 1]);
-            Console.WriteLine($"--TestBegin-- FibMemo({n}) {expected} {actual} {(actual == expected ? "passed" : "failed")}");
+            int elapsed = Environment.TickCount - now;
+            if (elapsed > 400 || actual != expected) failed++;
+            Console.WriteLine(String.Format("{0,13} {1,-12} {2,-11} {3,-11} {4,-8} {5,-10}", "--TestBegin-- ", "FibMemo(" + n + ")", expected, actual, (actual == expected ? elapsed <= 400 ? "passed" : "failed" : "failed"), (elapsed + "ms" + (elapsed > 400 ? " -> Time Limit exceeded" : ""))));
+            // Console.WriteLine($"--TestBegin-- FibMemo({n}) {expected} {actual} {(actual == expected ? elapsed <= 400 ? "passed" : "failed - Time Limit exceeded" : "failed")} {(elapsed > 400 ? elapsed + "ms" : "")}");
         }
 
         // Testing fibTab method
@@ -148,8 +163,22 @@ class Tests
         {
             int n = testCase[0];
             int expected = testCase[1];
+            int now = Environment.TickCount;
             int actual = fibonacci.FibTab(n);
-            Console.WriteLine($"--TestBegin-- FibTab({n}) {expected} {actual} {(actual == expected ? "passed" : "failed")}");
+            int elapsed = Environment.TickCount - now;
+            if (elapsed > 400 || actual != expected) failed++;
+            Console.WriteLine(String.Format("{0,13} {1,-12} {2,-11} {3,-11} {4,-8} {5,-10}", "--TestBegin-- ", "FibTab(" + n + ")", expected, actual, (actual == expected ? elapsed <= 400 ? "passed" : "failed" : "failed"), (elapsed + "ms" + (elapsed > 400 ? " -> Time Limit exceeded" : ""))));
+            // Console.WriteLine($"--TestBegin-- FibTab({n}) {expected} {actual} {(actual == expected ? elapsed <= 400 ? "passed" : "failed - Time Limit exceeded" : "failed")} {(elapsed > 400 ? elapsed + "ms" : "")}");
         }
+
+        int elapsedAll = Environment.TickCount - start;
+        Console.WriteLine();
+        Console.WriteLine($"--TotalTime-- {elapsedAll}ms");
+        Console.WriteLine();
+
+        if (failed == 0) Console.WriteLine("All tests passed");
+        else Console.WriteLine($"Failed {failed} tests");
+
+        Console.WriteLine();
     }
 }`;

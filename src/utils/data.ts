@@ -18,9 +18,9 @@ export const judgeOptions = {
     language_id: 29,
     source_code: "",
     stdin: "",
-    cpu_time_limit: 3,
-    cpu_extra_time: 0,
-    wall_time_limit: 3,
+    // cpu_time_limit: 3,
+    // cpu_extra_time: 0,
+    wall_time_limit: 30,
   },
 };
 

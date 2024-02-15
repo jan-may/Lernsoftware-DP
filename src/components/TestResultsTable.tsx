@@ -20,16 +20,27 @@ type Result = {
   status: string;
   output: string;
   expected: string;
+  time: string;
 };
 
 export function TestResultsTable({ result }: ResultTableProbs) {
   const [showAllTests, setShowAllTests] = useState(false);
+
+  // get total time
+  const TotalTime = result
+    .split("\n")
+    .filter((line) => line.startsWith("--TotalTime--"))
+    .map((line) => line.split("--TotalTime--")[1])[0];
+
   const data: Result[] = result
     .split("\n")
     .filter((line) => line.startsWith("--TestBegin--") && line.trim())
     .map((line, _index) => {
       line.split("--TestBegin--");
+      // delete whitespaces
+      line = line.replace(/\s+/g, " ");
       const parts = line.split(" ");
+
       console.log(parts);
       return {
         input: parts[1],
@@ -37,8 +48,11 @@ export function TestResultsTable({ result }: ResultTableProbs) {
         expected: parts[2],
         status:
           parts[4] == "passed" ? parts[4] + " \u2705" : parts[4] + " \u274C",
+        time: parts[5],
       };
     });
+
+  // check last line
 
   const total_passed = data.filter((res) =>
     res.status.includes("passed")
@@ -56,6 +70,7 @@ export function TestResultsTable({ result }: ResultTableProbs) {
               <TableHead>Erwartet</TableHead>
               <TableHead>Output</TableHead>
               <TableHead>Status</TableHead>
+              <TableHead>Zeit</TableHead>
             </TableRow>
           </TableHeader>
         )}
@@ -82,6 +97,7 @@ export function TestResultsTable({ result }: ResultTableProbs) {
                 <TableCell className="py-1">{res.expected}</TableCell>
                 <TableCell className="py-1">{res.output}</TableCell>
                 <TableCell className="py-1">{res.status}</TableCell>
+                <TableCell className="py-1">{res.time}</TableCell>
               </TableRow>
             ))}
         </TableBody>
@@ -97,6 +113,7 @@ export function TestResultsTable({ result }: ResultTableProbs) {
                 ? "passed" + " \u2705"
                 : "failed" + " \u274C"}
             </TableCell>
+            <TableCell colSpan={1}>{TotalTime} </TableCell>
           </TableRow>
         </TableFooter>
       </Table>

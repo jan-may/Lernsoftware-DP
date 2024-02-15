@@ -31,6 +31,7 @@ export function CompilerTable({ response }: ResultTableProbs) {
   response.filteredStdout = response.stdout
     .split("\n")
     .filter((line) => !line.startsWith("--TestBegin--") && line.trim())
+    .slice(2, -3)
     .join("\n");
 
   return (
