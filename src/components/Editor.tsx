@@ -3,35 +3,29 @@ import CodeMirror from "@uiw/react-codemirror";
 import { oneDark } from "@codemirror/theme-one-dark";
 import { csharp } from "@replit/codemirror-lang-csharp";
 import { EditorView } from "codemirror";
-import axios from "axios";
 import { Button } from "./ui/button";
 import { Code2, Play, RefreshCcw } from "lucide-react";
 import { testCases } from "../trees/fibonacci";
-import { base64Decode, base64Encode, getInitEditorCode } from "../utils/util";
+import { getInitEditorCode } from "../utils/util";
 import { TestResultsTable } from "./TestResultsTable";
-import { judgeOptions } from "../utils/data";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { setCode } from "../feautures/editor/editorSlice";
 import { Problem } from "../feautures/settings/settingsSlice";
-import { EditorErrorMessage } from "./EditorErrorMessage";
 import { useTheme } from "./theme-provider";
 import { CompilerTable } from "./CompilerTable";
 import { CompilerResponse } from "../types/CompilerTypes";
 import { CompilerInfoBtn } from "./CompilerInfoBtn";
+import { invoke } from "@tauri-apps/api/tauri";
 
 const initResponse: CompilerResponse = {
-  memory: 0,
   language_name: "",
   compile_output: "",
   message: "",
-  status_id: 0,
-  status_msg: "",
+  status: 0,
   stdout: "",
   filteredStdout: "",
   stderr: "",
   time: 0,
-  wall_time: 0,
-  wall_time_limit: 0,
 };
 
 export function Editor() {
@@ -43,7 +37,8 @@ export function Editor() {
   const [result, setResult] = React.useState("");
   const [loading, setLoading] = React.useState(false);
   const [apiResponse, setApiResponse] = React.useState(initResponse);
-  const [error, setError] = React.useState("");
+  const [_error, _setError] = React.useState("");
+  const [dotnetVersion, setDotnetVersion] = React.useState("");
   const onChange = React.useCallback((val: any, _viewUpdate: any) => {
     dispatch(setCode(val));
   }, []);
@@ -89,57 +84,44 @@ export function Editor() {
     }
   }
 
-  // use memo to prevent rerender
-  const handleRun = React.useCallback(
-    (codeText: string) => {
-      refreshValues();
-      setLoading(true);
+  const handleRunCode = async (codeText: string) => {
+    refreshValues();
+    setLoading(true);
 
-      const fullCode = buildFullCode(codeText);
-      judgeOptions.data.source_code = base64Encode(fullCode);
+    // Asynchronously check for dotnet version
+    const val = await invoke<string>("get_dotnet_version");
+    setDotnetVersion(val);
+    if (val.startsWith("Bitte")) {
+      _setError(val);
+      setLoading(false);
+      return; // Early return to prevent executing the rest of the code
+    }
 
-      axios
-        .request(judgeOptions)
-        .then((response) => {
-          const result = response.data.stdout
-            ? base64Decode(response.data.stdout)
-            : "";
-
-          const test = {
-            memory: response.data.memory,
-            language_name: response.data.language.name,
-            compile_output: response.data.compile_output
-              ? base64Decode(response.data.compile_output)
-              : "",
-            message: response.data.message
-              ? base64Decode(response.data.message)
-              : "",
-            status_id: response.data.status.id,
-            status_msg: response.data.status.description,
-            stdout: result,
-            stderr: response.data.stderr
-              ? base64Decode(response.data.stderr)
-              : "",
-            time: response.data.time,
-            wall_time: response.data.wall_time,
-            wall_time_limit: response.data.wall_time_limit,
-          };
-          setApiResponse(test);
-          setResult(result);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error(error);
-          setApiResponse({
-            ...apiResponse,
-            message: "Error: " + error.message,
-          });
-          setError(error.message);
-          setLoading(false);
-        });
-    },
-    [code]
-  );
+    // Continue with the rest of the function only if the above condition is not met
+    const fullCode = buildFullCode(codeText);
+    try {
+      await invoke<string>("write_file_content", { code: fullCode });
+      const val = await invoke<string>("run_prog");
+      const value = JSON.parse(val);
+      const result = value.stdout;
+      // setRustResult(result);
+      setLoading(false);
+      const test = {
+        language_name: ".NET SDK " + dotnetVersion,
+        compile_output: "",
+        message: "",
+        status: value.status,
+        stdout: value.stdout,
+        stderr: value.stderr,
+        time: 0,
+      };
+      setApiResponse({ ...test });
+      setResult(result);
+    } catch (error) {
+      console.error(error);
+      // Handle any errors that occur during the write or run operations
+    }
+  };
 
   useEffect(() => {
     // init code if not set
@@ -181,7 +163,11 @@ export function Editor() {
           >
             <RefreshCcw size={18} />
           </Button>
-          <Button size="sm" variant="outline" onClick={() => handleRun(code)}>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => handleRunCode(code)}
+          >
             {loading ? (
               <>
                 <svg
@@ -198,28 +184,14 @@ export function Editor() {
 
         <CompilerInfoBtn disabled={result != "" ? false : true} />
       </div>
+      <p>{dotnetVersion}</p>
       <div className="mt-4">
         {apiResponse !== initResponse && showCompilerInfo && (
           <CompilerTable response={apiResponse} />
         )}
       </div>
-      {loading ? (
-        <p>loading...</p>
-      ) : apiResponse.stderr ? (
-        <EditorErrorMessage title="Fehler:" message={error} />
-      ) : apiResponse.status_id == 5 ? (
-        <EditorErrorMessage
-          title="Laufzeitfehler:"
-          message={apiResponse.message}
-        />
-      ) : apiResponse.status_id == 6 ? (
-        <EditorErrorMessage
-          title="Compilefehler:"
-          message={apiResponse.compile_output}
-        />
-      ) : (
-        result && <TestResultsTable result={result} />
-      )}
+      {loading && <p>loading...</p>}
+      {result && <TestResultsTable result={result} />}
     </>
   );
 }

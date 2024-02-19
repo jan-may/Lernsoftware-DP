@@ -28,11 +28,20 @@ function TableContent({
 }
 
 export function CompilerTable({ response }: ResultTableProps) {
-  response.filteredStdout = response.stdout
-    .split("\n")
-    .filter((line) => !line.startsWith("--TestBegin--") && line.trim())
-    .slice(2, -3)
-    .join("\n");
+  if (response.status === 0) {
+    // if no error filter out debug infos and Testcases to show user stdout
+    response.filteredStdout = response.stdout
+      .split("\n")
+      .slice(3, -5)
+      .filter((line) => !line.startsWith("--TestBegin--") && line.trim())
+      .join("\n");
+  } else {
+    // if error show error message
+    response.filteredStdout = response.stdout
+      .split("\n")
+      .filter((line) => !line.startsWith("--TestBegin--") && line.trim())
+      .join("\n");
+  }
 
   return (
     <>
@@ -47,10 +56,7 @@ export function CompilerTable({ response }: ResultTableProps) {
         <TableBody>
           <>
             <TableContent text="Runtime" value={response.language_name} />
-            <TableContent
-              text="Status_Code"
-              value={`${response.status_id} (${response.status_msg})`}
-            />
+            <TableContent text="Status_Code" value={`${response.status}`} />
             <TableContent
               text="Compiler_Output"
               value={response.compile_output}
@@ -58,8 +64,6 @@ export function CompilerTable({ response }: ResultTableProps) {
             <TableContent text="Message" value={response.message} />
             <TableContent text="stdout" value={response.filteredStdout} />
             <TableContent text="stderr" value={response.stderr} />
-            <TableContent text="Memory" value={response.memory + " bytes"} />
-            <TableContent text="Wall_time" value={response.wall_time + " s"} />
           </>
         </TableBody>
       </Table>
