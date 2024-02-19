@@ -13,6 +13,7 @@ import { Microscope } from "lucide-react";
 
 type ResultTableProps = {
   result: string;
+  error?: string;
 };
 
 type Result = {
@@ -23,7 +24,7 @@ type Result = {
   time: string;
 };
 
-export function TestResultsTable({ result }: ResultTableProps) {
+export function TestResultsTable({ result, error }: ResultTableProps) {
   const [showAllTests, setShowAllTests] = useState(false);
 
   // get total time
@@ -107,7 +108,9 @@ export function TestResultsTable({ result }: ResultTableProps) {
               {total_passed}/{total}
             </TableCell>
             <TableCell colSpan={1}>
-              {total_passed === total
+              {error
+                ? "failed" + " \u274C"
+                : total_passed === total
                 ? "passed" + " \u2705"
                 : "failed" + " \u274C"}
             </TableCell>

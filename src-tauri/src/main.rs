@@ -10,7 +10,7 @@ const PROJECT_PATH_WIN: &str = "lernsoftwareDP//App";
 const PROJECT_PATH_UNIX: &str = "lernsoftwareDP/App";
 const PROGRAM_NAME: &str = "Program.cs";
 const DOTNET_RUN_COMMAND: &str = "dotnet run --no-restore";
-const DOTNET_NEW_COMMAND: &str = "dotnet new console --framework net8.0 --use-program-main";
+const DOTNET_NEW_COMMAND: &str = "dotnet new console --use-program-main";
 
 #[derive(Serialize, Deserialize, Debug)]
 

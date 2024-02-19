@@ -191,7 +191,9 @@ export function Editor() {
         )}
       </div>
       {loading && <p>loading...</p>}
-      {result && <TestResultsTable result={result} />}
+      {result && (
+        <TestResultsTable result={result} error={apiResponse.stderr} />
+      )}
     </>
   );
 }
