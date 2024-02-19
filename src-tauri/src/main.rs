@@ -2,7 +2,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use serde::{Deserialize, Serialize};
-use std::{env, error::Error, fs, io, path::PathBuf, process::Command};
+use std::{env, error::Error, fs, io, os::windows::process::CommandExt, path::PathBuf, process::Command };
 
 const APPDATA_KEY: &str = "APPDATA";
 const HOME_KEY: &str = "HOME";
@@ -42,7 +42,11 @@ fn get_appdata_dir() -> Result<PathBuf, Box<dyn Error>> {
 #[tauri::command]
 fn get_dotnet_version() -> String {
     // Attempt to execute the `dotnet --version` command
-    let output = match Command::new("dotnet").arg("--version").output() {
+    let output = match Command::new("dotnet")
+        .arg("--version")
+        .creation_flags(0x08000000) // CREATE_NO_WINDOW
+        .output()
+    {
         Ok(output) => output,
         Err(_) => {
             return "Bitte installieren Sie ein .NET SDK >= 8".to_string();
@@ -63,6 +67,7 @@ fn create_dotnet_project(appdata_dir: &PathBuf) -> io::Result<()> {
                 "/C",
                 &format!("cd {} && {}", appdata_dir.display(), DOTNET_NEW_COMMAND),
             ])
+            .creation_flags(0x08000000) // CREATE_NO_WINDOW
             .status()?
     } else {
         println!("t1");
@@ -86,7 +91,6 @@ fn create_dotnet_project(appdata_dir: &PathBuf) -> io::Result<()> {
 }
 
 #[tauri::command]
-
 fn write_file_content(code: &str) -> Result<(), String> {
     let appdata_dir = get_appdata_dir().map_err(|e| e.to_string())?;
     fs::create_dir_all(&appdata_dir).map_err(|e| e.to_string())?;
@@ -99,7 +103,6 @@ fn write_file_content(code: &str) -> Result<(), String> {
 }
 
 #[tauri::command]
-
 fn run_prog() -> Result<String, String> {
     let appdata_dir = get_appdata_dir().map_err(|e| e.to_string())?;
     let output = if cfg!(target_os = "windows") {
@@ -108,6 +111,7 @@ fn run_prog() -> Result<String, String> {
                 "/C",
                 &format!("cd {} && {}", appdata_dir.display(), DOTNET_RUN_COMMAND),
             ])
+            .creation_flags(0x08000000) // CREATE_NO_WINDOW
             .output()
             .map_err(|e| e.to_string())?
     } else {
