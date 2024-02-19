@@ -11,9 +11,9 @@
   },
   "tauri": {
     "allowlist": {
-      "all": false,
+      "all": true,
       "shell": {
-        "all": false,
+        "all": true,
         "open": true
       },
       "path": {
@@ -21,8 +21,9 @@
       },
       "fs": {
         "writeFile": true,
-        "scope": ["$DOWNLOAD/*"]
-      },  "dialog": {
+        "scope": ["$DOWNLOAD/*", "$APPDATA", "$HOME"]
+      },
+      "dialog": {
         "all": true
       }
     },

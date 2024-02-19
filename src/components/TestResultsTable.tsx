@@ -86,7 +86,7 @@ export function TestResultsTable({ result }: ResultTableProps) {
                 {showAllTests ? " ausblenden" : " anzeigen"}
               </Button>
             </TableCell>
-            <TableCell colSpan={3}></TableCell>
+            <TableCell colSpan={4}></TableCell>
           </TableRow>
           {showAllTests &&
             data.map((res, i) => (
