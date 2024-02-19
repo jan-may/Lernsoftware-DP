@@ -41,22 +41,26 @@ fn get_appdata_dir() -> Result<PathBuf, Box<dyn Error>> {
 
 #[tauri::command]
 fn get_dotnet_version() -> String {
-    // Attempt to execute the `dotnet --version` command
-    let output = match Command::new("dotnet")
-        .arg("--version")
-        .creation_flags(0x08000000) // CREATE_NO_WINDOW
-        .output()
-    {
-        Ok(output) => output,
-        Err(_) => {
-            return "Bitte installieren Sie ein .NET SDK >= 8".to_string();
-        }
-    };
-    // Check if the command executed successfully
-    if output.status.success() {
-        String::from_utf8_lossy(&output.stdout).trim().to_string()
-    } else {
-        "Bitte installieren Sie ein .NET SDK >= 8".to_string()
+    let mut command = Command::new("dotnet");
+    command.arg("--version");
+
+    // Set creation flags only on Windows to prevent opening a new window
+    if cfg!(target_os = "windows") {
+        command.creation_flags(0x08000000); // CREATE_NO_WINDOW
+    }
+
+    let output = command.output();
+
+    match output {
+        Ok(output) => {
+            // Check if the command executed successfully
+            if output.status.success() {
+                String::from_utf8_lossy(&output.stdout).trim().to_string()
+            } else {
+                "Bitte installieren Sie ein .NET SDK >= 8".to_string()
+            }
+        },
+        Err(_) => "Bitte installieren Sie ein .NET SDK >= 8".to_string(),
     }
 }
 
@@ -70,8 +74,6 @@ fn create_dotnet_project(appdata_dir: &PathBuf) -> io::Result<()> {
             .creation_flags(0x08000000) // CREATE_NO_WINDOW
             .status()?
     } else {
-        println!("t1");
-
         Command::new("sh")
             .arg("-c")
             .arg(&format!(
