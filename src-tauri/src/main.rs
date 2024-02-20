@@ -16,7 +16,7 @@ const DOTNET_RUN_COMMAND: &str = "dotnet run --no-restore";
 const DOTNET_NEW_COMMAND: &str = "dotnet new console --use-program-main";
 
 #[derive(Serialize, Deserialize, Debug)]
-struct MyStruct {
+struct OutputStruct {
     status: i32,
     stdout: String,
     stderr: String,
@@ -66,30 +66,30 @@ fn get_dotnet_version() -> String {
 }
 
 fn create_dotnet_project(appdata_dir: &PathBuf) -> io::Result<()> {
-    let status = if cfg!(target_os = "windows") {
-        Command::new("cmd")
-            .args(&[
-                "/C",
-                &format!("cd {} && {}", appdata_dir.display(), DOTNET_NEW_COMMAND),
-            ])
-            .creation_flags(0x08000000) // CREATE_NO_WINDOW
-            .status()?
-    } else {
-        Command::new("sh")
-            .arg("-c")
-            .arg(&format!(
-                "cd {} && {}",
-                appdata_dir.display(),
-                DOTNET_NEW_COMMAND
-            ))
-            .status()?
-    };
-    if !status.success() {
-        return Err(io::Error::new(
-            io::ErrorKind::Other,
-            "Failed to create .NET project",
-        ));
+    #[cfg(target_os = "windows")]
+    {
+        let mut command = Command::new("cmd");
+        command.args(&["/C", &format!("cd {} && {}", appdata_dir.display(), DOTNET_NEW_COMMAND)]);
+        command.creation_flags(0x08000000); // CREATE_NO_WINDOW
+        let status = command.status()?;
+
+        if !status.success() {
+            return Err(io::Error::new(io::ErrorKind::Other, "Failed to create .NET project"));
+        }
     }
+
+    #[cfg(not(target_os = "windows"))]
+    {
+        let status = Command::new("sh")
+            .arg("-c")
+            .arg(&format!("cd {} && {}", appdata_dir.display(), DOTNET_NEW_COMMAND))
+            .status()?;
+
+        if !status.success() {
+            return Err(io::Error::new(io::ErrorKind::Other, "Failed to create .NET project"));
+        }
+    }
+
     Ok(())
 }
 
@@ -108,31 +108,41 @@ fn write_file_content(code: &str) -> Result<(), String> {
 #[tauri::command]
 fn run_prog() -> Result<String, String> {
     let appdata_dir = get_appdata_dir().map_err(|e| e.to_string())?;
-    let output = if cfg!(target_os = "windows") {
-        Command::new("cmd")
+
+    #[cfg(target_os = "windows")]
+    {
+        let output = Command::new("cmd")
             .args(&[
                 "/C",
                 &format!("cd {} && {}", appdata_dir.display(), DOTNET_RUN_COMMAND),
             ])
             .creation_flags(0x08000000) // CREATE_NO_WINDOW
             .output()
-            .map_err(|e| e.to_string())?
-    } else {
-        Command::new("sh")
+            .map_err(|e| e.to_string())?;
+
+        return process_output(output);
+    }
+
+    #[cfg(not(target_os = "windows"))]
+    {
+        let output = Command::new("sh")
             .arg("-c")
-            .arg(&format!(
-                "cd {} && {}",
-                appdata_dir.display(),
-                DOTNET_RUN_COMMAND
-            ))
+            .arg(&format!("cd {} && {}", appdata_dir.display(), DOTNET_RUN_COMMAND))
             .output()
-            .map_err(|e| e.to_string())?
-    };
-    let result = MyStruct {
+            .map_err(|e| e.to_string())?;
+
+        return process_output(output);
+    }
+}
+
+// Helper function to process Command output and serialize it to JSON
+fn process_output(output: std::process::Output) -> Result<String, String> {
+    let result = OutputStruct {
         status: output.status.code().unwrap_or_default(),
         stdout: String::from_utf8_lossy(&output.stdout).to_string(),
         stderr: String::from_utf8_lossy(&output.stderr).to_string(),
     };
+
     serde_json::to_string(&result).map_err(|e| e.to_string())
 }
 
