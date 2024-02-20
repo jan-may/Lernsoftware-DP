@@ -2,7 +2,10 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use serde::{Deserialize, Serialize};
-use std::{env, error::Error, fs, io, os::windows::process::CommandExt, path::PathBuf, process::Command };
+use std::{env, error::Error, fs, io, path::PathBuf, process::Command };
+
+#[cfg(target_os = "windows")]
+use std::os::windows::process::CommandExt;
 
 const APPDATA_KEY: &str = "APPDATA";
 const HOME_KEY: &str = "HOME";
@@ -13,7 +16,6 @@ const DOTNET_RUN_COMMAND: &str = "dotnet run --no-restore";
 const DOTNET_NEW_COMMAND: &str = "dotnet new console --use-program-main";
 
 #[derive(Serialize, Deserialize, Debug)]
-
 struct MyStruct {
     status: i32,
     stdout: String,
@@ -45,9 +47,8 @@ fn get_dotnet_version() -> String {
     command.arg("--version");
 
     // Set creation flags only on Windows to prevent opening a new window
-    if cfg!(target_os = "windows") {
-        command.creation_flags(0x08000000); // CREATE_NO_WINDOW
-    }
+    #[cfg(target_os = "windows")]
+    command.creation_flags(0x08000000); // CREATE_NO_WINDOW
 
     let output = command.output();
 
