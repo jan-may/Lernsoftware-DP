@@ -42,6 +42,19 @@ fn get_appdata_dir() -> Result<PathBuf, Box<dyn Error>> {
 }
 
 #[tauri::command]
+fn get_dotnet_project_path() -> Result<String, String> {
+    let appdata_dir: PathBuf = get_appdata_dir().map_err(|e| e.to_string())?;
+    Ok(appdata_dir.display().to_string())
+}
+
+#[tauri::command]
+fn delete_dotnet_project() -> Result<(), String> {
+    let appdata_dir = get_appdata_dir().map_err(|e| e.to_string())?;
+    fs::remove_dir_all(&appdata_dir).map_err(|e| e.to_string())?;
+    Ok(())
+}
+
+#[tauri::command]
 fn get_dotnet_version() -> String {
     let mut command = Command::new("dotnet");
     command.arg("--version");
@@ -58,10 +71,10 @@ fn get_dotnet_version() -> String {
             if output.status.success() {
                 String::from_utf8_lossy(&output.stdout).trim().to_string()
             } else {
-                "Bitte installieren Sie ein .NET SDK >= 8".to_string()
+                "Bitte installieren Sie ein .NET SDK >= 6".to_string()
             }
         },
-        Err(_) => "Bitte installieren Sie ein .NET SDK >= 8".to_string(),
+        Err(_) => "Bitte installieren Sie ein .NET SDK >= 6".to_string(),
     }
 }
 
@@ -151,7 +164,9 @@ fn main() {
         .invoke_handler(tauri::generate_handler![
             write_file_content,
             run_prog,
-            get_dotnet_version
+            get_dotnet_version,
+            get_dotnet_project_path,
+            delete_dotnet_project
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
