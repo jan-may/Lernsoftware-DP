@@ -8,10 +8,10 @@ export const quizData: QuizType = {
       options: [
         "Die Ausführungszeit von Algorithmen zu erhöhen",
         "Die Speichereffizienz von Programmen zu verringern",
-        "Komplexe Probleme in kleinere, handhabbare Probleme zu zerlegen",
+        "Die Optimierung der Laufzeit eines rekursiven Lösungsverfahrens",
         "Dynamische Typisierung in Programmiersprachen zu erzwingen.",
       ],
-      answer: "Komplexe Probleme in kleinere, handhabbare Probleme zu zerlegen",
+      answer: "Die Optimierung der Laufzeit eines rekursiven Lösungsverfahrens",
     },
     {
       id: 2,
