@@ -6,9 +6,9 @@ export function EditorErrorMessage({
   message: string;
 }) {
   return (
-    <div className="p-4">
+    <div className="py-2">
       <h2 className="text-lg">{title}</h2>
-      <p className="text-red-500">{message}</p>
+      <p className={title == "Message" ? "" : "text-red-500"}>{message}</p>
     </div>
   );
 }

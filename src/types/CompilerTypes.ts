@@ -1,7 +1,6 @@
 export type CompilerResponse = {
   language_name: string;
-  compile_output: string;
-  message: string;
+  path: string;
   status: number;
   stdout: string;
   filteredStdout?: string;

@@ -7,6 +7,7 @@ import {
   TableRow,
 } from "./ui/table";
 import { CompilerResponse } from "../types/CompilerTypes";
+import { PathDeleteBtn } from "./PathDeleteBtn";
 
 type ResultTableProps = {
   response: CompilerResponse;
@@ -17,7 +18,7 @@ function TableContent({
   value,
 }: {
   text: string;
-  value: string | number;
+  value: string | number | JSX.Element;
 }) {
   return (
     <TableRow>
@@ -56,12 +57,21 @@ export function CompilerTable({ response }: ResultTableProps) {
         <TableBody>
           <>
             <TableContent text="Runtime" value={response.language_name} />
-            <TableContent text="Status_Code" value={`${response.status}`} />
             <TableContent
-              text="Compiler_Output"
-              value={response.compile_output}
+              text="Projektpfad"
+              value={
+                <div className="flex justify-between items-center">
+                  {response.path}
+                  <PathDeleteBtn />
+                </div>
+              }
             />
-            <TableContent text="Message" value={response.message} />
+            <TableContent
+              text="Status_Code"
+              value={`${response.status} ${
+                response.status === 0 ? "(OK)" : "(FEHLER)"
+              }`}
+            />
             <TableContent text="stdout" value={response.filteredStdout} />
             <TableContent text="stderr" value={response.stderr} />
           </>

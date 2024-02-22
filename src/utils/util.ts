@@ -53,3 +53,16 @@ export function getInitEditorCode(problem: Problem) {
       return "";
   }
 }
+
+export function refactorPath(path: string) {
+  // Find the last occurrence of //
+  const lastIndex = path.lastIndexOf("//");
+
+  if (lastIndex !== -1) {
+    // Replace // with \ and return the modified path
+    return path.substring(0, lastIndex) + "\\" + path.substring(lastIndex + 2);
+  }
+
+  // If // is not found, return the original path
+  return path;
+}

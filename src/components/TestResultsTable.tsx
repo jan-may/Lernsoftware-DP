@@ -42,7 +42,6 @@ export function TestResultsTable({ result, error }: ResultTableProps) {
       line = line.replace(/\s+/g, " ");
       const parts = line.split(" ");
 
-      console.log(parts);
       return {
         input: parts[1],
         output: parts[3],
@@ -82,6 +81,7 @@ export function TestResultsTable({ result, error }: ResultTableProps) {
                 size="sm"
                 variant="link"
                 className="pl-0"
+                disabled={error ? true : false}
               >
                 <Microscope size={18} className="mr-2" /> Testbericht
                 {showAllTests ? " ausblenden" : " anzeigen"}

@@ -6,21 +6,21 @@ import { EditorView } from "codemirror";
 import { Button } from "./ui/button";
 import { Code2, Play, RefreshCcw } from "lucide-react";
 import { testCases } from "../trees/fibonacci";
-import { getInitEditorCode } from "../utils/util";
+import { getInitEditorCode, refactorPath } from "../utils/util";
 import { TestResultsTable } from "./TestResultsTable";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import { setCode } from "../feautures/editor/editorSlice";
+import { setCode, setIsLoading } from "../feautures/editor/editorSlice";
 import { Problem } from "../feautures/settings/settingsSlice";
 import { useTheme } from "./theme-provider";
 import { CompilerTable } from "./CompilerTable";
 import { CompilerResponse } from "../types/CompilerTypes";
 import { CompilerInfoBtn } from "./CompilerInfoBtn";
 import { invoke } from "@tauri-apps/api/tauri";
+import { EditorErrorMessage } from "./EditorErrorMessage";
 
 const initResponse: CompilerResponse = {
   language_name: "",
-  compile_output: "",
-  message: "",
+  path: "",
   status: 0,
   stdout: "",
   filteredStdout: "",
@@ -30,23 +30,24 @@ const initResponse: CompilerResponse = {
 
 export function Editor() {
   const { theme } = useTheme();
-  const { code, showCompilerInfo } = useAppSelector((store) => store.editor);
+  const { code, showCompilerInfo, isLoading } = useAppSelector(
+    (store) => store.editor
+  );
   const { selectedProblem } = useAppSelector((store) => store.settings);
   const dispatch = useAppDispatch();
   const [sourceClicked, setSourceClicked] = React.useState(false);
   const [result, setResult] = React.useState("");
-  const [loading, setLoading] = React.useState(false);
-  const [apiResponse, setApiResponse] = React.useState(initResponse);
-  const [_error, _setError] = React.useState("");
+  const [codeRunResponse, setCodeRunResponse] = React.useState(initResponse);
+  const [error, setError] = React.useState("");
   const [dotnetVersion, setDotnetVersion] = React.useState("");
+  const [_projectPath, setProjectPath] = React.useState("");
   const onChange = React.useCallback((val: any, _viewUpdate: any) => {
     dispatch(setCode(val));
   }, []);
 
   function refreshValues() {
     setResult("");
-    setLoading(false);
-    setApiResponse(initResponse);
+    setCodeRunResponse(initResponse);
   }
 
   function handleRefresh(problem: Problem) {
@@ -85,41 +86,52 @@ export function Editor() {
   }
 
   const handleRunCode = async (codeText: string) => {
-    refreshValues();
-    setLoading(true);
+    dispatch(setIsLoading(true));
 
-    // Asynchronously check for dotnet version
-    const val = await invoke<string>("get_dotnet_version");
-    setDotnetVersion(val);
-    if (val.startsWith("Bitte")) {
-      _setError(val);
-      setLoading(false);
-      return; // Early return to prevent executing the rest of the code
-    }
-
-    // Continue with the rest of the function only if the above condition is not met
-    const fullCode = buildFullCode(codeText);
     try {
+      refreshValues();
+
+      // Fetch the .NET version and project path in parallel to optimize performance
+      // This assumes that `get_dotnet_version` and `get_dotnet_project_path` do not depend on each other
+      const [dotnetVersion, appdataPathUnrefactored] = await Promise.all([
+        invoke<string>("get_dotnet_version"),
+        invoke<string>("get_dotnet_project_path"),
+      ]);
+
+      // Early error handling if dotnetVersion starts with "Bitte"
+      if (dotnetVersion.startsWith("Bitte")) {
+        setError(dotnetVersion);
+        return;
+      }
+
+      setDotnetVersion(dotnetVersion);
+
+      const appdataPath = refactorPath(appdataPathUnrefactored); // only for windows ?
+      setProjectPath(appdataPath);
+
+      // Continue with the rest of the function only if the above condition is not met
+      const fullCode = buildFullCode(codeText);
+
       await invoke<string>("write_file_content", { code: fullCode });
-      const val = await invoke<string>("run_prog");
-      const value = JSON.parse(val);
-      const result = value.stdout;
-      // setRustResult(result);
-      setLoading(false);
-      const test = {
+      const runProgResult = await invoke<string>("run_prog");
+      const value = JSON.parse(runProgResult);
+
+      const response: CompilerResponse = {
         language_name: ".NET SDK " + dotnetVersion,
-        compile_output: "",
-        message: "",
+        path: appdataPath,
         status: value.status,
         stdout: value.stdout,
         stderr: value.stderr,
         time: 0,
       };
-      setApiResponse({ ...test });
-      setResult(result);
+
+      setCodeRunResponse(response);
+      setResult(value.stdout);
     } catch (error) {
-      console.error(error);
-      // Handle any errors that occur during the write or run operations
+      console.error("Fehler beim Ausführen des Codes:", error);
+      setError("Fehler beim Ausführen des Codes");
+    } finally {
+      dispatch(setIsLoading(false));
     }
   };
 
@@ -168,7 +180,7 @@ export function Editor() {
             variant="outline"
             onClick={() => handleRunCode(code)}
           >
-            {loading ? (
+            {isLoading ? (
               <>
                 <svg
                   className="animate-spin h-4 w-4 mr-4 bg-white border-[1.5px] border-black"
@@ -184,15 +196,25 @@ export function Editor() {
 
         <CompilerInfoBtn disabled={result != "" ? false : true} />
       </div>
-      <p>{dotnetVersion}</p>
+      <p>{dotnetVersion ? `.NET Version: ${dotnetVersion}` : ""}</p>
+      {codeRunResponse.stderr && (
+        <>
+          <EditorErrorMessage title="Fehler" message={codeRunResponse.stderr} />
+          <EditorErrorMessage
+            title="Message"
+            message={codeRunResponse.stdout}
+          />
+        </>
+      )}
+      {error && <p>{error}</p>}
       <div className="mt-4">
-        {apiResponse !== initResponse && showCompilerInfo && (
-          <CompilerTable response={apiResponse} />
+        {codeRunResponse !== initResponse && showCompilerInfo && (
+          <CompilerTable response={codeRunResponse} />
         )}
       </div>
-      {loading && <p>loading...</p>}
-      {result && (
-        <TestResultsTable result={result} error={apiResponse.stderr} />
+      {isLoading && <p>loading...</p>}
+      {result && !codeRunResponse.stderr && (
+        <TestResultsTable result={result} error={codeRunResponse.stderr} />
       )}
     </>
   );
