@@ -91,7 +91,6 @@ export const Tour = () => {
         disableCloseOnEsc
         hideCloseButton
         callback={(data) => {
-          console.log(data);
           if (data.index == 0 && data.action == "start") {
           }
           if (data.index == 1 && data.action == "update") {
