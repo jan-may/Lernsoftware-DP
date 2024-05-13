@@ -24,7 +24,7 @@
     "@radix-ui/react-tooltip": "^1.0.7",
     "@reduxjs/toolkit": "^2.2.3",
     "@replit/codemirror-lang-csharp": "^6.2.0",
-    "@tauri-apps/api": "^1.5.3",
+    "@tauri-apps/api": "^1.5.5",
     "@uiw/react-codemirror": "^4.21.25",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
