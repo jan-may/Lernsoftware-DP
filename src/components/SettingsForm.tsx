@@ -7,6 +7,7 @@ import {
   setHorizontalSpacing,
   setVerticalSpacing,
   ActionCreators,
+  setFieldSize,
 } from "../feautures/settings/settingsSlice";
 import { useAppSelector, useAppDispatch } from "../hooks/redux";
 import { Button } from "../components/ui/button";
@@ -66,6 +67,11 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
         if (field === "input") {
           dispatch(setInputText(value.toString()));
         }
+        if (field === "fieldSize") {
+          // ciel to next divisible by 2
+          // const cieled_val = value + (value % 2);
+          dispatch(setFieldSize(value));
+        }
       }
     });
   };
@@ -122,28 +128,30 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
             value={Math.floor(localDimensions.horizontalSpacing).toString()}
             onChange={(e) => handleChange(e, "horizontalSpacing")}
           />
-          <Field
-            key="circleRadius"
-            name="circleRadius"
-            label="circle-size"
-            value={Math.floor(localDimensions.circleRadius).toString()}
-            onChange={(e) => handleChange(e, "circleRadius")}
-          />
-          {(settings.selectedProblem === "gridTraveler" ||
-            (settings.selectedProblem === "canSum" &&
-              activeButton == ActivButton.bottomUp)) && (
+
+          {settings.selectedProblem === "gridTraveler" ||
+          (settings.selectedProblem === "canSum" &&
+            activeButton == ActivButton.bottomUp) ? (
             <Field
               key="fieldSize"
               name="fieldSize"
               label="field-Size"
               defaultValue={settings.fieldSize.toString()}
             />
+          ) : (
+            <Field
+              key="circleRadius"
+              name="circleRadius"
+              label="circle-size"
+              value={Math.floor(localDimensions.circleRadius).toString()}
+              onChange={(e) => handleChange(e, "circleRadius")}
+            />
           )}
         </div>
         <Button
           type="submit"
           className={`w-[calc(100%-16px)] ${
-            isOverflowing ? "sticky bottom-0 mt-2" : "absolute bottom-2"
+            isOverflowing ? "sticky-0 bottom-0 mt-2" : "absolute bottom-2"
           }`}
           disabled={activeButton === ActivButton.problem}
         >

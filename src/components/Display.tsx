@@ -13,21 +13,15 @@ import CanSumTabulatedVisualizer from "./Problems/CanSum/CanSumTabulatedVisualiz
 
 export const Display = () => {
   const { activeButton } = useAppSelector((store) => store.navbar);
-  const { selectedProblem } = useAppSelector((store) => store.settings);
-
-  const predefinedGrid = [
-    [1, 3, 1, 3, 2],
-    [1, 5, 1, 3, 2],
-    [4, 2, 1, 2, 2],
-    [4, 2, 1, 2, 2],
-    [4, 2, 1, 2, 2],
-  ];
+  const { selectedProblem, travelersInput } = useAppSelector(
+    (store) => store.settings
+  );
 
   const ProblemSwitcher = () => {
     switch (selectedProblem) {
       case "fibonacci":
         return (
-          <Card className="px-2 mx-2 my-2 min-h-[calc(100vh-78px)]">
+          <Card className="px-2 mx-2 my-2 min-h-[calc(100vh-71px)]">
             {activeButton === ActivButton.bottomUp ? <Grid /> : <Tree />}
           </Card>
         );
@@ -37,16 +31,17 @@ export const Display = () => {
             <Problem />
           </Card>
         ) : (
-          <Card className="px-2 mx-2 min-h-[calc(100vh-78px)]">
+          <Card className="px-2 mx-2 min-h-[calc(100vh-71px)]">
             <div className="p-4">
+              {!travelersInput.array.length && <h1>Loading...</h1>}
               {activeButton === ActivButton.recursiveTree && (
-                <GridTravelerVisualizer gridData={predefinedGrid} />
+                <GridTravelerVisualizer gridData={travelersInput.array} />
               )}
               {activeButton === ActivButton.topDownMemo && (
-                <GridTravelerMemoVisualizer gridData={predefinedGrid} />
+                <GridTravelerMemoVisualizer gridData={travelersInput.array} />
               )}
               {activeButton === ActivButton.bottomUp && (
-                <GridTravelerDPVisualizer gridData={predefinedGrid} />
+                <GridTravelerDPVisualizer gridData={travelersInput.array} />
               )}
             </div>
           </Card>
@@ -57,19 +52,19 @@ export const Display = () => {
             <Problem />
           </Card>
         ) : (
-          <Card className="px-2 mx-2 min-h-[calc(100vh-78px)]">
-            <div className="p-4">
-              {activeButton === ActivButton.recursiveTree && <Tree2 />}
-              {activeButton === ActivButton.topDownMemo && <Tree2 />}
-              {activeButton === ActivButton.bottomUp && (
-                <CanSumTabulatedVisualizer targetSum={12} numbers={[2, 5]} />
-              )}
-            </div>
+          <Card className="px-2 mx-2 my-2 min-h-[calc(100vh-71px)]">
+            {activeButton === ActivButton.recursiveTree && <Tree2 />}
+            {activeButton === ActivButton.topDownMemo && <Tree2 />}
+            {activeButton === ActivButton.bottomUp && (
+              <CanSumTabulatedVisualizer targetSum={12} numbers={[2, 5]} />
+            )}
           </Card>
         );
       default:
         return (
-          <h1>Bitte wähle ein Problem aus dem Dropdown-Menü, um zu starten.</h1>
+          <h1 className="ml-2">
+            Bitte wähle ein Problem aus dem Dropdown-Menü, um zu starten.
+          </h1>
         );
     }
   };

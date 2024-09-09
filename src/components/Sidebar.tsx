@@ -82,10 +82,12 @@ export const Sidebar = () => {
       : dispatch(setBluredCode(true));
   }, [activeButton, dispatch]);
 
+  console.log("isOverflowing", isOverflowing);
+
   return (
     <Card
       ref={sidebarRef}
-      className="p-2 m-2 left-0 top-0 fixed h-[98vh] tour-7 overflow-y-auto"
+      className="p-2 m-2 left-0 top-0 fixed h-[99vh] tour-7 overflow-y-auto"
     >
       <div style={{ minHeight: "calc(100vh - 37px)" }}>
         <CodeSelect />
