@@ -21,6 +21,10 @@ interface LocalDimensions {
   circleRadius: number;
 }
 
+interface SettingsFormProps {
+  isOverflowing: boolean; // New prop to handle overflow
+}
+
 const actionCreators: ActionCreators = {
   input: setInput,
   speed: setSpeed,
@@ -29,10 +33,13 @@ const actionCreators: ActionCreators = {
   circleRadius: setCircleRadius,
 };
 
-export const SettingsForm: React.FC = () => {
+export const SettingsForm: React.FC<SettingsFormProps> = ({
+  isOverflowing,
+}) => {
   const dispatch = useAppDispatch();
   const settings = useAppSelector((store) => store.settings);
   const { activeButton } = useAppSelector((store) => store.navbar);
+  const { selectedProblem } = useAppSelector((store) => store.settings);
   const [localDimensions, setLocalDimensions] = useState<LocalDimensions>({
     horizontalSpacing: settings.horizontalSpacing,
     verticalSpacing: settings.verticalSpacing,
@@ -48,6 +55,7 @@ export const SettingsForm: React.FC = () => {
       "verticalSpacing",
       "horizontalSpacing",
       "circleRadius",
+      "fieldSize",
     ].forEach((field) => {
       const value = getValueFromForm(form, `.form-input[name="${field}"]`);
       if (value !== null) {
@@ -121,10 +129,22 @@ export const SettingsForm: React.FC = () => {
             value={Math.floor(localDimensions.circleRadius).toString()}
             onChange={(e) => handleChange(e, "circleRadius")}
           />
+          {(settings.selectedProblem === "gridTraveler" ||
+            (settings.selectedProblem === "canSum" &&
+              activeButton == ActivButton.bottomUp)) && (
+            <Field
+              key="fieldSize"
+              name="fieldSize"
+              label="field-Size"
+              defaultValue={settings.fieldSize.toString()}
+            />
+          )}
         </div>
         <Button
           type="submit"
-          className="absolute bottom-2 w-[calc(100%-16px)]"
+          className={`w-[calc(100%-16px)] ${
+            isOverflowing ? "sticky bottom-0 mt-2" : "absolute bottom-2"
+          }`}
           disabled={activeButton === ActivButton.problem}
         >
           {activeButton === ActivButton.problem

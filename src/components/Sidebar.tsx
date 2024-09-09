@@ -12,7 +12,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { setBluredCode } from "../feautures/settings/settingsSlice";
 
 import { Card } from "./ui/card";
-import { useEffect } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   canSumCode,
   canSumMemoCode,
@@ -25,6 +25,8 @@ export const Sidebar = () => {
   const { selectedProblem } = useAppSelector((store) => store.settings);
 
   const noCode = `// no code to display`;
+  const sidebarRef = useRef<HTMLDivElement>(null);
+  const [isOverflowing, setIsOverflowing] = useState(false);
 
   // Create a dynamic map for code based on activeButton and selectedProblem
   const getCodeMap = () => {
@@ -59,6 +61,21 @@ export const Sidebar = () => {
 
   const codeMap = getCodeMap();
 
+  // Check for overflow and update the isOverflowing state
+  useEffect(() => {
+    const checkOverflow = () => {
+      if (sidebarRef.current) {
+        const { scrollHeight, clientHeight } = sidebarRef.current;
+        setIsOverflowing(scrollHeight > clientHeight);
+      }
+    };
+
+    checkOverflow(); // Initial check for overflow
+    window.addEventListener("resize", checkOverflow); // Check on resize
+
+    return () => window.removeEventListener("resize", checkOverflow);
+  }, [selectedProblem, activeButton]);
+
   useEffect(() => {
     activeButton === ActivButton.problem
       ? dispatch(setBluredCode(false))
@@ -66,11 +83,14 @@ export const Sidebar = () => {
   }, [activeButton, dispatch]);
 
   return (
-    <Card className="p-2 m-2 fixed tour-7">
+    <Card
+      ref={sidebarRef}
+      className="p-2 m-2 left-0 top-0 fixed h-[98vh] tour-7 overflow-y-auto"
+    >
       <div style={{ minHeight: "calc(100vh - 37px)" }}>
         <CodeSelect />
         <CodeDisplay code={codeMap[activeButton] || ""} language="cs" />
-        <SettingsForm />
+        <SettingsForm isOverflowing={isOverflowing} />
         <div style={{ marginTop: "30px" }}></div>
       </div>
     </Card>
