@@ -29,9 +29,10 @@ export const FaqAccordion = () => {
       <AccordionItem value="item-1">
         <AccordionTrigger>Wie kann ich die Testcases nutzen?</AccordionTrigger>
         <AccordionContent>
-          <p>Lade dir zuerst die Testcases herunter.</p>
-          <p> Führe dann die folgenden Schritte aus:</p>
-          <p>...</p>
+          <p>
+            Die Testcases sind im Editor ersichtlich, wenn das Quellcode Symbol
+            oben rechts geklickt wird.
+          </p>
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-2">

@@ -22,6 +22,24 @@ export function Navbar() {
         dispatch(setFunctionName("fibTab"));
       }
     }
+    if (selectedProblem === "gridTraveler") {
+      if (buttonName === ActivButton.recursiveTree) {
+        dispatch(setFunctionName("GridTravel"));
+      } else if (buttonName === ActivButton.topDownMemo) {
+        dispatch(setFunctionName("GridTravelMemo"));
+      } else if (buttonName === ActivButton.bottomUp) {
+        dispatch(setFunctionName("TraverlerTab"));
+      }
+    }
+    if (selectedProblem === "canSum") {
+      if (buttonName === ActivButton.recursiveTree) {
+        dispatch(setFunctionName("CanSumRec"));
+      } else if (buttonName === ActivButton.topDownMemo) {
+        dispatch(setFunctionName("CanSumMemo"));
+      } else if (buttonName === ActivButton.bottomUp) {
+        dispatch(setFunctionName("CanSumTab"));
+      }
+    }
   };
 
   const commonClasses = "hover:bg-primary hover:text-primary-foreground";

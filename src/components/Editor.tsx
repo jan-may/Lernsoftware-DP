@@ -5,7 +5,9 @@ import { csharp } from "@replit/codemirror-lang-csharp";
 import { EditorView } from "codemirror";
 import { Button } from "./ui/button";
 import { Code2, Play, RefreshCcw } from "lucide-react";
-import { testCases } from "../trees/fibonacci";
+import { travelerTestCases } from "./Problems/GridTraveler/Traveler";
+import { canSumTestCases } from "./Problems/CanSum/CanSum";
+import { fibTestCases } from "../trees/fibonacci";
 import { getInitEditorCode, refactorPath } from "../utils/util";
 import { TestResultsTable } from "./TestResultsTable";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
@@ -17,6 +19,9 @@ import { CompilerResponse } from "../types/CompilerTypes";
 import { CompilerInfoBtn } from "./CompilerInfoBtn";
 import { invoke } from "@tauri-apps/api/tauri";
 import { EditorErrorMessage } from "./EditorErrorMessage";
+import { fibCsCode } from "../trees/fibonacci";
+import { travelerCsCode } from "../components/Problems/GridTraveler/Traveler";
+import { canSumCsCode } from "../components/Problems/CanSum/CanSum";
 
 const initResponse: CompilerResponse = {
   language_name: "",
@@ -64,28 +69,57 @@ export function Editor() {
     }
     // check if testCases are already present
     // if not, append testCases
+    // check for each problem if testCases are already present else append
+    const testCases = getTestCases(selectedProblem);
+
     if (!code.endsWith(testCases)) {
       code = `${code}${testCases}`;
+      console.log("code", code);
     }
     return code;
   }
 
+  function getTestCases(problem: Problem) {
+    console.log("problem", problem);
+    switch (problem) {
+      case "fibonacci":
+        return fibTestCases;
+      case "gridTraveler":
+        return travelerTestCases;
+      case "canSum":
+        return canSumTestCases;
+      default:
+        return "";
+    }
+  }
+
   function setNotFullCode(code: String) {
-    // delete using System & delete testCases
+    const testCases = getTestCases(selectedProblem);
+    console.log("testCases", testCases);
+    console.log("code", code);
     return code.replace("using System; \n\n", "").replace(testCases, "");
   }
 
   function handleShowCode() {
     if (sourceClicked) {
       setSourceClicked(false);
+      console.log("hide code");
       dispatch(setCode(setNotFullCode(code)));
+      console.log("code1", code);
     } else {
       setSourceClicked(true);
-      dispatch(setCode(buildFullCode(code)));
+      console.log("show code");
+      const newCode = buildFullCode(code);
+      console.log("newCode", newCode);
+      dispatch(setCode(newCode));
+      // dispatch(setCode(buildFullCode(code)));
+      console.log("code2", code);
     }
   }
 
   const handleRunCode = async (codeText: string) => {
+    console.log("running code");
+    console.log(codeText);
     // check if running in browser or tauri client
     // if in browser, show error message - code can only be run in client
     dispatch(setIsLoading(true));
@@ -121,6 +155,8 @@ export function Editor() {
       // Continue with the rest of the function only if the above condition is not met
       const fullCode = buildFullCode(codeText);
 
+      console.log("fullCode", fullCode);
+
       await invoke<string>("write_file_content", { code: fullCode });
       const runProgResult = await invoke<string>("run_prog");
       const value = JSON.parse(runProgResult);
@@ -148,7 +184,24 @@ export function Editor() {
     // init code if not set
     // have to check for Problem later
     if (!code) dispatch(setCode(getInitEditorCode(selectedProblem)));
-  }, [dispatch]);
+    // delete testCases if not full code
+    // check if correct code is shown
+    if (
+      selectedProblem === "fibonacci" &&
+      !code.includes("public class Fibonacci")
+    ) {
+      dispatch(setCode(fibCsCode));
+    }
+    if (
+      selectedProblem === "gridTraveler" &&
+      !code.includes("public class GridTraveler")
+    ) {
+      dispatch(setCode(travelerCsCode));
+    }
+    if (selectedProblem === "canSum" && !code.includes("public class CanSum")) {
+      dispatch(setCode(canSumCsCode));
+    }
+  }, [dispatch, code, selectedProblem]);
 
   return (
     <>

@@ -101,7 +101,7 @@ export const fibCsCode = `public class Fibonacci
   public int FibTab(int n) {return -1;} //bottom-up with tabulation
 }`;
 
-export const testCases = `
+export const fibTestCases = `
 
 class Tests
 {

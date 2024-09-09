@@ -2,6 +2,8 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { Problem } from "../feautures/settings/settingsSlice";
 import { fibCsCode } from "../trees/fibonacci";
+import { travelerCsCode } from "../components/Problems/GridTraveler/Traveler";
+import { canSumCsCode } from "../components/Problems/CanSum/CanSum";
 
 export const getCircularReplacer = () => {
   const seen = new WeakSet();
@@ -47,8 +49,10 @@ export function getInitEditorCode(problem: Problem) {
   switch (problem) {
     case "fibonacci":
       return fibCsCode;
-    // other cases
-    // ...
+    case "gridTraveler":
+      return travelerCsCode;
+    case "canSum":
+      return canSumCsCode;
     default:
       return "";
   }

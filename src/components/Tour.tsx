@@ -60,7 +60,7 @@ const TOUR_STEPS = [
   },
   {
     target: ".tour-8",
-    content: "Laufzeitanalyse und ggf. Erklärung.",
+    content: "Laufzeitanalyse und Erklärung des gewählten Algorithmus.",
     disableBeacon: true,
     placement: "right",
   },

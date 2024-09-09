@@ -30,15 +30,11 @@ export const CodeSelect = () => {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="fibonacci">Fibonacci</SelectItem>
-              <SelectItem value="canSum" disabled>
-                CanSum
-              </SelectItem>
-              <SelectItem value="gridTraveler" disabled>
-                GridTraveler
-              </SelectItem>
-              <SelectItem value="levenshtein" disabled>
+              <SelectItem value="canSum">CanSum</SelectItem>
+              <SelectItem value="gridTraveler">GridTraveler</SelectItem>
+              {/* <SelectItem value="levenshtein" disabled>
                 Levenshtein-Distanz
-              </SelectItem>
+              </SelectItem> */}
             </SelectContent>
           </Select>
         </div>

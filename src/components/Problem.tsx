@@ -1,23 +1,89 @@
-import { InlineMath, BlockMath } from "react-katex";
+import { InlineMath } from "react-katex";
 import "katex/dist/katex.min.css";
-import { FibTable } from "./FibTable";
-import { fibonacciDefinition } from "../trees/fibonacci";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "../components/ui/accordion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Eye } from "lucide-react";
 import { Button } from "./ui/button";
 import { Editor } from "./Editor";
 import { useAppSelector } from "../hooks/redux";
+import { FibDescription } from "./Problems/Fib/FibDescription";
+import { TravelerDescription } from "./Problems/GridTraveler/TravelerDescription";
+import { CanSumDescription } from "./Problems/CanSum/CanSumDescription";
+import { CanSumTeilstruktur } from "./Problems/CanSum/CanSumTeilstruktur";
+import { CanSumOverlappingTeilproblem } from "./Problems/CanSum/CanSumOverlappingTeilproblem";
+import { GridTravelerTeilstruktur } from "./Problems/GridTraveler/GridTravelerTeilstruktur";
+import { GridTravelerOverlappingTeilproblem } from "./Problems/GridTraveler/GridTravelerOverlappingProblem";
+
+const renderContent = (selectedProblem: any) => {
+  switch (selectedProblem) {
+    case "fibonacci":
+      return <FibDescription />;
+    case "canSum":
+      return <CanSumDescription />;
+    case "gridTraveler":
+      return <TravelerDescription />;
+
+    default:
+      return <div>Default</div>;
+  }
+};
+
+const renderProblemName = (selectedProblem: any) => {
+  switch (selectedProblem) {
+    case "fibonacci":
+      return <code>Fibonacci</code>;
+    case "canSum":
+      return <code>CanSum</code>;
+    case "gridTraveler":
+      return <code>GridTraveler</code>;
+    default:
+      return <div>Default</div>;
+  }
+};
+
+const renderDynProblemTeilstruktur = (selectedProblem: any) => {
+  switch (selectedProblem) {
+    case "fibonacci":
+      return <InlineMath math="xxx" />;
+    case "canSum":
+      return <CanSumTeilstruktur />;
+    case "gridTraveler":
+      return <GridTravelerTeilstruktur />;
+    default:
+      return <div>Default</div>;
+  }
+};
+
+const renderDynProblemOverlappingTeilproblem = (selectedProblem: any) => {
+  switch (selectedProblem) {
+    case "fibonacci":
+      return <InlineMath math="111" />;
+    case "canSum":
+      return <CanSumOverlappingTeilproblem />;
+    case "gridTraveler":
+      return <GridTravelerOverlappingTeilproblem />;
+    default:
+      return <div>Default</div>;
+  }
+};
 
 export const Problem = () => {
+  const { selectedProblem } = useAppSelector((store) => store.settings);
   const { accordionOpen } = useAppSelector((store) => store.tour);
   const [teilstrukturBlur, setTeilstrukturBlur] = useState(true);
   const [teilproblemBlur, setTeilproblemBlur] = useState(true);
+
+  console.log(selectedProblem);
+
+  useEffect(() => {
+    setTeilstrukturBlur(true);
+    setTeilproblemBlur(true);
+  }, [selectedProblem]);
 
   return (
     <div style={{ minHeight: "calc(100vh - 78px)" }}>
@@ -26,15 +92,7 @@ export const Problem = () => {
           <AccordionTrigger className="text-xl">
             Problembeschreibung
           </AccordionTrigger>
-          <AccordionContent>
-            <p className="text-sm">
-              Die Fibonacci-Folge ist rekursiv wie folgt definiert:
-            </p>
-            <div className="my-10 w-32">
-              <BlockMath math={fibonacciDefinition} />
-            </div>
-            <FibTable />
-          </AccordionContent>
+          <AccordionContent>{renderContent(selectedProblem)}</AccordionContent>
         </AccordionItem>
         <AccordionItem value="Bedingung">
           <AccordionTrigger className="text-xl">
@@ -78,10 +136,12 @@ export const Problem = () => {
                 selbst erarbeiten.
               </p>
               <p className="mb-2">
-                <span className="mr-4 ">Optimale Teilstruktur:</span>
+                <span className="mr-4 text-base font-semibold">
+                  Optimale Teilstruktur:
+                </span>
                 <span className="relative inline-flex items-center">
                   <div className={teilstrukturBlur ? "blur-md" : ""}>
-                    <InlineMath math="F(n) = F(n-1) + F(n-2)" />
+                    {renderDynProblemTeilstruktur(selectedProblem)}
                   </div>
                   <Button
                     className={
@@ -98,11 +158,12 @@ export const Problem = () => {
                 </span>
               </p>
               <p>
-                <span className="mr-4">Überlappende Teilprobleme:</span>
+                <span className="mr-4 text-base font-semibold">
+                  Überlappende Teilprobleme:
+                </span>
                 <span className="relative inline-flex items-center">
                   <div className={teilproblemBlur ? "blur-md" : ""}>
-                    Für <InlineMath math="F(5)" /> muss bspw.{" "}
-                    <InlineMath math="F(3)" /> zwei Mal berechnet werden.
+                    {renderDynProblemOverlappingTeilproblem(selectedProblem)}
                   </div>
                   <Button
                     className={
@@ -129,7 +190,13 @@ export const Problem = () => {
             <div className="max-w-[800px] tour-3">
               <p className="mb-1">
                 Implementieren Sie folgende Methoden der Klasse{" "}
-                <code>FibonacciCalculator</code>.
+                {renderProblemName(selectedProblem)}.
+              </p>
+              <p>
+                Nutzen Sie dabei die Kommentare und Methodennamen als
+                Hilfestellung. Musterlösungen und eine unterstützende
+                Visualisierung finden Sie in den jeweiligen Tabs der
+                Algorithmen.
               </p>
               <Editor />
             </div>

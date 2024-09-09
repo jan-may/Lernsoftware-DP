@@ -17,6 +17,7 @@ export class TreeNodeModel<T> {
 
   item: T;
   isMemo: boolean;
+  endNode?: boolean;
   key: string;
 
   /**

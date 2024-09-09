@@ -17,6 +17,7 @@ export const editorSlice = createSlice({
   initialState,
   reducers: {
     setCode: (state, action: PayloadAction<string>) => {
+      console.log("setCode", action.payload);
       state.code = action.payload;
     },
     setShowCompilerInfo: (state, action: PayloadAction<boolean>) => {

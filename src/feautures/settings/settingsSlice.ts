@@ -14,7 +14,18 @@ export type Problem =
   | "canSum"
   | "levenshtein"
   | "";
-export type FunctionName = "fib" | "fibMemo" | "fibTab" | "";
+
+export type FunctionName =
+  | "fib"
+  | "fibMemo"
+  | "fibTab"
+  | "GridTravel"
+  | "GridTravelMemo"
+  | "TraverlerTab"
+  | "CanSumRec"
+  | "CanSumMemo"
+  | "CanSumTab"
+  | "";
 
 export const SPEED = 300;
 
