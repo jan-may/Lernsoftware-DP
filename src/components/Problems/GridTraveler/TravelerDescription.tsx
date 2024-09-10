@@ -51,13 +51,15 @@ export const TravelerDescription: FC = () => {
           Sei das Gitter <InlineMath math="G" /> gegeben durch:
         </p>
         <div className="ml-6 my-3">
-          <InlineMath
-            math="G = \begin{bmatrix}
-          1 & 3 & 1 \\
-          1 & 5 & 1 \\
-          4 & 2 & 1
-          \end{bmatrix}"
-          />
+          <p>
+            <InlineMath
+              math="G = \begin{bmatrix}
+            1 & 3 & 1 \\
+            1 & 5 & 1 \\
+            4 & 2 & 1
+            \end{bmatrix}"
+            />
+          </p>
         </div>
         <p>
           Der günstigste Pfad von <InlineMath math="G(0,0)" /> nach{" "}
