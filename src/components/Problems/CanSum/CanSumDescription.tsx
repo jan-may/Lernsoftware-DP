@@ -4,7 +4,7 @@ import { InlineMath } from "react-katex";
 export const CanSumDescription: FC = () => {
   return (
     <>
-      <p className="text-sm">
+      <p>
         Gegeben sei eine Menge{" "}
         <InlineMath math="S = \{a_1, a_2, \dots, a_n\}" /> von{" "}
         <InlineMath math="n" /> positiven ganzen Zahlen sowie eine Zielzahl{" "}
