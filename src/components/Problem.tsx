@@ -1,4 +1,3 @@
-import { InlineMath } from "react-katex";
 import "katex/dist/katex.min.css";
 import {
   Accordion,
