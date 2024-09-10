@@ -52,11 +52,11 @@ export const TravelerDescription: FC = () => {
         </p>
         <div className="ml-6 my-3">
           <InlineMath
-            math="G = \begin{pmatrix}
+            math="G = \begin{bmatrix}
           1 & 3 & 1 \\
           1 & 5 & 1 \\
           4 & 2 & 1
-          \end{pmatrix}"
+          \end{bmatrix}"
           />
         </div>
         <p>
