@@ -131,7 +131,7 @@ const GridTravelerVisualizer: React.FC<GridTravelerProps> = ({ gridData }) => {
           <strong>Aktuelle Pfadkosten:</strong> {currentCost}
         </div>
         <div>
-          <strong>Bisheringe min. Pfadkosten:</strong>{" "}
+          <strong>Bisherige min. Pfadkosten:</strong>{" "}
           {minSum === Number.MAX_SAFE_INTEGER ? "N/A" : minSum}
         </div>
         <div>
