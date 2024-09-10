@@ -8,6 +8,7 @@ import {
   setVerticalSpacing,
   ActionCreators,
   setFieldSize,
+  setTravelersInput,
 } from "../feautures/settings/settingsSlice";
 import { useAppSelector, useAppDispatch } from "../hooks/redux";
 import { Button } from "../components/ui/button";
@@ -15,6 +16,7 @@ import { Input } from "../components/ui/input";
 import { Label } from "./ui/label";
 import { Separator } from "./ui/separator";
 import { ActivButton } from "../feautures/navbar/navbarSlice";
+import ArrayField from "./ArrayField";
 
 interface LocalDimensions {
   horizontalSpacing: number;
@@ -46,6 +48,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
     verticalSpacing: settings.verticalSpacing,
     circleRadius: settings.circleRadius,
   });
+  const [fontSize, setFontSize] = useState(16); // Default font size in pixels
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -68,8 +71,6 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
           dispatch(setInputText(value.toString()));
         }
         if (field === "fieldSize") {
-          // ciel to next divisible by 2
-          // const cieled_val = value + (value % 2);
           dispatch(setFieldSize(value));
         }
       }
@@ -98,16 +99,44 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
     setLocalDimensions({ ...localDimensions, [field]: Number(e.target.value) });
   };
 
+  const handleArrayChange = (array: number[][]) => {
+    dispatch(setTravelersInput({ array })); // Dispatch action to update the state
+  };
+
+  useEffect(() => {
+    // Update the CSS variable whenever fontSize changes
+    document.documentElement.style.setProperty(
+      "--p-font-size",
+      `${fontSize}px`
+    );
+  }, [fontSize]);
+
+  const handleTextSizeChange = (e: any) => {
+    setFontSize(e.target.value);
+  };
+
+  console.log("fontsize", fontSize);
+
   return (
     <form onSubmit={handleSubmit}>
       <div className="flex flex-col">
         <div>
-          <Field
-            name="input"
-            label="input"
-            defaultValue={settings.input.toString()}
-            onChange={(e) => handleInputChange(e)}
-          />
+          {selectedProblem === "gridTraveler" && (
+            <ArrayField
+              name="travelersInput"
+              label="GridTravelers Input Grid"
+              defaultValue={settings.travelersInput.array} // Ensure this is the correct 2D array
+              onChange={handleArrayChange} // Update state on change
+            />
+          )}
+          {selectedProblem === "fibonacci" && (
+            <Field
+              name="input"
+              label="input"
+              defaultValue={settings.input.toString()}
+              onChange={(e) => handleInputChange(e)}
+            />
+          )}
           <Separator className="my-2" />
           <Field
             name="speed"
@@ -115,34 +144,49 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
             defaultValue={settings.speed.toString()}
           />
           <Field
-            key="verticalSpacing"
-            name="verticalSpacing"
-            label="x-spacing"
-            value={Math.floor(localDimensions.verticalSpacing).toString()}
-            onChange={(e) => handleChange(e, "verticalSpacing")}
+            name="textSize"
+            label="Textgröße"
+            defaultValue={settings.textSize.toString()}
+            onChange={handleTextSizeChange}
           />
-          <Field
-            key="horizontalSpacing"
-            name="horizontalSpacing"
-            label="y-spacing"
-            value={Math.floor(localDimensions.horizontalSpacing).toString()}
-            onChange={(e) => handleChange(e, "horizontalSpacing")}
-          />
-
+          {selectedProblem === "fibonacci" ||
+            (selectedProblem === "canSum" &&
+              activeButton !== ActivButton.bottomUp && (
+                <>
+                  <Field
+                    key="verticalSpacing"
+                    name="verticalSpacing"
+                    label="x-spacing"
+                    value={Math.floor(
+                      localDimensions.verticalSpacing
+                    ).toString()}
+                    onChange={(e) => handleChange(e, "verticalSpacing")}
+                  />
+                  <Field
+                    key="horizontalSpacing"
+                    name="horizontalSpacing"
+                    label="y-spacing"
+                    value={Math.floor(
+                      localDimensions.horizontalSpacing
+                    ).toString()}
+                    onChange={(e) => handleChange(e, "horizontalSpacing")}
+                  />
+                </>
+              ))}
           {settings.selectedProblem === "gridTraveler" ||
           (settings.selectedProblem === "canSum" &&
             activeButton == ActivButton.bottomUp) ? (
             <Field
               key="fieldSize"
               name="fieldSize"
-              label="field-Size"
+              label="Feldgröße"
               defaultValue={settings.fieldSize.toString()}
             />
           ) : (
             <Field
               key="circleRadius"
               name="circleRadius"
-              label="circle-size"
+              label="Knotenradius"
               value={Math.floor(localDimensions.circleRadius).toString()}
               onChange={(e) => handleChange(e, "circleRadius")}
             />

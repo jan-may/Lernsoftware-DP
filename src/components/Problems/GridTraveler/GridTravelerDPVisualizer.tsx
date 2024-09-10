@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useAppSelector } from "../../../hooks/redux";
 
 interface Cell {
   x: number;
@@ -14,6 +15,7 @@ interface GridTravelerDPProps {
 const GridTravelerDPVisualizer: React.FC<GridTravelerDPProps> = ({
   gridData,
 }) => {
+  const { speed, fieldSize } = useAppSelector((store) => store.settings);
   const [grid, setGrid] = useState<Cell[][] | null>(null);
   const [dp, setDp] = useState<number[][] | null>(null); // DP table
   const [currentCell, setCurrentCell] = useState<{
@@ -73,7 +75,7 @@ const GridTravelerDPVisualizer: React.FC<GridTravelerDPProps> = ({
         )
       )
     );
-    await new Promise((resolve) => setTimeout(resolve, 500)); // Add delay to visualize steps
+    await new Promise((resolve) => setTimeout(resolve, speed)); // Add delay to visualize steps
 
     // Fill the first column (dp[i][0])
     for (let i = 1; i < gridData.length; i++) {
@@ -90,7 +92,7 @@ const GridTravelerDPVisualizer: React.FC<GridTravelerDPProps> = ({
           )
         )
       );
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, speed));
     }
 
     // Fill the first row (dp[0][j])
@@ -108,7 +110,7 @@ const GridTravelerDPVisualizer: React.FC<GridTravelerDPProps> = ({
           )
         )
       );
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, speed));
     }
 
     // Fill the rest of the DP table
@@ -119,7 +121,7 @@ const GridTravelerDPVisualizer: React.FC<GridTravelerDPProps> = ({
           left: { x: j - 1, y: i },
         });
         setHideRedCell(true);
-        await new Promise((resolve) => setTimeout(resolve, 500)); // Show comparison step
+        await new Promise((resolve) => setTimeout(resolve, speed * 2.5)); // Show comparison step
 
         // Now calculate and assign the DP value
         setHideRedCell(false);
@@ -139,7 +141,7 @@ const GridTravelerDPVisualizer: React.FC<GridTravelerDPProps> = ({
             )
           )
         );
-        await new Promise((resolve) => setTimeout(resolve, 500)); // Delay to visualize the DP value filling
+        await new Promise((resolve) => setTimeout(resolve, speed)); // Delay to visualize the DP value filling
       }
     }
 
@@ -195,34 +197,32 @@ const GridTravelerDPVisualizer: React.FC<GridTravelerDPProps> = ({
             row.map((cell) => (
               <div
                 key={`${cell.x}-${cell.y}`}
-                className={`w-16 h-16 border flex items-center justify-center 
-                  ${
-                    isFinished &&
-                    rowIndex === gridData.length - 1 &&
-                    cell.x === gridData[0].length - 1
-                      ? "bg-green-300"
-                      : ""
-                  }
-                  ${
-                    currentCell?.x === cell.x &&
-                    currentCell?.y === cell.y &&
-                    !hideRedCell
-                      ? "border-red-500 border-4"
-                      : "border-gray-400"
-                  }
-                  ${
-                    comparingCells.top?.x === cell.x &&
-                    comparingCells.top?.y === cell.y
-                      ? "bg-yellow-300"
-                      : ""
-                  }
-                  ${
-                    comparingCells.left?.x === cell.x &&
-                    comparingCells.left?.y === cell.y
-                      ? "bg-purple-300"
-                      : ""
-                  }
-                  ${cell.dpValue !== null ? "bg-blue-300" : "bg-gray-100"}`}
+                style={{ width: `${fieldSize}px`, height: `${fieldSize}px` }} // Use inline styles for dynamic sizing
+                className={`border flex items-center justify-center 
+    ${
+      isFinished &&
+      rowIndex === gridData.length - 1 &&
+      cell.x === gridData[0].length - 1
+        ? "bg-green-300"
+        : ""
+    }
+    ${
+      currentCell?.x === cell.x && currentCell?.y === cell.y && !hideRedCell
+        ? "border-red-500 border-4"
+        : "border-gray-400"
+    }
+    ${
+      comparingCells.top?.x === cell.x && comparingCells.top?.y === cell.y
+        ? "bg-yellow-300"
+        : ""
+    }
+    ${
+      comparingCells.left?.x === cell.x && comparingCells.left?.y === cell.y
+        ? "bg-purple-300"
+        : ""
+    }
+    ${cell.dpValue !== null ? "bg-blue-300" : "bg-gray-100"}
+  `}
               >
                 <div className="text-center">
                   <p className="text-sm">
@@ -250,7 +250,7 @@ const GridTravelerDPVisualizer: React.FC<GridTravelerDPProps> = ({
       <div className="text-left ">
         <p className="py-2 font-semibold">Legende:</p>
         <div className="text-left mb-4">
-          <div className="grid grid-cols-2 gap-2 w-[470px]">
+          <div className="grid grid-cols-2 gap-1 w-[470px]">
             <div>
               <span className="inline-block w-4 h-4 bg-purple-300 mr-2"></span>
               Zelle 1 für Vergleich

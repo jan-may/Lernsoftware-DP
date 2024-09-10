@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useAppSelector } from "../../../hooks/redux";
 
 interface TableCell {
   value: number; // The index value
@@ -17,6 +18,7 @@ const CanSumTabulatedVisualizer: React.FC<CanSumTabulatedVisualizerProps> = ({
   const [table, setTable] = useState<TableCell[]>([]);
   const [currentStep, setCurrentStep] = useState<number>(0);
   const [isRunning, setIsRunning] = useState<boolean>(false);
+  const { speed } = useAppSelector((store) => store.settings);
 
   useEffect(() => {
     // Initialize the table with all cells set to false (no cell is reachable initially)
@@ -49,7 +51,7 @@ const CanSumTabulatedVisualizer: React.FC<CanSumTabulatedVisualizerProps> = ({
             setCurrentStep(newSum); // Update the current step for visualization
 
             // Add a small delay to show steps in the table
-            await new Promise((resolve) => setTimeout(resolve, 500));
+            await new Promise((resolve) => setTimeout(resolve, speed));
           }
         }
       }

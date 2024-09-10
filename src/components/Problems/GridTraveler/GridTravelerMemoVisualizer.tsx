@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useAppSelector } from "../../../hooks/redux";
 
 interface Cell {
   x: number;
@@ -17,6 +18,7 @@ interface GridTravelerMemoProps {
 const GridTravelerMemoVisualizer: React.FC<GridTravelerMemoProps> = ({
   gridData,
 }) => {
+  const { speed, fieldSize } = useAppSelector((store) => store.settings);
   const [grid, setGrid] = useState<Cell[][] | null>(null);
   const [currentCell, setCurrentCell] = useState<{
     x: number;
@@ -70,7 +72,7 @@ const GridTravelerMemoVisualizer: React.FC<GridTravelerMemoProps> = ({
           )
         )
       );
-      await new Promise((resolve) => setTimeout(resolve, 150)); // Small delay for visualization
+      await new Promise((resolve) => setTimeout(resolve, speed)); // Small delay for visualization
       return memo[m][n];
     }
 
@@ -85,7 +87,7 @@ const GridTravelerMemoVisualizer: React.FC<GridTravelerMemoProps> = ({
     }
 
     // Add a delay to visualize the steps
-    await new Promise((resolve) => setTimeout(resolve, 150));
+    await new Promise((resolve) => setTimeout(resolve, speed));
 
     if (m === 0 && n === 0) {
       return gridData[0][0]; // Base case
@@ -130,7 +132,7 @@ const GridTravelerMemoVisualizer: React.FC<GridTravelerMemoProps> = ({
       );
 
       // Add delay to visualize memoization step for each cell individually
-      await new Promise((resolve) => setTimeout(resolve, 150));
+      await new Promise((resolve) => setTimeout(resolve, speed));
 
       // Remove the red border after memoization
       setCurrentCell(null);
@@ -192,18 +194,17 @@ const GridTravelerMemoVisualizer: React.FC<GridTravelerMemoProps> = ({
             row.map((cell) => (
               <div
                 key={`${cell.x}-${cell.y}`}
-                className={`w-16 h-16 border flex items-center justify-center 
-                  ${
-                    cell.isFinal ? "bg-green-300" : ""
-                  } /* Mark final cell green */
-                  ${cell.memoized ? "bg-blue-300" : "bg-gray-100"}
-                  ${cell.fromMemo ? "bg-orange-300" : ""}
-                  ${
-                    currentCell?.x === cell.x && currentCell?.y === cell.y
-                      ? "border-red-500 border-4"
-                      : "border-gray-400"
-                  }
-                `}
+                style={{ width: `${fieldSize}px`, height: `${fieldSize}px` }} // Use inline styles for dynamic sizing
+                className={`border flex items-center justify-center 
+    ${cell.isFinal ? "bg-green-300" : ""} /* Mark final cell green */
+    ${cell.memoized ? "bg-blue-300" : "bg-gray-100"}
+    ${cell.fromMemo ? "bg-orange-300" : ""}
+    ${
+      currentCell?.x === cell.x && currentCell?.y === cell.y
+        ? "border-red-500 border-4"
+        : "border-gray-400"
+    }
+  `}
               >
                 <div className="text-center">
                   <p className="text-sm">
@@ -237,7 +238,7 @@ const GridTravelerMemoVisualizer: React.FC<GridTravelerMemoProps> = ({
       <div className="text-left">
         <p className="py-2 font-semibold">Legende:</p>
         <div className="text-left mb-4 flex max-w-[500px] justify-center">
-          <div className="grid grid-cols-2 gap-2 w-[470px]">
+          <div className="grid grid-cols-2 gap-1 w-[470px]">
             <div className="w-[220px]">
               <span className="inline-block w-4 h-4 bg-blue-300 mr-2"></span>
               Memoisierte Zelle
@@ -253,6 +254,9 @@ const GridTravelerMemoVisualizer: React.FC<GridTravelerMemoProps> = ({
             <div>
               <span className="inline-block w-4 h-4 border-4 border-red-500 mr-2"></span>
               Zelle in Bearbeitung
+            </div>
+            <div>
+              <small>(Wert)</small> = Memoisierte Kosten
             </div>
           </div>
         </div>

@@ -1,5 +1,14 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
+type TravelersInput = {
+  array: number[][];
+};
+
+type CanSumInput = {
+  targetSum: number;
+  numbers: number[];
+};
+
 export type ActionCreators = {
   input: typeof setInput;
   speed: typeof setSpeed;
@@ -27,25 +36,42 @@ export type FunctionName =
   | "CanSumTab"
   | "";
 
-export const SPEED = 300;
+export const SPEED = 250;
 
 interface SettingsState {
   selectedProblem: Problem;
   functionName: FunctionName;
   input: number;
   inputText: string;
+  travelersInput: TravelersInput;
+  canSumInput: CanSumInput;
   speed: number;
   sidebarWidth: number;
   verticalSpacing: number;
   horizontalSpacing: number;
   circleRadius: number;
   bluredCode: boolean;
+  fieldSize: number;
+  textSize: number;
 }
 
 const initialState: SettingsState = {
   selectedProblem: "",
   functionName: "",
   input: 5,
+  travelersInput: {
+    array: [
+      [1, 3, 1, 3, 2],
+      [1, 5, 1, 3, 2],
+      [4, 2, 1, 2, 2],
+      [4, 2, 1, 2, 2],
+      [4, 2, 1, 2, 2],
+    ],
+  },
+  canSumInput: {
+    targetSum: 7,
+    numbers: [2, 3],
+  },
   inputText: "5",
   speed: SPEED,
   sidebarWidth: 320,
@@ -53,6 +79,8 @@ const initialState: SettingsState = {
   horizontalSpacing: 0,
   circleRadius: 0,
   bluredCode: true,
+  fieldSize: 64,
+  textSize: 14,
 };
 
 export const settingsSlice = createSlice({
@@ -89,6 +117,18 @@ export const settingsSlice = createSlice({
     setFunctionName: (state, action: PayloadAction<FunctionName>) => {
       state.functionName = action.payload;
     },
+    setTravelersInput: (state, action: PayloadAction<TravelersInput>) => {
+      state.travelersInput = action.payload;
+    },
+    setCanSumInput: (state, action: PayloadAction<CanSumInput>) => {
+      state.canSumInput = action.payload;
+    },
+    setFieldSize: (state, action: PayloadAction<number>) => {
+      state.fieldSize = action.payload;
+    },
+    setTextSize: (state, action: PayloadAction<number>) => {
+      state.textSize = action.payload;
+    },
   },
 });
 
@@ -103,5 +143,9 @@ export const {
   setSelectedProblem,
   setBluredCode,
   setFunctionName,
+  setTravelersInput,
+  setCanSumInput,
+  setFieldSize,
+  setTextSize,
 } = settingsSlice.actions;
 export default settingsSlice.reducer;

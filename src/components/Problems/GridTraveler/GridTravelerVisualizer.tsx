@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useAppSelector } from "../../../hooks/redux";
 
 interface Cell {
   x: number;
@@ -13,6 +14,7 @@ interface GridTravelerProps {
 }
 
 const GridTravelerVisualizer: React.FC<GridTravelerProps> = ({ gridData }) => {
+  const { speed, fieldSize } = useAppSelector((store) => store.settings);
   const [grid, setGrid] = useState<Cell[][] | null>(null);
   const [currentCell, setCurrentCell] = useState<{ x: number; y: number }>({
     x: 0,
@@ -66,7 +68,7 @@ const GridTravelerVisualizer: React.FC<GridTravelerProps> = ({ gridData }) => {
     }
 
     // Add a delay to visualize the steps
-    await new Promise((resolve) => setTimeout(resolve, 150));
+    await new Promise((resolve) => setTimeout(resolve, speed));
 
     if (m === 0 && n === 0) {
       const finalCost = cumulativeCost + gridData[m][n];
@@ -117,7 +119,7 @@ const GridTravelerVisualizer: React.FC<GridTravelerProps> = ({ gridData }) => {
     setVisitedCellsCount(0); // Reset visited cells count
     recursiveGridTraveler(gridData.length - 1, gridData[0].length - 1, 0).then(
       () => setIsRunning(false)
-    ); // Start from bottom-right corner
+    );
   };
 
   return (
@@ -149,13 +151,14 @@ const GridTravelerVisualizer: React.FC<GridTravelerProps> = ({ gridData }) => {
             row.map((cell) => (
               <div
                 key={`${cell.x}-${cell.y}`}
-                className={`w-16 h-16 border flex items-center justify-center 
-                  ${cell.onCurrentPath ? "bg-green-300" : "bg-gray-100"}
-                  ${
-                    currentCell.x === cell.x && currentCell.y === cell.y
-                      ? "border-red-500 border-4"
-                      : "border-gray-400"
-                  }
+                style={{ width: `${fieldSize}px`, height: `${fieldSize}px` }} // Use inline styles for dynamic sizing
+                className={`border flex items-center justify-center 
+                ${cell.onCurrentPath ? "bg-green-300" : "bg-gray-100"}
+                ${
+                  currentCell.x === cell.x && currentCell.y === cell.y
+                    ? "border-red-500 border-4"
+                    : "border-gray-400"
+                }
                 `}
               >
                 <div className="text-center">
