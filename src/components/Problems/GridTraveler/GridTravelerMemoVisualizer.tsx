@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAppSelector } from "../../../hooks/redux";
+import { Button } from "../../../components/ui/button";
 
 interface Cell {
   x: number;
@@ -169,17 +170,13 @@ const GridTravelerMemoVisualizer: React.FC<GridTravelerMemoProps> = ({
 
   return (
     <div className="flex flex-col items-center">
-      <h1 className="text-xl mb-4">GridTraveler Memoization Visualization</h1>
-
-      {/* Display current cumulative cost, minimum path sum, and visited cells count */}
-      <div className="flex space-x-4 mb-4">
-        <div>{/* <strong>Current Path Cost:</strong> {currentCost} */}</div>
+      <div className="flex space-x-4 my-4">
         <div>
-          <strong>Minimum Path Sum to Last Cell:</strong>{" "}
-          {minSum === Number.MAX_SAFE_INTEGER ? "Not Found" : minSum}
+          <strong>Minimale Pfadkosten:</strong>{" "}
+          {minSum === Number.MAX_SAFE_INTEGER ? "N/A" : minSum}
         </div>
         <div>
-          <strong>Visited Cells:</strong> {visitedCellsCount}
+          <strong>Besuchte Zellen:</strong> {visitedCellsCount}
         </div>
       </div>
 
@@ -225,7 +222,7 @@ const GridTravelerMemoVisualizer: React.FC<GridTravelerMemoProps> = ({
         <p>Loading grid...</p>
       )}
 
-      <button
+      <Button
         className={`bg-blue-500 text-white px-4 py-2 rounded ${
           isRunning ? "opacity-50 cursor-not-allowed" : ""
         }`}
@@ -233,7 +230,7 @@ const GridTravelerMemoVisualizer: React.FC<GridTravelerMemoProps> = ({
         disabled={isRunning}
       >
         {isRunning ? "Running..." : "Start"}
-      </button>
+      </Button>
       {/* Legend for the colors */}
       <div className="text-left">
         <p className="py-2 font-semibold">Legende:</p>

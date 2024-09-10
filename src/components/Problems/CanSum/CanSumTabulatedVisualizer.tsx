@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAppSelector } from "../../../hooks/redux";
+import { Button } from "../../../components/ui/button";
 
 interface TableCell {
   value: number; // The index value
@@ -62,13 +63,10 @@ const CanSumTabulatedVisualizer: React.FC<CanSumTabulatedVisualizerProps> = ({
 
   return (
     <div className="flex flex-col items-center">
-      <h1 className="text-xl mb-4">CanSum Tabulated DP Visualization</h1>
-
-      {/* Display the target sum and the numbers */}
-      <div className="mb-4">
-        <strong>Target Sum:</strong> {targetSum}
+      <div className="mb-8 my-8">
+        <strong>Ziehlzahl:</strong> {targetSum}
         <br />
-        <strong>Numbers:</strong> {numbers.join(", ")}
+        <strong>Mögliche Nummern:</strong> {numbers.join(", ")}
       </div>
 
       {/* Table visualization */}
@@ -86,8 +84,8 @@ const CanSumTabulatedVisualizer: React.FC<CanSumTabulatedVisualizerProps> = ({
         ))}
       </div>
 
-      {/* Start button */}
-      <button
+      <div className="mt-2"></div>
+      <Button
         className={`bg-blue-500 text-white px-4 py-2 rounded ${
           isRunning ? "opacity-50 cursor-not-allowed" : ""
         }`}
@@ -95,7 +93,7 @@ const CanSumTabulatedVisualizer: React.FC<CanSumTabulatedVisualizerProps> = ({
         disabled={isRunning}
       >
         {isRunning ? "Running..." : "Start Algorithm"}
-      </button>
+      </Button>
     </div>
   );
 };

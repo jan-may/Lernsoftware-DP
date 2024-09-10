@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAppSelector } from "../../../hooks/redux";
+import { Button } from "../../../components/ui/button";
 
 interface Cell {
   x: number;
@@ -30,8 +31,8 @@ const GridTravelerDPVisualizer: React.FC<GridTravelerDPProps> = ({
     top: null,
     left: null,
   });
-  const [stepsTaken, setStepsTaken] = useState<number>(0); // Steps counter
-  const [isFinished, setIsFinished] = useState<boolean>(false); // Track if the algorithm is finished
+  const [stepsTaken, setStepsTaken] = useState<number>(0);
+  const [isFinished, setIsFinished] = useState<boolean>(false);
   const [hideRedCell, setHideRedCell] = useState<boolean>(false);
 
   const setUpGrid = () => {
@@ -61,7 +62,6 @@ const GridTravelerDPVisualizer: React.FC<GridTravelerDPProps> = ({
     if (!grid || !dp) return;
 
     const dpTable = [...dp];
-    // Set dp[0][0] = grid[0][0]
     dpTable[0][0] = gridData[0][0];
     setCurrentCell({ x: 0, y: 0 });
     setStepsTaken((prev) => prev + 1); // Increment steps counter
@@ -75,13 +75,13 @@ const GridTravelerDPVisualizer: React.FC<GridTravelerDPProps> = ({
         )
       )
     );
-    await new Promise((resolve) => setTimeout(resolve, speed)); // Add delay to visualize steps
+    await new Promise((resolve) => setTimeout(resolve, speed));
 
     // Fill the first column (dp[i][0])
     for (let i = 1; i < gridData.length; i++) {
       dpTable[i][0] = dpTable[i - 1][0] + gridData[i][0];
       setCurrentCell({ x: 0, y: i });
-      setStepsTaken((prev) => prev + 1); // Increment steps counter
+      setStepsTaken((prev) => prev + 1);
       setDp(dpTable);
       setGrid((prevGrid) =>
         prevGrid!.map((row, rowIndex) =>
@@ -99,7 +99,7 @@ const GridTravelerDPVisualizer: React.FC<GridTravelerDPProps> = ({
     for (let j = 1; j < gridData[0].length; j++) {
       dpTable[0][j] = dpTable[0][j - 1] + gridData[0][j];
       setCurrentCell({ x: j, y: 0 });
-      setStepsTaken((prev) => prev + 1); // Increment steps counter
+      setStepsTaken((prev) => prev + 1);
       setDp(dpTable);
       setGrid((prevGrid) =>
         prevGrid!.map((row, rowIndex) =>
@@ -121,7 +121,7 @@ const GridTravelerDPVisualizer: React.FC<GridTravelerDPProps> = ({
           left: { x: j - 1, y: i },
         });
         setHideRedCell(true);
-        await new Promise((resolve) => setTimeout(resolve, speed * 2.5)); // Show comparison step
+        await new Promise((resolve) => setTimeout(resolve, speed * 2)); // Show comparison step
 
         // Now calculate and assign the DP value
         setHideRedCell(false);
@@ -177,15 +177,18 @@ const GridTravelerDPVisualizer: React.FC<GridTravelerDPProps> = ({
 
   return (
     <div className="flex flex-col items-center">
-      <h1 className="text-xl mb-4">
-        GridTraveler Dynamic Programming Visualization
-      </h1>
-
-      {/* Display number of steps taken */}
-      <div className="mb-4">
-        <strong>Steps Taken:</strong> {stepsTaken}
+      <div className="flex space-x-4 my-4">
+        {/* Display number of steps taken */}
+        <div className="mb-4">
+          <strong>Minimale Pfadkosten:</strong>{" "}
+          {isFinished
+            ? dp![gridData.length - 1][gridData[0].length - 1]
+            : "N/A"}
+        </div>
+        <div className="mb-4">
+          <strong>Iterationen:</strong> {stepsTaken}
+        </div>
       </div>
-
       {grid ? (
         <div
           className="grid gap-1 mb-4"
@@ -237,7 +240,7 @@ const GridTravelerDPVisualizer: React.FC<GridTravelerDPProps> = ({
         <p>Loading grid...</p>
       )}
 
-      <button
+      <Button
         className={`bg-blue-500 text-white px-4 py-2 rounded ${
           isRunning ? "opacity-50 cursor-not-allowed" : ""
         }`}
@@ -245,7 +248,7 @@ const GridTravelerDPVisualizer: React.FC<GridTravelerDPProps> = ({
         disabled={isRunning}
       >
         {isRunning ? "Running..." : "Start"}
-      </button>
+      </Button>
       {/* Legend for the colors */}
       <div className="text-left ">
         <p className="py-2 font-semibold">Legende:</p>

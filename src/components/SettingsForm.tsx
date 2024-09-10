@@ -140,7 +140,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
           <Separator className="my-2" />
           <Field
             name="speed"
-            label="speed (ms)"
+            label="Geschwindigkeit (ms)"
             defaultValue={settings.speed.toString()}
           />
           <Field
