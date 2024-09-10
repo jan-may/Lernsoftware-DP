@@ -73,7 +73,12 @@ export function CodeDisplay({ code, language }: CodeProps) {
             <TooltipTrigger>
               <ClipboardBtn code={code} bluredCode={bluredCode} />
             </TooltipTrigger>
-            <TooltipContent side="right" sideOffset={320} align="start">
+            <TooltipContent
+              side="left"
+              sideOffset={170}
+              align="start"
+              className=""
+            >
               <p>Code kopieren</p>
             </TooltipContent>
           </Tooltip>
