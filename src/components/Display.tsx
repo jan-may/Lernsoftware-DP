@@ -10,14 +10,47 @@ import GridTravelerMemoVisualizer from "./Problems/GridTraveler/GridTravelerMemo
 import { Tree } from "./Tree";
 import { Tree2 } from "./Tree2";
 import CanSumTabulatedVisualizer from "./Problems/CanSum/CanSumTabulatedVisualizer";
+import { useToast } from "./ui/use-toast";
+import { useEffect } from "react";
+
+const checkArrayIntegrity = (array: number[][]) => {
+  return array.every((row) => row.length === array[0].length);
+};
 
 export const Display = () => {
   const { activeButton } = useAppSelector((store) => store.navbar);
   const { selectedProblem, travelersInput } = useAppSelector(
     (store) => store.settings
   );
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (
+      selectedProblem === "gridTraveler" &&
+      !checkArrayIntegrity(travelersInput.array)
+    ) {
+      toast({
+        title: "Ungültiges Grid",
+        description: "Bitte geben Sie ein symmetrisches Grid ein.",
+        variant: "destructive",
+      });
+    }
+  }, [travelersInput.array]);
 
   const ProblemSwitcher = () => {
+    if (
+      selectedProblem === "gridTraveler" &&
+      !checkArrayIntegrity(travelersInput.array)
+    ) {
+      return (
+        <Card className="px-2 mx-2 my-2 min-h-[calc(100vh-71px)]">
+          <h1 className="ml-2">
+            Bitte geben Sie ein symmetrisches Grid ein, um zu starten.
+          </h1>
+        </Card>
+      );
+    }
+
     switch (selectedProblem) {
       case "fibonacci":
         return (
