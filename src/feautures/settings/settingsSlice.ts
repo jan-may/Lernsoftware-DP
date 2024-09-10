@@ -17,12 +17,7 @@ export type ActionCreators = {
   circleRadius: typeof setCircleRadius;
 };
 
-export type Problem =
-  | "fibonacci"
-  | "gridTraveler"
-  | "canSum"
-  | "levenshtein"
-  | "";
+export type Problem = "fibonacci" | "gridTraveler" | "canSum" | "";
 
 export type FunctionName =
   | "fib"
@@ -53,6 +48,8 @@ interface SettingsState {
   bluredCode: boolean;
   fieldSize: number;
   textSize: number;
+  targetNumber: number;
+  numbers: number[];
 }
 
 const initialState: SettingsState = {
@@ -81,6 +78,8 @@ const initialState: SettingsState = {
   bluredCode: true,
   fieldSize: 64,
   textSize: 14,
+  targetNumber: 7,
+  numbers: [2, 3],
 };
 
 export const settingsSlice = createSlice({
@@ -129,6 +128,12 @@ export const settingsSlice = createSlice({
     setTextSize: (state, action: PayloadAction<number>) => {
       state.textSize = action.payload;
     },
+    setTargetNumber: (state, action: PayloadAction<number>) => {
+      state.targetNumber = action.payload;
+    },
+    setNumbers: (state, action: PayloadAction<number[]>) => {
+      state.numbers = action.payload;
+    },
   },
 });
 
@@ -147,5 +152,7 @@ export const {
   setCanSumInput,
   setFieldSize,
   setTextSize,
+  setTargetNumber,
+  setNumbers,
 } = settingsSlice.actions;
 export default settingsSlice.reducer;

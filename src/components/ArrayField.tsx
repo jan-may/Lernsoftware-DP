@@ -67,7 +67,7 @@ const ArrayField: React.FC<ArrayFieldProps> = ({
         onClick={handleSubmit}
         className="mt-2 px-4 py-2 w-15 h-7 text-white rounded"
       >
-        change
+        save
       </Button>
     </div>
   );

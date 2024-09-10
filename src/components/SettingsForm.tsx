@@ -9,6 +9,8 @@ import {
   ActionCreators,
   setFieldSize,
   setTravelersInput,
+  setNumbers,
+  setTargetNumber,
 } from "../feautures/settings/settingsSlice";
 import { useAppSelector, useAppDispatch } from "../hooks/redux";
 import { Button } from "../components/ui/button";
@@ -17,6 +19,7 @@ import { Label } from "./ui/label";
 import { Separator } from "./ui/separator";
 import { ActivButton } from "../feautures/navbar/navbarSlice";
 import ArrayField from "./ArrayField";
+import Array from "./Array";
 
 interface LocalDimensions {
   horizontalSpacing: number;
@@ -55,6 +58,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
     const form = e.currentTarget;
     [
       "input",
+      "targetNumber",
       "speed",
       "verticalSpacing",
       "horizontalSpacing",
@@ -84,6 +88,13 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
     }
   };
 
+  const handleTargetNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value, 10);
+    if (!isNaN(value)) {
+      dispatch(setTargetNumber(value));
+    }
+  };
+
   useEffect(() => {
     setLocalDimensions({
       horizontalSpacing: settings.horizontalSpacing,
@@ -99,8 +110,12 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
     setLocalDimensions({ ...localDimensions, [field]: Number(e.target.value) });
   };
 
-  const handleArrayChange = (array: number[][]) => {
+  const handle2dArrayChange = (array: number[][]) => {
     dispatch(setTravelersInput({ array })); // Dispatch action to update the state
+  };
+
+  const handley1dArrayChange = (array: number[]) => {
+    dispatch(setNumbers(array)); // Dispatch action to update the state
   };
 
   useEffect(() => {
@@ -126,7 +141,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
               name="travelersInput"
               label="GridTravelers Input Grid"
               defaultValue={settings.travelersInput.array} // Ensure this is the correct 2D array
-              onChange={handleArrayChange} // Update state on change
+              onChange={handle2dArrayChange} // Update state on change
             />
           )}
           {selectedProblem === "fibonacci" && (
@@ -137,6 +152,23 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
               onChange={(e) => handleInputChange(e)}
             />
           )}
+          {selectedProblem === "canSum" && (
+            <Field
+              name="targetNumber"
+              label="Zielnummer"
+              defaultValue={settings.targetNumber.toString()}
+              onChange={(e) => handleTargetNumberChange(e)}
+            />
+          )}
+          {selectedProblem === "canSum" && (
+            <Array
+              name="travelersInput"
+              label="GridTravelers Input Grid"
+              defaultValue={settings.numbers} // Ensure this is the correct 2D array
+              onChange={handley1dArrayChange} // Update state on change
+            />
+          )}
+
           <Separator className="my-2" />
           <Field
             name="speed"

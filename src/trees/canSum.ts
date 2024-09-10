@@ -17,7 +17,6 @@ function buildCanSumTree(
 
   // Base case: targetSum is 0, which means we found a solution
   if (targetSum === 0) {
-    node.isMemo = true; // Success node (indicate this is a valid path)
     return node;
   }
 

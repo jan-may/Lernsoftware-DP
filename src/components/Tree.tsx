@@ -34,7 +34,7 @@ export const Tree: React.FC = () => {
   const { isTourRunning } = useAppSelector((store) => store.tour);
 
   const { activeButton } = useAppSelector((store) => store.navbar);
-  const [clickedValue, setClickedValue] = useState(-1);
+  const [clickedValue, setClickedValue] = useState(-100);
 
   let tree = TreeHelper.createEmptyTree<number>();
 

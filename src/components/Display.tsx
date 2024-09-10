@@ -19,9 +19,8 @@ const checkArrayIntegrity = (array: number[][]) => {
 
 export const Display = () => {
   const { activeButton } = useAppSelector((store) => store.navbar);
-  const { selectedProblem, travelersInput } = useAppSelector(
-    (store) => store.settings
-  );
+  const { selectedProblem, travelersInput, targetNumber, numbers } =
+    useAppSelector((store) => store.settings);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -106,7 +105,10 @@ export const Display = () => {
             {activeButton === ActivButton.recursiveTree && <Tree2 />}
             {activeButton === ActivButton.topDownMemo && <Tree2 />}
             {activeButton === ActivButton.bottomUp && (
-              <CanSumTabulatedVisualizer targetSum={12} numbers={[2, 5]} />
+              <CanSumTabulatedVisualizer
+                targetSum={targetNumber}
+                numbers={numbers}
+              />
             )}
           </Card>
         );

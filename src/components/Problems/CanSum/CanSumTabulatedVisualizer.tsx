@@ -63,10 +63,22 @@ const CanSumTabulatedVisualizer: React.FC<CanSumTabulatedVisualizerProps> = ({
 
   return (
     <div className="flex flex-col items-center">
-      <div className="mb-8 my-8">
-        <strong>Ziehlzahl:</strong> {targetSum}
-        <br />
-        <strong>Mögliche Nummern:</strong> {numbers.join(", ")}
+      <div className="flex space-x-4 my-4">
+        <div>
+          <strong>Ziehlzahl:</strong> {targetSum}
+        </div>
+
+        <div>
+          <strong>Wählbare Zahlen:</strong> {numbers.join(", ")}
+        </div>
+        <div>
+          <strong>erreichbar?</strong>{" "}
+          {isRunning
+            ? "N/A" // Don't show the result while running
+            : table[targetSum]?.isReachable
+            ? "Ja"
+            : "Nein"}
+        </div>
       </div>
 
       {/* Table visualization */}
@@ -92,7 +104,7 @@ const CanSumTabulatedVisualizer: React.FC<CanSumTabulatedVisualizerProps> = ({
         onClick={runAlgorithm}
         disabled={isRunning}
       >
-        {isRunning ? "Running..." : "Start Algorithm"}
+        {isRunning ? "Running..." : "Start"}
       </Button>
     </div>
   );

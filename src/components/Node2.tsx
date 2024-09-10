@@ -92,7 +92,11 @@ export const Node: React.FC<NodeProps> = ({
             cy={(renderedNode.y * dimensions.horizontalSpacing) / 2}
             r={dimensions.circleRadius + 7}
             fill={
-              renderedNode.item === clickedValue
+              renderedNode.item < 0
+                ? "gray"
+                : renderedNode.item === 0
+                ? "lightblue"
+                : renderedNode.item === clickedValue
                 ? "red"
                 : renderedNode.isMemo
                 ? "#009B60"

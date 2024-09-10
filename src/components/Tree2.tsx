@@ -31,7 +31,8 @@ export const Tree2: React.FC = () => {
   const { isTourRunning } = useAppSelector((store) => store.tour);
 
   const { activeButton } = useAppSelector((store) => store.navbar);
-  const [clickedValue, setClickedValue] = useState(-1);
+  const [clickedValue, setClickedValue] = useState(-100);
+  const { numbers, targetNumber } = useAppSelector((store) => store.settings);
 
   let tree = TreeHelper.createEmptyTree<number>();
 
@@ -40,14 +41,12 @@ export const Tree2: React.FC = () => {
       if (input >= 15) {
         tree = TreeHelper.createEmptyTree<number>();
       } else {
-        tree = createCanSumTree(8, [2, 3, 5]);
-        console.log("rec");
+        tree = createCanSumTree(targetNumber, numbers);
       }
       break;
     case ActivButton.topDownMemo:
       tree = TreeHelper.createEmptyTree<number>();
-      tree = createCanSumTreeMemo(8, [2, 3, 5]);
-      console.log("memo");
+      tree = createCanSumTreeMemo(targetNumber, numbers);
       break;
     default:
       break;
@@ -83,11 +82,11 @@ export const Tree2: React.FC = () => {
   }, [verticalSpacing, horizontalSpacing, circleRadius]);
 
   useEffect(() => {
-    isTourRunning ? setClickedValue(2) : setClickedValue(-1);
+    isTourRunning ? setClickedValue(2) : setClickedValue(-100);
   }, [dispatch, isTourRunning]);
 
   return (
-    <>
+    <div>
       {activeButton === ActivButton.problem ? (
         <Problem />
       ) : (
@@ -107,6 +106,35 @@ export const Tree2: React.FC = () => {
           )}
         </svg>
       )}
-    </>
+      <div className="absolute bottom-2 flex items-center space-x-2">
+        <p className="text-sm">
+          <strong>Legende:</strong>
+        </p>
+        <div className="flex items-center space-x-1">
+          <svg width={16} height={16}>
+            <circle fill="red" cy={8} cx={8} r={8} />
+          </svg>
+          <p className="text-sm">= ausgewählt</p>
+        </div>
+        <div className="flex items-center space-x-1">
+          <svg width={16} height={16}>
+            <circle fill="green" cy={8} cx={8} r={8} />
+          </svg>
+          <p className="text-sm">= memoisierter Wert</p>
+        </div>
+        <div className="flex items-center space-x-1">
+          <svg width={16} height={16}>
+            <circle fill="gray" cy={8} cx={8} r={8} />
+          </svg>
+          <p className="text-sm">= negativer Pfad</p>
+        </div>
+        <div className="flex items-center space-x-1">
+          <svg width={16} height={16}>
+            <circle fill="lightblue" cy={8} cx={8} r={8} />
+          </svg>
+          <p className="text-sm">= erfolgreicher Pfad</p>
+        </div>
+      </div>
+    </div>
   );
 };
