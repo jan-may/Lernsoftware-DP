@@ -18,6 +18,8 @@ import { CanSumTeilstruktur } from "./Problems/CanSum/CanSumTeilstruktur";
 import { CanSumOverlappingTeilproblem } from "./Problems/CanSum/CanSumOverlappingTeilproblem";
 import { GridTravelerTeilstruktur } from "./Problems/GridTraveler/GridTravelerTeilstruktur";
 import { GridTravelerOverlappingTeilproblem } from "./Problems/GridTraveler/GridTravelerOverlappingProblem";
+import { FibTeilstruktur } from "./Problems/Fib/FibTeilstruktur";
+import { FibOverlappingTeilproblem } from "./Problems/Fib/FibOverlappingTeilproblem";
 
 const renderContent = (selectedProblem: any) => {
   switch (selectedProblem) {
@@ -49,7 +51,7 @@ const renderProblemName = (selectedProblem: any) => {
 const renderDynProblemTeilstruktur = (selectedProblem: any) => {
   switch (selectedProblem) {
     case "fibonacci":
-      return <InlineMath math="xxx" />;
+      return <FibTeilstruktur />;
     case "canSum":
       return <CanSumTeilstruktur />;
     case "gridTraveler":
@@ -62,7 +64,7 @@ const renderDynProblemTeilstruktur = (selectedProblem: any) => {
 const renderDynProblemOverlappingTeilproblem = (selectedProblem: any) => {
   switch (selectedProblem) {
     case "fibonacci":
-      return <InlineMath math="111" />;
+      return <FibOverlappingTeilproblem />;
     case "canSum":
       return <CanSumOverlappingTeilproblem />;
     case "gridTraveler":
