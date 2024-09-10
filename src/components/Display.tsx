@@ -33,15 +33,32 @@ export const Display = () => {
         ) : (
           <Card className="px-2 mx-2 min-h-[calc(100vh-71px)]">
             <div className="p-4">
-              {!travelersInput.array.length && <h1>Loading...</h1>}
-              {activeButton === ActivButton.recursiveTree && (
-                <GridTravelerVisualizer gridData={travelersInput.array} />
+              {travelersInput.array.length ? (
+                activeButton === ActivButton.recursiveTree && (
+                  <GridTravelerVisualizer gridData={travelersInput.array} />
+                )
+              ) : (
+                <h1 className="ml-2">
+                  Bitte geben Sie ein gültiges Grid ein, um zu starten.
+                </h1>
               )}
-              {activeButton === ActivButton.topDownMemo && (
-                <GridTravelerMemoVisualizer gridData={travelersInput.array} />
+              {travelersInput.array.length ? (
+                activeButton === ActivButton.topDownMemo && (
+                  <GridTravelerMemoVisualizer gridData={travelersInput.array} />
+                )
+              ) : (
+                <h1 className="ml-2">
+                  Bitte geben Sie ein gültiges Grid ein, um zu starten.
+                </h1>
               )}
-              {activeButton === ActivButton.bottomUp && (
-                <GridTravelerDPVisualizer gridData={travelersInput.array} />
+              {travelersInput.array.length ? (
+                activeButton === ActivButton.bottomUp && (
+                  <GridTravelerDPVisualizer gridData={travelersInput.array} />
+                )
+              ) : (
+                <h1 className="ml-2">
+                  Bitte geben Sie ein gültiges Grid ein, um zu starten.
+                </h1>
               )}
             </div>
           </Card>
