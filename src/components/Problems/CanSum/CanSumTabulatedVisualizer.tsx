@@ -35,7 +35,7 @@ const CanSumTabulatedVisualizer: React.FC<CanSumTabulatedVisualizerProps> = ({
   const runAlgorithm = async () => {
     setIsRunning(true);
     table[0].isReachable = false;
-    const newTable = [...table]; // Create a copy of the table
+    const newTable = [...table];
 
     // Mark the first cell as reachable at the start
     setTable([...newTable]);
@@ -51,13 +51,11 @@ const CanSumTabulatedVisualizer: React.FC<CanSumTabulatedVisualizerProps> = ({
             setTable([...newTable]); // Update the table
             setCurrentStep(newSum); // Update the current step for visualization
 
-            // Add a small delay to show steps in the table
             await new Promise((resolve) => setTimeout(resolve, speed));
           }
         }
       }
     }
-
     setIsRunning(false); // Mark the algorithm as done
   };
 
@@ -74,14 +72,13 @@ const CanSumTabulatedVisualizer: React.FC<CanSumTabulatedVisualizerProps> = ({
         <div>
           <strong>erreichbar?</strong>{" "}
           {isRunning
-            ? "N/A" // Don't show the result while running
+            ? "N/A" // Not available while running
             : table[targetSum]?.isReachable
             ? "Ja"
             : "Nein"}
         </div>
       </div>
 
-      {/* Table visualization */}
       <div className="grid grid-cols-5 gap-1 mb-4">
         {table.map((cell, index) => (
           <div
@@ -106,6 +103,21 @@ const CanSumTabulatedVisualizer: React.FC<CanSumTabulatedVisualizerProps> = ({
       >
         {isRunning ? "Running..." : "Start"}
       </Button>
+      <div className="text-left">
+        <p className="py-2 font-semibold">Legende:</p>
+        <div className="text-left mb-4 flex max-w-[500px] justify-center">
+          <div className="grid grid-cols-2 gap-2 w-[470px]">
+            <div>
+              <span className="inline-block w-4 h-4 bg-green-300 mr-2"></span>
+              Erreichbarer Wert
+            </div>
+            <div>
+              <span className="inline-block w-4 h-4 border-4 border-red-500 mr-2"></span>
+              Zelle in Bearbeitung
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

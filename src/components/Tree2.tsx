@@ -106,33 +106,41 @@ export const Tree2: React.FC = () => {
           )}
         </svg>
       )}
-      <div className="absolute bottom-2 flex items-center space-x-2">
+      <div className="absolute bottom-2 flex-col flex-wrap items-center gap-2 ">
         <p className="text-sm">
           <strong>Legende:</strong>
         </p>
-        <div className="flex items-center space-x-1">
-          <svg width={16} height={16}>
-            <circle fill="red" cy={8} cx={8} r={8} />
-          </svg>
-          <p className="text-sm">= ausgewählt</p>
-        </div>
-        <div className="flex items-center space-x-1">
-          <svg width={16} height={16}>
-            <circle fill="green" cy={8} cx={8} r={8} />
-          </svg>
-          <p className="text-sm">= memoisierter Wert</p>
-        </div>
-        <div className="flex items-center space-x-1">
-          <svg width={16} height={16}>
-            <circle fill="gray" cy={8} cx={8} r={8} />
-          </svg>
-          <p className="text-sm">= negativer Pfad</p>
-        </div>
-        <div className="flex items-center space-x-1">
-          <svg width={16} height={16}>
-            <circle fill="lightblue" cy={8} cx={8} r={8} />
-          </svg>
-          <p className="text-sm">= erfolgreicher Pfad</p>
+        <div className="flex mt-1 flex-wrap items-center gap-x-4 gap-y-">
+          <div className="flex items-center gap-1">
+            <svg width={16} height={16}>
+              <circle fill="red" cy={8} cx={8} r={8} />
+            </svg>
+            <p className="text-sm">= ausgewählt</p>
+          </div>
+          <div className="flex items-center space-x-1">
+            <svg width={16} height={16}>
+              <circle fill="green" cy={8} cx={8} r={8} />
+            </svg>
+            <p className="text-sm">= memoisierter Wert</p>
+          </div>
+          <div className="flex items-center space-x-1">
+            <svg width={16} height={16}>
+              <circle fill="gray" cy={8} cx={8} r={8} />
+            </svg>
+            <p className="text-sm">= negativer Pfad</p>
+          </div>
+          <div className="flex items-center space-x-1">
+            <svg width={16} height={16}>
+              <circle fill="lightblue" cy={8} cx={8} r={8} />
+            </svg>
+            <p className="text-sm">= erfolgreicher Pfad</p>
+          </div>
+          <div className="flex items-center space-x-1">
+            <svg width={16} height={16}>
+              <circle fill="white" cy={8} cx={8} r={7} stroke="black" />
+            </svg>
+            <p className="text-sm">= neu berechneter Wert</p>
+          </div>
         </div>
       </div>
     </div>

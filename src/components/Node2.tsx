@@ -94,12 +94,12 @@ export const Node: React.FC<NodeProps> = ({
             fill={
               renderedNode.item < 0
                 ? "gray"
+                : renderedNode.isMemo
+                ? "#009B60"
                 : renderedNode.item === 0
                 ? "lightblue"
                 : renderedNode.item === clickedValue
                 ? "red"
-                : renderedNode.isMemo
-                ? "#009B60"
                 : theme === "dark"
                 ? "black"
                 : "white"
