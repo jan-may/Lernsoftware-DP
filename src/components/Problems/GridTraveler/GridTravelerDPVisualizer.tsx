@@ -251,7 +251,7 @@ const GridTravelerDPVisualizer: React.FC<GridTravelerDPProps> = ({
       </Button>
       {/* Legend for the colors */}
       <div className="text-left ">
-        <p className="py-2 font-semibold">Legende:</p>
+        <p className="py-2 font-semibold text-sm">Legende:</p>
         <div className="text-left mb-4">
           <div className="grid grid-cols-2 gap-1 w-[470px]">
             <div>
@@ -267,8 +267,12 @@ const GridTravelerDPVisualizer: React.FC<GridTravelerDPProps> = ({
               bereits berechnete Zelle
             </div>
             <div>
-              <span className="inline-block w-4 h-4 bg-green-300 mr-2"></span>
+              <span className="inline-block w-4 h-4 border-4 border-red-500 mr-2"></span>
               Zelle in Bearbeitung
+            </div>
+            <div>
+              <span className="inline-block w-4 h-4 bg-green-300 mr-2"></span>
+              Ergebnis
             </div>
           </div>
         </div>

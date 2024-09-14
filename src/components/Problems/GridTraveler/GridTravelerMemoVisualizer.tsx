@@ -233,7 +233,7 @@ const GridTravelerMemoVisualizer: React.FC<GridTravelerMemoProps> = ({
       </Button>
       {/* Legend for the colors */}
       <div className="text-left">
-        <p className="py-2 font-semibold">Legende:</p>
+        <p className="py-2 font-semibold text-sm">Legende:</p>
         <div className="text-left mb-4 flex max-w-[500px] justify-center">
           <div className="grid grid-cols-2 gap-1 w-[470px]">
             <div className="w-[220px]">
