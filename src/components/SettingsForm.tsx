@@ -51,40 +51,21 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
     verticalSpacing: settings.verticalSpacing,
     circleRadius: settings.circleRadius,
   });
+
   const [fontSize, setFontSize] = useState(16); // Default font size in pixels
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = e.currentTarget;
-    [
-      "input",
-      "targetNumber",
-      "speed",
-      "verticalSpacing",
-      "horizontalSpacing",
-      "circleRadius",
-      "fieldSize",
-    ].forEach((field) => {
-      const value = getValueFromForm(form, `.form-input[name="${field}"]`);
-      if (value !== null) {
-        const actionCreator = actionCreators[field as keyof ActionCreators];
-        if (actionCreator) {
-          dispatch(actionCreator(value));
-        }
-        if (field === "input") {
-          dispatch(setInputText(value.toString()));
-        }
-        if (field === "fieldSize") {
-          dispatch(setFieldSize(value));
-        }
-      }
-    });
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Only dispatch changes automatically for certain inputs like "input"
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    action: (val: number) => void
+  ) => {
     const value = parseInt(e.target.value, 10);
     if (!isNaN(value)) {
-      dispatch(setInputText(value.toString()));
+      const actionObject: any = action(value); // Create an action object
+      dispatch(actionObject);
+      if (action === setInput) {
+        dispatch(setInputText(value.toString())); // Automatically update input text
+      }
     }
   };
 
@@ -93,6 +74,14 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
     if (!isNaN(value)) {
       dispatch(setTargetNumber(value));
     }
+  };
+
+  const handle2dArrayChange = (array: number[][]) => {
+    dispatch(setTravelersInput({ array }));
+  };
+
+  const handle1dArrayChange = (array: number[]) => {
+    dispatch(setNumbers(array));
   };
 
   useEffect(() => {
@@ -107,15 +96,33 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
     e: React.ChangeEvent<HTMLInputElement>,
     field: keyof LocalDimensions
   ) => {
-    setLocalDimensions({ ...localDimensions, [field]: Number(e.target.value) });
+    const value = Number(e.target.value);
+    setLocalDimensions((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handle2dArrayChange = (array: number[][]) => {
-    dispatch(setTravelersInput({ array })); // Dispatch action to update the state
-  };
-
-  const handley1dArrayChange = (array: number[]) => {
-    dispatch(setNumbers(array)); // Dispatch action to update the state
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    [
+      "speed",
+      "verticalSpacing",
+      "horizontalSpacing",
+      "circleRadius",
+      "fieldSize",
+      "targetNumber",
+      "fontSize",
+    ].forEach((field) => {
+      const value = getValueFromForm(form, `.form-input[name="${field}"]`);
+      if (value !== null) {
+        const actionCreator = actionCreators[field as keyof ActionCreators];
+        if (actionCreator) {
+          dispatch(actionCreator(value));
+        }
+      }
+      if (field === "fieldSize" && value !== null) {
+        dispatch(setFieldSize(value));
+      }
+    });
   };
 
   useEffect(() => {
@@ -129,8 +136,6 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
   const handleTextSizeChange = (e: any) => {
     setFontSize(e.target.value);
   };
-
-  console.log("fontsize", fontSize);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -147,26 +152,26 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
           {selectedProblem === "fibonacci" && (
             <Field
               name="input"
-              label="input"
+              label="Input"
               defaultValue={settings.input.toString()}
-              onChange={(e) => handleInputChange(e)}
+              onChange={(e) => handleInputChange(e, setInput)} // Auto-submit on input change
             />
           )}
           {selectedProblem === "canSum" && (
-            <Field
-              name="targetNumber"
-              label="Zielnummer"
-              defaultValue={settings.targetNumber.toString()}
-              onChange={(e) => handleTargetNumberChange(e)}
-            />
-          )}
-          {selectedProblem === "canSum" && (
-            <Array
-              name="travelersInput"
-              label="GridTravelers Input Grid"
-              defaultValue={settings.numbers} // Ensure this is the correct 2D array
-              onChange={handley1dArrayChange} // Update state on change
-            />
+            <>
+              <Field
+                name="targetNumber"
+                label="Zielnummer"
+                defaultValue={settings.targetNumber.toString()}
+                onChange={handleTargetNumberChange}
+              />
+              <Array
+                name="numbers"
+                label="Wählbare Zahlen"
+                defaultValue={settings.numbers}
+                onChange={handle1dArrayChange} // Update state on change
+              />
+            </>
           )}
 
           <Separator className="my-2" />
@@ -207,7 +212,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
               ))}
           {settings.selectedProblem === "gridTraveler" ||
           (settings.selectedProblem === "canSum" &&
-            activeButton == ActivButton.bottomUp) ? (
+            activeButton === ActivButton.bottomUp) ? (
             <Field
               key="fieldSize"
               name="fieldSize"
@@ -233,13 +238,14 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
         >
           {activeButton === ActivButton.problem
             ? "Implementierung wählen"
-            : `run ${settings.functionName}(${settings.inputText})`}
+            : `Einstellungen speichern`}
         </Button>
       </div>
     </form>
   );
 };
 
+// Field Component
 interface FieldProps {
   name: string;
   label: string;
