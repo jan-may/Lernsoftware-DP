@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "./ui/button";
+import { Textarea } from "./ui/textarea";
 
 interface ArrayFieldProps {
   name: string;
@@ -51,7 +52,7 @@ const ArrayField: React.FC<ArrayFieldProps> = ({
       <label htmlFor={name} className="block text-sm font-medium text-gray-700">
         {label}
       </label>
-      <textarea
+      <Textarea
         id={name}
         name={name}
         value={arrayInput}
