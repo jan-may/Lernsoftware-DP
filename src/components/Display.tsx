@@ -19,7 +19,7 @@ const checkArrayIntegrity = (array: number[][]) => {
 
 export const Display = () => {
   const { activeButton } = useAppSelector((store) => store.navbar);
-  const { selectedProblem, travelersInput, targetNumber, numbers } =
+  const { selectedProblem, travelersInput, targetNumber, numbers, input } =
     useAppSelector((store) => store.settings);
   const { toast } = useToast();
 
@@ -34,7 +34,18 @@ export const Display = () => {
         variant: "destructive",
       });
     }
-  }, [travelersInput.array]);
+    if (
+      selectedProblem === "fibonacci" &&
+      activeButton === ActivButton.recursiveTree &&
+      input > 15
+    ) {
+      toast({
+        title: "Ungültiges Grid",
+        description: "Bitte geben Sie ein symmetrisches Grid ein.",
+        variant: "destructive",
+      });
+    }
+  }, [travelersInput.array, input, activeButton]);
 
   const ProblemSwitcher = () => {
     if (
