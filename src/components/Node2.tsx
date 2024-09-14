@@ -5,7 +5,6 @@ import { Dimensions } from "../types/TreeTypes";
 import { TreeHelper } from "../TreeBuilder/TreeHelper";
 import { useTheme } from "./theme-provider";
 import { ActivButton } from "../feautures/navbar/navbarSlice";
-import { useToast } from "./ui/use-toast";
 
 interface NodeProps {
   node: TreeNodeModel<number>;
@@ -30,7 +29,6 @@ export const Node: React.FC<NodeProps> = ({
   const [renderQueue, setRenderQueue] = useState<NodeWithParent[]>([]);
   const [renderedNodes, setRenderedNodes] = useState<NodeWithParent[]>([]);
   const { theme } = useTheme();
-  const { toast } = useToast();
 
   useEffect(() => {
     setRenderedNodes([]);
@@ -38,12 +36,6 @@ export const Node: React.FC<NodeProps> = ({
 
   useEffect(() => {
     if (activeButton === ActivButton.recursiveTree && input >= 15) {
-      toast({
-        title: "Input für rekursive Berechnung zu groß",
-        description:
-          "Bitte eine dynamisch programmierte Lösung zur Visualisierung verwenden.",
-        variant: "destructive",
-      });
       setRenderQueue([]);
       setRenderedNodes([]);
     } else {
@@ -70,20 +62,67 @@ export const Node: React.FC<NodeProps> = ({
     }
   }, [renderQueue, speed, activeButton]);
 
+  // Function to calculate the position offset for the line (edge of the circle)
+  const calculateOffset = (
+    parentX: number,
+    parentY: number,
+    childX: number,
+    childY: number,
+    radius: number
+  ) => {
+    const dx = childX - parentX;
+    const dy = childY - parentY;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    const offsetX = (dx / distance) * radius;
+    const offsetY = (dy / distance) * radius;
+    return { offsetX, offsetY };
+  };
+
   return (
     <g>
       {renderedNodes.map(({ node: renderedNode, parent }, _index) => (
         <React.Fragment key={renderedNode.key}>
           {parent && (
-            <line
-              x1={parent.x * dimensions.verticalSpacing}
-              y1={(parent.y * dimensions.horizontalSpacing) / 2}
-              x2={renderedNode.x * dimensions.verticalSpacing}
-              y2={(renderedNode.y * dimensions.horizontalSpacing) / 2}
-              stroke={theme === "dark" ? "white" : "black"}
-              strokeWidth={1}
-              className="ease-in-out duration-50"
-            />
+            <>
+              {/* Calculate the line offset based on the parent and child positions */}
+              {(() => {
+                const { offsetX: parentOffsetX, offsetY: parentOffsetY } =
+                  calculateOffset(
+                    parent.x * dimensions.verticalSpacing,
+                    (parent.y * dimensions.horizontalSpacing) / 2,
+                    renderedNode.x * dimensions.verticalSpacing,
+                    (renderedNode.y * dimensions.horizontalSpacing) / 2,
+                    dimensions.circleRadius + 7
+                  );
+                const { offsetX: childOffsetX, offsetY: childOffsetY } =
+                  calculateOffset(
+                    renderedNode.x * dimensions.verticalSpacing,
+                    (renderedNode.y * dimensions.horizontalSpacing) / 2,
+                    parent.x * dimensions.verticalSpacing,
+                    (parent.y * dimensions.horizontalSpacing) / 2,
+                    dimensions.circleRadius + 7
+                  );
+                return (
+                  <line
+                    x1={parent.x * dimensions.verticalSpacing + parentOffsetX}
+                    y1={
+                      (parent.y * dimensions.horizontalSpacing) / 2 +
+                      parentOffsetY
+                    }
+                    x2={
+                      renderedNode.x * dimensions.verticalSpacing - childOffsetX
+                    }
+                    y2={
+                      (renderedNode.y * dimensions.horizontalSpacing) / 2 -
+                      childOffsetY
+                    }
+                    stroke={theme === "dark" ? "white" : "black"}
+                    strokeWidth={1}
+                    className="ease-in-out duration-50"
+                  />
+                );
+              })()}
+            </>
           )}
           <circle
             className="cursor-pointer ease-in-out duration-100 animate-fadeIn"
