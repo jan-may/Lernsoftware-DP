@@ -182,34 +182,32 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
           />
           <Field
             name="textSize"
-            label="Textgröße"
+            label="Schriftgröße (px)"
             defaultValue={settings.textSize.toString()}
             onChange={handleTextSizeChange}
           />
-          {selectedProblem === "fibonacci" ||
+          {(selectedProblem === "fibonacci" ||
             (selectedProblem === "canSum" &&
-              activeButton !== ActivButton.bottomUp && (
-                <>
-                  <Field
-                    key="verticalSpacing"
-                    name="verticalSpacing"
-                    label="x-spacing"
-                    value={Math.floor(
-                      localDimensions.verticalSpacing
-                    ).toString()}
-                    onChange={(e) => handleChange(e, "verticalSpacing")}
-                  />
-                  <Field
-                    key="horizontalSpacing"
-                    name="horizontalSpacing"
-                    label="y-spacing"
-                    value={Math.floor(
-                      localDimensions.horizontalSpacing
-                    ).toString()}
-                    onChange={(e) => handleChange(e, "horizontalSpacing")}
-                  />
-                </>
-              ))}
+              activeButton !== ActivButton.bottomUp)) && (
+            <>
+              <Field
+                key="verticalSpacing"
+                name="verticalSpacing"
+                label="x-spacing"
+                value={Math.floor(localDimensions.verticalSpacing).toString()}
+                onChange={(e) => handleChange(e, "verticalSpacing")}
+                disabled={true}
+              />
+              <Field
+                key="horizontalSpacing"
+                name="horizontalSpacing"
+                label="y-spacing"
+                value={Math.floor(localDimensions.horizontalSpacing).toString()}
+                onChange={(e) => handleChange(e, "horizontalSpacing")}
+                disabled={true}
+              />
+            </>
+          )}
           {settings.selectedProblem === "gridTraveler" ||
           (settings.selectedProblem === "canSum" &&
             activeButton === ActivButton.bottomUp) ? (
@@ -226,6 +224,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
               label="Knotenradius"
               value={Math.floor(localDimensions.circleRadius).toString()}
               onChange={(e) => handleChange(e, "circleRadius")}
+              disabled={true}
             />
           )}
         </div>
@@ -251,6 +250,7 @@ interface FieldProps {
   label: string;
   defaultValue?: string;
   value?: string;
+  disabled?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
