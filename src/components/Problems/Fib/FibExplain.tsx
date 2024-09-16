@@ -2,6 +2,12 @@
 import React from "react";
 import { HelpCircle } from "lucide-react";
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../../../components/ui/tooltip";
+import {
   Dialog,
   DialogTrigger,
   DialogContent,
@@ -17,12 +23,25 @@ const FibExplain: React.FC = () => {
   const { theme } = useTheme();
   return (
     <Dialog>
-      {/* Dialog Trigger: Button with HelpCircle Icon */}
-      <DialogTrigger asChild>
-        <Button variant="secondary" size="sm" className="flex items-center">
-          <HelpCircle className="h-6 w-6 mr-2" />
-        </Button>
-      </DialogTrigger>
+      {/* Tooltip wrapping only the DialogTrigger Button */}
+      <TooltipProvider delayDuration={100} skipDelayDuration={1}>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <DialogTrigger asChild>
+              <Button
+                variant="secondary"
+                size="sm"
+                className="flex items-center"
+              >
+                <HelpCircle className="h-6 w-6 mr-2" />
+              </Button>
+            </DialogTrigger>
+          </TooltipTrigger>
+          <TooltipContent className="bg-muted text-sm">
+            <p>Erklärung anzeigen</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
 
       {/* Dialog Content */}
       <DialogContent className="w-[90vw] max-w-5xl p-8">
@@ -36,7 +55,9 @@ const FibExplain: React.FC = () => {
           </p>
           <pre
             className={
-              theme === "light" ? "bg-gray-100" : `bg-gray-800 p-2 rounded`
+              theme === "light"
+                ? "bg-gray-100 p-2 rounded"
+                : "bg-gray-800 p-2 rounded"
             }
           >
             <code>
@@ -49,20 +70,16 @@ const FibExplain: React.FC = () => {
           </pre>
           <p>
             Der Baum spiegelt den gebildeten Rekursionsbaum für Aufruf von{" "}
-            <code>Fib(int n)</code> mit dem gewählten Input wieder.
+            <code>Fib(int n)</code> mit dem gewählten Input wider.
           </p>
-          <span>
-            <p>
-              Bei steigendem Input werden die überlappenden Teilprobleme schnell
-              ersichtlich und führen zu redundanten Berechnungen.
-            </p>
-          </span>
-          <span>
-            <p>
-              Das Klicken eines Knoten zeigt alle redundanten Berechnungen für
-              den jeweiligen Teilbaum.
-            </p>
-          </span>
+          <p>
+            Bei steigendem Input werden die überlappenden Teilprobleme schnell
+            ersichtlich und führen zu redundanten Berechnungen.
+          </p>
+          <p>
+            Das Klicken eines Knotens zeigt alle redundanten Berechnungen für
+            den jeweiligen Teilbaum.
+          </p>
           <p>
             <strong>Funktionsweise:</strong>
           </p>

@@ -9,6 +9,12 @@ import {
   DialogTitle,
   DialogDescription,
 } from "../../../components/ui/dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../../../components/ui/tooltip";
 import { Button } from "../../../components/ui/button";
 import { InlineMath } from "react-katex";
 import { useTheme } from "../../../components/theme-provider";
@@ -17,12 +23,25 @@ const FibTabExplain: React.FC = () => {
   const { theme } = useTheme();
   return (
     <Dialog>
-      {/* Dialog Trigger: Button with HelpCircle Icon */}
-      <DialogTrigger asChild>
-        <Button variant="secondary" size="sm" className="flex items-center">
-          <HelpCircle className="h-6 w-6 mr-2" />
-        </Button>
-      </DialogTrigger>
+      {/* Tooltip wrapping only the DialogTrigger Button */}
+      <TooltipProvider delayDuration={100} skipDelayDuration={1}>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <DialogTrigger asChild>
+              <Button
+                variant="secondary"
+                size="sm"
+                className="flex items-center"
+              >
+                <HelpCircle className="h-6 w-6 mr-2" />
+              </Button>
+            </DialogTrigger>
+          </TooltipTrigger>
+          <TooltipContent className="bg-muted text-sm">
+            <p>Erklärung anzeigen</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
 
       {/* Dialog Content */}
       <DialogContent className="w-[90vw] max-w-5xl p-8">

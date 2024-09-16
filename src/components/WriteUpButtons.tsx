@@ -1,11 +1,5 @@
 import { Gauge } from "lucide-react";
 import { Button } from "./ui/button";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "./ui/tooltip";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
 import "katex/dist/katex.min.css";
 import { ActivButton } from "../feautures/navbar/navbarSlice";
@@ -108,7 +102,7 @@ export const WriteUpButtons = () => {
     <div className="absolute bottom-1 right-2 z-30 tour-8">
       <div className="flex space-x-1">
         {/* Gauge Button with HoverCard */}
-        <HoverCard openDelay={200}>
+        <HoverCard openDelay={100}>
           <HoverCardTrigger asChild>
             <Button variant="secondary" size="sm">
               <Gauge />
@@ -119,15 +113,8 @@ export const WriteUpButtons = () => {
           </HoverCardContent>
         </HoverCard>
 
-        {/* Tooltip and Dialog for HelpCircle Button */}
-        <TooltipProvider delayDuration={200} skipDelayDuration={1}>
-          <Tooltip>
-            <TooltipTrigger asChild>{renderExplanation()}</TooltipTrigger>
-            <TooltipContent className="bg-muted text-sm">
-              <p>Erklärung anzeigen</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        {/* Render the Dialog components (which now include the Tooltip) */}
+        {renderExplanation()}
       </div>
     </div>
   );

@@ -49,7 +49,7 @@ export function CodeDisplay({ code, language }: CodeProps) {
         cursor: bluredCode ? "pointer" : "text",
       }}
     >
-      <TooltipProvider delayDuration={200}>
+      <TooltipProvider delayDuration={100}>
         <Tooltip>
           <TooltipTrigger>
             <Button
