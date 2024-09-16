@@ -15,6 +15,7 @@ import {
   createFibonacciTreeMemo,
 } from "../trees/fibonacci";
 import { Problem } from "./Problem";
+import { useTheme } from "./theme-provider";
 
 export const Tree: React.FC = () => {
   const [localDimensions, setLocalDimensions] = useState({
@@ -34,6 +35,7 @@ export const Tree: React.FC = () => {
   const { isTourRunning } = useAppSelector((store) => store.tour);
   const { activeButton } = useAppSelector((store) => store.navbar);
   const [clickedValue, setClickedValue] = useState(-100);
+  const { theme } = useTheme();
 
   let tree = TreeHelper.createEmptyTree<number>();
 
@@ -55,6 +57,8 @@ export const Tree: React.FC = () => {
   const maxDepth = TreeHelper.getMaxDepth(tree);
   const maxWidth = TreeHelper.getMaxWidth(tree);
   const dimensions = useResizeDimensions(maxDepth, maxWidth);
+
+  console.log(theme);
 
   const handleClick = (value: number) => {
     if (value === clickedValue) {
@@ -126,7 +130,13 @@ export const Tree: React.FC = () => {
             )}
             <div className="flex items-center space-x-1">
               <svg width={16} height={16}>
-                <circle fill="white" cy={8} cx={8} r={7} stroke="black" />
+                <circle
+                  fill={theme === "light" ? "transparent" : "black"}
+                  cy={8}
+                  cx={8}
+                  r={7}
+                  stroke={theme === "light" ? "black" : "white"}
+                />
               </svg>
               <p className="text-sm">= neu berechneter Wert</p>
             </div>

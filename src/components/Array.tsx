@@ -40,7 +40,7 @@ const NumberArrayField: React.FC<NumberArrayFieldProps> = ({
 
   return (
     <div className="mb-4">
-      <label htmlFor={name} className="block text-sm font-medium text-gray-700">
+      <label htmlFor={name} className="block text-sm font-medium ">
         {label}
       </label>
       <Textarea
@@ -55,7 +55,8 @@ const NumberArrayField: React.FC<NumberArrayFieldProps> = ({
       <Button
         type="button"
         onClick={handleSubmit}
-        className="mt-2 px-4 py-2 w-15 h-7 text-white rounded"
+        className="mt-2 px-4 py-2 w-15 h-7 rounded"
+        variant="default"
       >
         save
       </Button>

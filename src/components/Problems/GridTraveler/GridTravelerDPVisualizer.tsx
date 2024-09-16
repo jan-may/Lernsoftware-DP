@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAppSelector } from "../../../hooks/redux";
 import { Button } from "../../../components/ui/button";
+import { useTheme } from "../../../components/theme-provider";
 
 interface Cell {
   x: number;
@@ -34,6 +35,7 @@ const GridTravelerDPVisualizer: React.FC<GridTravelerDPProps> = ({
   const [stepsTaken, setStepsTaken] = useState<number>(0);
   const [isFinished, setIsFinished] = useState<boolean>(false);
   const [hideRedCell, setHideRedCell] = useState<boolean>(false);
+  const { theme } = useTheme();
 
   const setUpGrid = () => {
     const initialGrid: Cell[][] = gridData.map((row, rowIndex) =>
@@ -202,13 +204,13 @@ const GridTravelerDPVisualizer: React.FC<GridTravelerDPProps> = ({
                 key={`${cell.x}-${cell.y}`}
                 style={{ width: `${fieldSize}px`, height: `${fieldSize}px` }} // Use inline styles for dynamic sizing
                 className={`border flex items-center justify-center 
-    ${
-      isFinished &&
-      rowIndex === gridData.length - 1 &&
-      cell.x === gridData[0].length - 1
-        ? "bg-green-300"
-        : ""
-    }
+                  ${
+                    isFinished &&
+                    rowIndex === gridData.length - 1 &&
+                    cell.x === gridData[0].length - 1
+                      ? "bg-green-300"
+                      : ""
+                  }
     ${
       currentCell?.x === cell.x && currentCell?.y === cell.y && !hideRedCell
         ? "border-red-500 border-4"
@@ -224,7 +226,14 @@ const GridTravelerDPVisualizer: React.FC<GridTravelerDPProps> = ({
         ? "bg-purple-300"
         : ""
     }
-    ${cell.dpValue !== null ? "bg-blue-300" : "bg-gray-100"}
+    ${
+      cell.dpValue !== null
+        ? "bg-blue-300"
+        : theme === "light"
+        ? "bg-gray-100"
+        : "bg-gray-800"
+    }
+    
   `}
               >
                 <div className="text-center">

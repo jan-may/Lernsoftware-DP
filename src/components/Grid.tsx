@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useAppSelector } from "../hooks/redux"; // Adjust the import path as necessary
 import { Button } from "../components/ui/button"; // Adjust the import path as necessary
+import { useTheme } from "../components/theme-provider"; // Adjust the import path as necessary
 
 interface FibonacciCell {
   index: number;
@@ -18,6 +19,7 @@ export const Grid: React.FC = () => {
   const [stepsTaken, setStepsTaken] = useState<number>(0);
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [isFinished, setIsFinished] = useState<boolean>(false);
+  const { theme } = useTheme();
 
   // Initialize or reset the Fibonacci array
   const setupFibonacciArray = () => {
@@ -129,8 +131,10 @@ export const Grid: React.FC = () => {
                   : isFinished && i === fibonacciArray.length - 1
                   ? "bg-green-300" // Last cell color when finished
                   : cell.isCalculated
-                  ? "bg-gray-100"
-                  : "bg-white"
+                  ? theme === "light"
+                    ? "bg-gray-100"
+                    : "bg-gray-800" // Calculated cell color
+                  : "bg-transparent" // Default cell color
               }
               ${
                 i === currentIndex
@@ -177,11 +181,11 @@ export const Grid: React.FC = () => {
         <div className="text-left mb-4">
           <div className="grid grid-cols-2 gap-1 w-[470px]">
             <div className="flex items-center">
-              <span className="inline-block w-4 h-4 bg-purple-300 mr-2"></span>
+              <span className="inline-block w-4 h-4 bg-yellow-300 mr-2"></span>
               Zelle 1 für Vergleich
             </div>
             <div className="flex items-center">
-              <span className="inline-block w-4 h-4 bg-yellow-300 mr-2"></span>
+              <span className="inline-block w-4 h-4 bg-purple-300 mr-2"></span>
               Zelle 2 für Vergleich
             </div>
             <div className="flex items-center">

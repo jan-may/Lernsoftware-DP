@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAppSelector } from "../../../hooks/redux";
 import { Button } from "../../../components/ui/button";
+import { useTheme } from "../../../components/theme-provider";
 
 interface Cell {
   x: number;
@@ -29,6 +30,7 @@ const GridTravelerMemoVisualizer: React.FC<GridTravelerMemoProps> = ({
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [visitedCellsCount, setVisitedCellsCount] = useState<number>(0); // Track how many cells have been visited
   const [memo, setMemo] = useState<number[][] | null>(null); // Memoization table
+  const { theme } = useTheme();
 
   useEffect(() => {
     // Initialize grid and memo table
@@ -188,34 +190,47 @@ const GridTravelerMemoVisualizer: React.FC<GridTravelerMemoProps> = ({
           }} // Dynamic grid columns
         >
           {grid.map((row, _rowIndex) =>
-            row.map((cell) => (
-              <div
-                key={`${cell.x}-${cell.y}`}
-                style={{ width: `${fieldSize}px`, height: `${fieldSize}px` }} // Use inline styles for dynamic sizing
-                className={`border flex items-center justify-center 
-    ${cell.isFinal ? "bg-green-300" : ""} /* Mark final cell green */
-    ${cell.memoized ? "bg-blue-300" : "bg-gray-100"}
-    ${cell.fromMemo ? "bg-orange-300" : ""}
-    ${
-      currentCell?.x === cell.x && currentCell?.y === cell.y
-        ? "border-red-500 border-4"
-        : "border-gray-400"
-    }
-  `}
-              >
-                <div className="text-center">
-                  <p className="text-sm">
-                    {cell.cost}
-                    <br />
-                    {cell.memoValue !== null ? (
-                      <small>({cell.memoValue})</small>
-                    ) : (
-                      ""
-                    )}
-                  </p>
+            row.map((cell) => {
+              // Determine the background color class based on cell properties
+              const backgroundColorClass = cell.isFinal
+                ? "bg-green-300"
+                : cell.memoized
+                ? "bg-blue-300"
+                : cell.fromMemo
+                ? "bg-orange-300"
+                : theme === "light"
+                ? "bg-gray-100"
+                : "bg-gray-800";
+
+              // Determine the border class based on whether the cell is currently being processed
+              const borderClass =
+                currentCell?.x === cell.x && currentCell?.y === cell.y
+                  ? "border-red-500 border-4"
+                  : "border-gray-400";
+
+              return (
+                <div
+                  key={`${cell.x}-${cell.y}`}
+                  style={{
+                    width: `${fieldSize}px`,
+                    height: `${fieldSize}px`,
+                  }} // Use inline styles for dynamic sizing
+                  className={`border flex items-center justify-center ${backgroundColorClass} ${borderClass}`}
+                >
+                  <div className="text-center">
+                    <p className="text-sm">
+                      {cell.cost}
+                      <br />
+                      {cell.memoValue !== null ? (
+                        <small>({cell.memoValue})</small>
+                      ) : (
+                        ""
+                      )}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ))
+              );
+            })
           )}
         </div>
       ) : (

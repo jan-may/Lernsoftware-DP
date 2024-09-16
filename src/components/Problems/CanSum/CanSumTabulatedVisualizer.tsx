@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAppSelector } from "../../../hooks/redux";
 import { Button } from "../../../components/ui/button";
+import { useTheme } from "../../../components/theme-provider";
 
 interface TableCell {
   value: number; // The index value
@@ -20,6 +21,7 @@ const CanSumTabulatedVisualizer: React.FC<CanSumTabulatedVisualizerProps> = ({
   const [currentStep, setCurrentStep] = useState<number>(0);
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const { speed } = useAppSelector((store) => store.settings);
+  const { theme } = useTheme();
 
   useEffect(() => {
     // Initialize the table with all cells set to false (no cell is reachable initially)
@@ -61,7 +63,7 @@ const CanSumTabulatedVisualizer: React.FC<CanSumTabulatedVisualizerProps> = ({
 
   return (
     <div className="flex flex-col items-center">
-      <div className="flex space-x-4 my-4">
+      <div className="flex space-x-4 my-8">
         <div>
           <strong>Ziehlzahl:</strong> {targetSum}
         </div>
@@ -84,7 +86,13 @@ const CanSumTabulatedVisualizer: React.FC<CanSumTabulatedVisualizerProps> = ({
           <div
             key={index}
             className={`w-16 h-16 border-gray-400 border flex items-center justify-center
-              ${cell.isReachable ? "bg-green-300" : "bg-gray-100"}
+              ${
+                cell.isReachable
+                  ? "bg-green-300"
+                  : theme === "light"
+                  ? "bg-gray-100"
+                  : "bg-gray-800"
+              }
               ${currentStep === cell.value ? "border-red-500 border-4" : ""}
             `}
           >

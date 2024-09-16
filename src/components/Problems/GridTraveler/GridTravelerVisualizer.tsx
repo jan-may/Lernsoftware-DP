@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAppSelector } from "../../../hooks/redux";
 import { Button } from "../../../components/ui/button";
+import { useTheme } from "../../../components/theme-provider";
 
 interface Cell {
   x: number;
@@ -25,6 +26,7 @@ const GridTravelerVisualizer: React.FC<GridTravelerProps> = ({ gridData }) => {
   const [minSum, setMinSum] = useState<number>(Number.MAX_SAFE_INTEGER); // Minimum sum found so far
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [visitedCellsCount, setVisitedCellsCount] = useState<number>(0); // Track how many cells have been visited
+  const { theme } = useTheme();
 
   useEffect(() => {
     // Initialize grid from the provided gridData
@@ -152,7 +154,13 @@ const GridTravelerVisualizer: React.FC<GridTravelerProps> = ({ gridData }) => {
                 key={`${cell.x}-${cell.y}`}
                 style={{ width: `${fieldSize}px`, height: `${fieldSize}px` }} // Use inline styles for dynamic sizing
                 className={`border flex items-center justify-center 
-                ${cell.onCurrentPath ? "bg-green-300" : "bg-gray-100"}
+                ${
+                  cell.onCurrentPath
+                    ? "bg-green-300"
+                    : theme === "light"
+                    ? "bg-gray-100"
+                    : "bg-gray-800"
+                }
                 ${
                   currentCell.x === cell.x && currentCell.y === cell.y
                     ? "border-red-500 border-4"

@@ -1,3 +1,4 @@
+// Node.tsx
 import React, { useEffect, useState } from "react";
 import { TreeNodeModel } from "../TreeBuilder/TreeNodeModel";
 import { useAppSelector } from "../hooks/redux";
@@ -31,6 +32,7 @@ export const Node: React.FC<NodeProps> = ({
   const { theme } = useTheme();
 
   useEffect(() => {
+    // Reset rendered nodes when certain conditions change
     setRenderedNodes([]);
   }, [activeButton, input, speed]);
 
@@ -41,7 +43,7 @@ export const Node: React.FC<NodeProps> = ({
     } else {
       setRenderQueue(TreeHelper.newpreorderedWithParent(node, null));
     }
-  }, [activeButton, input, speed]);
+  }, [activeButton, input, speed, node]);
 
   useEffect(() => {
     if (activeButton === ActivButton.recursiveTree && input >= 15) {
@@ -78,8 +80,35 @@ export const Node: React.FC<NodeProps> = ({
     return { offsetX, offsetY };
   };
 
+  // Determine if a successful path exists (i.e., a node with value 0 is rendered)
+  const hasSuccessfulPath = renderedNodes.some(
+    ({ node: renderedNode }) => renderedNode.item === 0
+  );
+
   return (
     <g>
+      {/* Nodes Rendered Counter */}
+      <text
+        x={10} // X-coordinate for the counter
+        y={20} // Y-coordinate for the counter
+        fontSize={14}
+        fill={theme === "dark" ? "white" : "black"}
+        fontWeight="bold"
+      >
+        Knoten: {renderedNodes.length}
+      </text>
+
+      {/* Successful Path Indicator */}
+      <text
+        x={10} // X-coordinate for the indicator
+        y={40} // Y-coordinate for the indicator (adjust as needed)
+        fontSize={14}
+        fill={hasSuccessfulPath ? "green" : ""}
+        fontWeight="bold"
+      >
+        Erfolgreicher Pfad: {hasSuccessfulPath ? "Ja" : "Nein"}
+      </text>
+
       {renderedNodes.map(({ node: renderedNode, parent }, _index) => (
         <React.Fragment key={renderedNode.key}>
           {parent && (
@@ -134,7 +163,7 @@ export const Node: React.FC<NodeProps> = ({
               renderedNode.item < 0
                 ? "gray"
                 : renderedNode.isMemo
-                ? "#009B60"
+                ? "#009B60" // Green for memoized
                 : renderedNode.item === 0
                 ? "lightblue"
                 : renderedNode.item === clickedValue
