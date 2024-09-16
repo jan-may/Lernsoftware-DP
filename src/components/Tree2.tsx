@@ -1,15 +1,14 @@
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import { TreeHelper } from "../TreeBuilder/TreeHelper";
 import { Node } from "./Node2";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { useResizeDimensions } from "../hooks/resize";
-import React, { useState } from "react";
 import { ActivButton } from "../feautures/navbar/navbarSlice";
 import {
   setCircleRadius,
   setHorizontalSpacing,
   setVerticalSpacing,
 } from "../feautures/settings/settingsSlice";
-import { useEffect } from "react";
 import { createCanSumTree, createCanSumTreeMemo } from "../trees/canSum";
 import { Problem } from "./Problem";
 import { useTheme } from "./theme-provider";
@@ -28,43 +27,50 @@ export const Tree2: React.FC = () => {
     verticalSpacing,
     horizontalSpacing,
     circleRadius,
+    numbers,
+    targetNumber,
   } = useAppSelector((store) => store.settings);
   const { isTourRunning } = useAppSelector((store) => store.tour);
 
   const { activeButton } = useAppSelector((store) => store.navbar);
   const [clickedValue, setClickedValue] = useState(-100);
-  const { numbers, targetNumber } = useAppSelector((store) => store.settings);
   const { theme } = useTheme();
 
-  let tree = TreeHelper.createEmptyTree<number>();
+  const tree = useMemo(() => {
+    let newTree = TreeHelper.createEmptyTree<number>();
 
-  switch (activeButton) {
-    case ActivButton.recursiveTree:
-      if (input >= 15) {
-        tree = TreeHelper.createEmptyTree<number>();
-      } else {
-        tree = createCanSumTree(targetNumber, numbers);
-      }
-      break;
-    case ActivButton.topDownMemo:
-      tree = TreeHelper.createEmptyTree<number>();
-      tree = createCanSumTreeMemo(targetNumber, numbers);
-      break;
-    default:
-      break;
-  }
+    switch (activeButton) {
+      case ActivButton.recursiveTree:
+        if (input >= 15) {
+          newTree = TreeHelper.createEmptyTree<number>();
+        } else {
+          newTree = createCanSumTree(targetNumber, numbers);
+        }
+        break;
+      case ActivButton.topDownMemo:
+        newTree = createCanSumTreeMemo(targetNumber, numbers);
+        break;
+      default:
+        break;
+    }
 
-  const maxDepth = TreeHelper.getMaxDepth(tree);
-  const maxWidth = TreeHelper.getMaxWidth(tree);
+    return newTree;
+  }, [activeButton, input, targetNumber, numbers]);
+
+  const maxDepth = useMemo(() => TreeHelper.getMaxDepth(tree), [tree]);
+  const maxWidth = useMemo(() => TreeHelper.getMaxWidth(tree), [tree]);
   const dimensions = useResizeDimensions(maxDepth, maxWidth);
 
-  const handleClick = (value: number) => {
-    if (value === clickedValue) {
-      setClickedValue(-10);
-    } else {
-      setClickedValue(value);
-    }
-  };
+  const handleClick = useCallback(
+    (value: number) => {
+      if (value === clickedValue) {
+        setClickedValue(-10);
+      } else {
+        setClickedValue(value);
+      }
+    },
+    [clickedValue]
+  );
 
   useEffect(() => {
     dispatch(setCircleRadius(dimensions.circleRadius));
@@ -83,7 +89,7 @@ export const Tree2: React.FC = () => {
 
   useEffect(() => {
     isTourRunning ? setClickedValue(2) : setClickedValue(-100);
-  }, [dispatch, isTourRunning]);
+  }, [isTourRunning]);
 
   return (
     <div>
@@ -93,7 +99,6 @@ export const Tree2: React.FC = () => {
         <svg
           className="relative"
           width={window.innerWidth - sidebarWidth - 80}
-          // width={verticalSpacing * (maxWidth + 1) + 100}
           height={window.innerHeight - 80}
         >
           {tree && (
@@ -102,6 +107,7 @@ export const Tree2: React.FC = () => {
               dimensions={localDimensions}
               clickedValue={clickedValue}
               handleClick={handleClick}
+              theme={""}
             />
           )}
         </svg>

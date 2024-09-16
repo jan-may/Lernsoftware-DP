@@ -76,6 +76,15 @@ export const Node: React.FC<NodeProps> = ({
 
   return (
     <g>
+      <text
+        x={10} // X-coordinate for the counter
+        y={20} // Y-coordinate for the counter
+        fontSize={14}
+        fill={theme === "dark" ? "white" : "black"}
+        fontWeight="bold"
+      >
+        Knoten: {renderedNodes.length}
+      </text>
       {renderedNodes.map(({ node: renderedNode, parent }, _index) => (
         <React.Fragment key={renderedNode.key}>
           {parent && (
