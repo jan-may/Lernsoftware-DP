@@ -1,5 +1,4 @@
-// WriteUpButtons.tsx
-import { HelpCircle, Gauge, Grid } from "lucide-react";
+import { Gauge } from "lucide-react";
 import { Button } from "./ui/button";
 import {
   Tooltip,
