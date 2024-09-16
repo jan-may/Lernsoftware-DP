@@ -21,6 +21,10 @@ export const Grid: React.FC = () => {
   const [isFinished, setIsFinished] = useState<boolean>(false);
   const { theme } = useTheme();
 
+  const compareColor1 = theme === "light" ? "bg-purple-300" : "bg-purple-400";
+  const compareColor2 = theme === "light" ? "bg-yellow-300" : "bg-yellow-400";
+  const finishedColor = theme === "light" ? "bg-green-300" : "bg-green-400";
+
   // Initialize or reset the Fibonacci array
   const setupFibonacciArray = () => {
     const initialArray: FibonacciCell[] = [];
@@ -125,11 +129,11 @@ export const Grid: React.FC = () => {
             className={`border flex items-center justify-center
               ${
                 cell.isComparingFirst
-                  ? "bg-purple-300" // First comparing cell color
+                  ? compareColor1 // First comparing cell color
                   : cell.isComparingSecond
-                  ? "bg-yellow-300" // Second comparing cell color
+                  ? compareColor2 // Second comparing cell color
                   : isFinished && i === fibonacciArray.length - 1
-                  ? "bg-green-300" // Last cell color when finished
+                  ? finishedColor // Last cell color when finished
                   : cell.isCalculated
                   ? theme === "light"
                     ? "bg-gray-100"
@@ -181,11 +185,15 @@ export const Grid: React.FC = () => {
         <div className="text-left mb-4">
           <div className="grid grid-cols-2 gap-1 w-[470px]">
             <div className="flex items-center">
-              <span className="inline-block w-4 h-4 bg-yellow-300 mr-2"></span>
+              <span
+                className={`inline-block w-4 h-4 ${compareColor2} mr-2`}
+              ></span>
               Zelle 1 für Vergleich
             </div>
             <div className="flex items-center">
-              <span className="inline-block w-4 h-4 bg-purple-300 mr-2"></span>
+              <span
+                className={`inline-block w-4 h-4 ${compareColor1} mr-2`}
+              ></span>
               Zelle 2 für Vergleich
             </div>
             <div className="flex items-center">
@@ -197,7 +205,9 @@ export const Grid: React.FC = () => {
               Zelle in Bearbeitung
             </div>
             <div>
-              <span className="inline-block w-4 h-4 bg-green-300 mr-2"></span>
+              <span
+                className={`inline-block w-4 h-4 ${finishedColor} mr-2`}
+              ></span>
               Ergebnis
             </div>
           </div>
