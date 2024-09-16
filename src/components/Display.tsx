@@ -40,8 +40,9 @@ export const Display = () => {
       input > 15
     ) {
       toast({
-        title: "Ungültiges Grid",
-        description: "Bitte geben Sie ein symmetrisches Grid ein.",
+        title: "Berechnung für n > 15 nicht möglich",
+        description:
+          "Bitte wählen Sie eine kleinere Zahl. Rekursive Berechnung ist nicht effizient für große Zahlen.",
         variant: "destructive",
       });
     }

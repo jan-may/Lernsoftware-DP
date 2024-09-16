@@ -32,9 +32,6 @@ export const CodeSelect = () => {
               <SelectItem value="fibonacci">Fibonacci</SelectItem>
               <SelectItem value="canSum">CanSum</SelectItem>
               <SelectItem value="gridTraveler">GridTraveler</SelectItem>
-              {/* <SelectItem value="levenshtein" disabled>
-                Levenshtein-Distanz
-              </SelectItem> */}
             </SelectContent>
           </Select>
         </div>
