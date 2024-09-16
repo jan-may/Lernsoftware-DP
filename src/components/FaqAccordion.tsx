@@ -27,7 +27,9 @@ export const FaqAccordion = () => {
   return (
     <Accordion type="single" collapsible>
       <AccordionItem value="item-1">
-        <AccordionTrigger>Wie kann ich die Testcases nutzen?</AccordionTrigger>
+        <AccordionTrigger>
+          <p>Wie kann ich die Testcases nutzen?</p>
+        </AccordionTrigger>
         <AccordionContent>
           <p>
             Die Testcases sind im Editor ersichtlich, wenn das Quellcode Symbol
@@ -37,7 +39,7 @@ export const FaqAccordion = () => {
       </AccordionItem>
       <AccordionItem value="item-2">
         <AccordionTrigger className="text-left">
-          Wie kann ich die Tour durch die App erneut starten?
+          <p>Wie kann ich die Tour durch die App erneut starten?</p>
         </AccordionTrigger>
         <AccordionContent>
           <Button onClick={() => handleCompleteTour()}>
@@ -47,7 +49,7 @@ export const FaqAccordion = () => {
       </AccordionItem>
       <AccordionItem value="item-3">
         <AccordionTrigger className="text-left">
-          Wie kann ich das Quiz zurücksetzen und erneut starten?
+          <p>Wie kann ich das Quiz zurücksetzen und erneut starten?</p>
         </AccordionTrigger>
         <AccordionContent>
           <Button onClick={() => handleCompleteQuiz()}>
