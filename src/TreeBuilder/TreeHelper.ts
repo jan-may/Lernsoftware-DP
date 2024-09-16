@@ -301,8 +301,14 @@ export class TreeHelper {
    * @returns {void}
    */
   static shiftTree<T>(node: TreeNodeModel<T>, shiftAmount: number): void {
+    node.x += shiftAmount + 0.5;
+    node.y += 0.7;
+    node.children.forEach((child) => this.shiftTree(child, shiftAmount));
+  }
+
+  static shiftTreeFib<T>(node: TreeNodeModel<T>, shiftAmount: number): void {
     node.x += shiftAmount;
-    node.y += shiftAmount;
+    node.y += shiftAmount + 0.2;
     node.children.forEach((child) => this.shiftTree(child, shiftAmount));
   }
 

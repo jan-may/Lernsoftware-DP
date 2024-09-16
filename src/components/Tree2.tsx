@@ -98,7 +98,7 @@ export const Tree2: React.FC = () => {
       ) : (
         <svg
           className="relative"
-          width={window.innerWidth - sidebarWidth - 80}
+          width={window.innerWidth - sidebarWidth - 50}
           height={window.innerHeight - 80}
         >
           {tree && (
