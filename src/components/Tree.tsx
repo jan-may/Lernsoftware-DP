@@ -58,8 +58,6 @@ export const Tree: React.FC = () => {
   const maxWidth = TreeHelper.getMaxWidth(tree);
   const dimensions = useResizeDimensions(maxDepth, maxWidth);
 
-  console.log(theme);
-
   const handleClick = (value: number) => {
     if (value === clickedValue) {
       setClickedValue(-10);

@@ -54,8 +54,6 @@ export const Tree2: React.FC = () => {
       break;
   }
 
-  console.log(tree);
-
   const maxDepth = TreeHelper.getMaxDepth(tree);
   const maxWidth = TreeHelper.getMaxWidth(tree);
   const dimensions = useResizeDimensions(maxDepth, maxWidth);

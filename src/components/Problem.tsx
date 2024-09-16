@@ -79,8 +79,6 @@ export const Problem = () => {
   const [teilstrukturBlur, setTeilstrukturBlur] = useState(true);
   const [teilproblemBlur, setTeilproblemBlur] = useState(true);
 
-  console.log(selectedProblem);
-
   useEffect(() => {
     setTeilstrukturBlur(true);
     setTeilproblemBlur(true);

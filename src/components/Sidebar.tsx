@@ -82,8 +82,6 @@ export const Sidebar = () => {
       : dispatch(setBluredCode(true));
   }, [activeButton, dispatch]);
 
-  console.log("isOverflowing", isOverflowing);
-
   return (
     <Card
       ref={sidebarRef}

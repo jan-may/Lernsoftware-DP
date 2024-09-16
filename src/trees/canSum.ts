@@ -125,9 +125,6 @@ export function createCanSumTreeMemo(targetSum: number, numbers: number[]) {
   // Build the tree with memoization
   const tree = buildCanSumTreeMemo(targetSum, numbers, null, memo, memoCount);
 
-  // Log the number of memoized nodes
-  console.log(`Memoized nodes: ${memoCount.count}`);
-
   // Calculate node positions for visualization
   TreeHelper.calculateNodePositions(tree);
 
