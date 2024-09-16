@@ -90,7 +90,7 @@ export const Grid: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="flex space-x-4 my-4">
+      <div className="flex space-x-4 my-2">
         {/* Display Fibonacci value and steps taken */}
         <div className="mb-4">
           <strong>Fibonacci Wert:</strong>{" "}
@@ -108,7 +108,7 @@ export const Grid: React.FC = () => {
           flexWrap: "wrap",
           alignContent: "flex-start",
           justifyContent: "center", // Center the grid horizontally
-          gap: "10px", // Add some space between the cells
+          gap: "4px", // Add some space between the cells
           maxWidth: "95%", // Ensure the grid doesn't overflow horizontally
         }}
       >
