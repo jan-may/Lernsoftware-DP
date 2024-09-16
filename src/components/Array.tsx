@@ -33,7 +33,9 @@ const NumberArrayField: React.FC<NumberArrayFieldProps> = ({
       .split(",")
       .map((num) => num.trim()) // Remove extra spaces
       .map((num) => parseFloat(num)) // Convert to number
-      .filter((num) => !isNaN(num)); // Filter out invalid numbers
+      .filter((num) => !isNaN(num)) // Filter out invalid numbers
+      .filter((num, index, self) => self.indexOf(num) === index) // Remove duplicates
+      .filter((num) => num > 0); // Remove negative numbers and zeros
 
     onChange(array); // Pass the validated 1D array of numbers back to the parent component
   };
