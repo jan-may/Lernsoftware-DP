@@ -37,6 +37,11 @@ const GridTravelerDPVisualizer: React.FC<GridTravelerDPProps> = ({
   const [hideRedCell, setHideRedCell] = useState<boolean>(false);
   const { theme } = useTheme();
 
+  const compare1Color = theme === "light" ? "bg-purple-300" : "bg-purple-500";
+  const compare2Color = theme === "light" ? "bg-yellow-300" : "bg-yellow-500";
+  const baseColor = theme === "light" ? "bg-blue-300" : "bg-blue-500";
+  const finalColor = theme === "light" ? "bg-green-300" : "bg-green-500";
+
   const setUpGrid = () => {
     const initialGrid: Cell[][] = gridData.map((row, rowIndex) =>
       row.map((cost, colIndex) => ({
@@ -179,15 +184,15 @@ const GridTravelerDPVisualizer: React.FC<GridTravelerDPProps> = ({
 
   return (
     <div className="flex flex-col items-center">
-      <div className="flex space-x-4 my-4">
+      <div className="flex space-x-4 my-2">
         {/* Display number of steps taken */}
-        <div className="mb-4">
+        <div className="mb-2">
           <strong>Minimale Pfadkosten:</strong>{" "}
           {isFinished
             ? dp![gridData.length - 1][gridData[0].length - 1]
             : "N/A"}
         </div>
-        <div className="mb-4">
+        <div className="mb-2">
           <strong>Iterationen:</strong> {stepsTaken}
         </div>
       </div>
@@ -208,7 +213,7 @@ const GridTravelerDPVisualizer: React.FC<GridTravelerDPProps> = ({
                     isFinished &&
                     rowIndex === gridData.length - 1 &&
                     cell.x === gridData[0].length - 1
-                      ? "bg-green-300"
+                      ? finalColor
                       : ""
                   }
     ${
@@ -218,17 +223,17 @@ const GridTravelerDPVisualizer: React.FC<GridTravelerDPProps> = ({
     }
     ${
       comparingCells.top?.x === cell.x && comparingCells.top?.y === cell.y
-        ? "bg-yellow-300"
+        ? compare2Color
         : ""
     }
     ${
       comparingCells.left?.x === cell.x && comparingCells.left?.y === cell.y
-        ? "bg-purple-300"
+        ? compare1Color
         : ""
     }
     ${
       cell.dpValue !== null
-        ? "bg-blue-300"
+        ? baseColor
         : theme === "light"
         ? "bg-gray-100"
         : "bg-gray-800"
@@ -264,15 +269,19 @@ const GridTravelerDPVisualizer: React.FC<GridTravelerDPProps> = ({
         <div className="text-left mb-4">
           <div className="grid grid-cols-2 gap-1 w-[470px]">
             <div>
-              <span className="inline-block w-4 h-4 bg-purple-300 mr-2"></span>
+              <span
+                className={`inline-block w-4 h-4 ${compare1Color} mr-2`}
+              ></span>
               Zelle 1 für Vergleich
             </div>
             <div>
-              <span className="inline-block w-4 h-4 bg-yellow-300 mr-2"></span>
+              <span
+                className={`inline-block w-4 h-4 ${compare2Color} mr-2`}
+              ></span>
               Zelle 2 für Vergleich
             </div>
             <div>
-              <span className="inline-block w-4 h-4 bg-blue-500 mr-2"></span>
+              <span className={`inline-block w-4 h-4 ${baseColor} mr-2`}></span>
               bereits berechnete Zelle
             </div>
             <div>
@@ -280,7 +289,9 @@ const GridTravelerDPVisualizer: React.FC<GridTravelerDPProps> = ({
               Zelle in Bearbeitung
             </div>
             <div>
-              <span className="inline-block w-4 h-4 bg-green-300 mr-2"></span>
+              <span
+                className={`inline-block w-4 h-4 ${finalColor} mr-2`}
+              ></span>
               Ergebnis
             </div>
           </div>

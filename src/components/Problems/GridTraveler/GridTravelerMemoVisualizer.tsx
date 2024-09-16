@@ -32,6 +32,10 @@ const GridTravelerMemoVisualizer: React.FC<GridTravelerMemoProps> = ({
   const [memo, setMemo] = useState<number[][] | null>(null); // Memoization table
   const { theme } = useTheme();
 
+  const baseColor = theme === "light" ? "bg-blue-300" : "bg-blue-500";
+  const finalColor = theme === "light" ? "bg-green-300" : "bg-green-500";
+  const memoColor = theme === "light" ? "bg-orange-300" : "bg-orange-400";
+
   useEffect(() => {
     // Initialize grid and memo table
     const initialGrid: Cell[][] = gridData.map((row, rowIndex) =>
@@ -193,11 +197,11 @@ const GridTravelerMemoVisualizer: React.FC<GridTravelerMemoProps> = ({
             row.map((cell) => {
               // Determine the background color class based on cell properties
               const backgroundColorClass = cell.isFinal
-                ? "bg-green-300"
+                ? finalColor
                 : cell.memoized
-                ? "bg-blue-300"
+                ? baseColor
                 : cell.fromMemo
-                ? "bg-orange-300"
+                ? memoColor
                 : theme === "light"
                 ? "bg-gray-100"
                 : "bg-gray-800";
@@ -252,15 +256,17 @@ const GridTravelerMemoVisualizer: React.FC<GridTravelerMemoProps> = ({
         <div className="text-left mb-4 flex max-w-[500px] justify-center">
           <div className="grid grid-cols-2 gap-1 w-[470px]">
             <div className="w-[220px]">
-              <span className="inline-block w-4 h-4 bg-blue-300 mr-2"></span>
+              <span className={`inline-block w-4 h-4 ${baseColor} mr-2`}></span>
               Memoisierte Zelle
             </div>
             <div>
-              <span className="inline-block w-4 h-4 bg-orange-300 mr-2"></span>
+              <span className={`inline-block w-4 h-4 ${memoColor} mr-2`}></span>
               Aus Memo abgerufene Zelle
             </div>
             <div>
-              <span className="inline-block w-4 h-4 bg-green-300 mr-2"></span>
+              <span
+                className={`inline-block w-4 h-4 ${finalColor} mr-2`}
+              ></span>
               Minimale Kosten
             </div>
             <div>

@@ -28,6 +28,8 @@ const GridTravelerVisualizer: React.FC<GridTravelerProps> = ({ gridData }) => {
   const [visitedCellsCount, setVisitedCellsCount] = useState<number>(0); // Track how many cells have been visited
   const { theme } = useTheme();
 
+  const currentColor = theme === "light" ? "bg-green-300" : "bg-green-400";
+
   useEffect(() => {
     // Initialize grid from the provided gridData
     const initialGrid: Cell[][] = gridData.map((row, rowIndex) =>
@@ -156,7 +158,7 @@ const GridTravelerVisualizer: React.FC<GridTravelerProps> = ({ gridData }) => {
                 className={`border flex items-center justify-center 
                 ${
                   cell.onCurrentPath
-                    ? "bg-green-300"
+                    ? currentColor
                     : theme === "light"
                     ? "bg-gray-100"
                     : "bg-gray-800"
@@ -194,7 +196,9 @@ const GridTravelerVisualizer: React.FC<GridTravelerProps> = ({ gridData }) => {
         <div className="text-left mb-4 flex max-w-[500px] justify-center">
           <div className="grid grid-cols-2 gap-2 w-[470px]">
             <div>
-              <span className="inline-block w-4 h-4 bg-green-300 mr-2"></span>
+              <span
+                className={`inline-block w-4 h-4 ${currentColor} mr-2`}
+              ></span>
               Aktueller Pfad
             </div>
             <div>
