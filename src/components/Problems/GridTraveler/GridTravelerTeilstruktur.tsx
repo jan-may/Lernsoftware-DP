@@ -11,7 +11,9 @@ export const GridTravelerTeilstruktur: FC = () => {
         <InlineMath math="G(i,j-1)" /> abhängig. Es Gilt:
       </p>
       <div className="my-2 ml-4">
-        <InlineMath math="C(i,j) = c(i,j) + \min(C(i-1,j), C(i,j-1))" />
+        <p>
+          <InlineMath math="C(i,j) = c(i,j) + \min(C(i-1,j), C(i,j-1))" />
+        </p>
       </div>
       <p>wobei:</p>
       <ul className="ml-8 list-disc">

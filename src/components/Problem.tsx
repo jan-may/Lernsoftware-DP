@@ -134,50 +134,51 @@ export const Problem = () => {
                 lassen. Der Lernerfolg ist jedoch größer, wenn Sie die Lösung
                 selbst erarbeiten.
               </p>
-              <p className="mb-2">
+              <div className="mb-2">
                 <span className="mr-4 text-base font-semibold">
                   Optimale Teilstruktur:
                 </span>
-                <span className="relative inline-flex items-center">
-                  <div className={teilstrukturBlur ? "blur-md" : ""}>
-                    {renderDynProblemTeilstruktur(selectedProblem)}
-                  </div>
-                  <Button
-                    className={
-                      teilstrukturBlur
-                        ? "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10000 blur-none p-0 h-6 w-8  "
-                        : "hidden"
-                    }
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setTeilstrukturBlur(!teilstrukturBlur)}
-                  >
-                    <Eye />
-                  </Button>
-                </span>
-              </p>
-              <p>
+              </div>
+              <div className="relative inline-flex items-center mb-4">
+                <div className={teilstrukturBlur ? "blur-md" : ""}>
+                  {renderDynProblemTeilstruktur(selectedProblem)}
+                </div>
+                <Button
+                  className={
+                    teilstrukturBlur
+                      ? "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10000 blur-none p-0 h-6 w-8"
+                      : "hidden"
+                  }
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setTeilstrukturBlur(!teilstrukturBlur)}
+                >
+                  <Eye />
+                </Button>
+              </div>
+
+              <div>
                 <span className="mr-4 text-base font-semibold">
                   Überlappende Teilprobleme:
                 </span>
-                <span className="relative inline-flex items-center">
-                  <div className={teilproblemBlur ? "blur-md" : ""}>
-                    {renderDynProblemOverlappingTeilproblem(selectedProblem)}
-                  </div>
-                  <Button
-                    className={
-                      teilproblemBlur
-                        ? "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10000 blur-none p-0 h-6 w-8  "
-                        : "hidden"
-                    }
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setTeilproblemBlur(!teilproblemBlur)}
-                  >
-                    <Eye />
-                  </Button>
-                </span>
-              </p>
+              </div>
+              <div className="relative inline-flex items-center">
+                <div className={teilproblemBlur ? "blur-md" : ""}>
+                  {renderDynProblemOverlappingTeilproblem(selectedProblem)}
+                </div>
+                <Button
+                  className={
+                    teilproblemBlur
+                      ? "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10000 blur-none p-0 h-6 w-8"
+                      : "hidden"
+                  }
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setTeilproblemBlur(!teilproblemBlur)}
+                >
+                  <Eye />
+                </Button>
+              </div>
             </div>
           </AccordionContent>
         </AccordionItem>

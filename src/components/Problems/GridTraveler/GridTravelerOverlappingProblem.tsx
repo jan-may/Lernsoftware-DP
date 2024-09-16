@@ -13,7 +13,9 @@ export const GridTravelerOverlappingTeilproblem: FC = () => {
         können. Es gilt:
       </p>
       <div className="my-2 ml-4">
-        <InlineMath math="P(i,j) = P(i-1,j) \cup P(i,j-1)" />
+        <p>
+          <InlineMath math="P(i,j) = P(i-1,j) \cup P(i,j-1)" />
+        </p>
       </div>
     </div>
   );
