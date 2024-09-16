@@ -107,7 +107,7 @@ export const Tree2: React.FC = () => {
               dimensions={localDimensions}
               clickedValue={clickedValue}
               handleClick={handleClick}
-              theme={""}
+              theme={theme}
             />
           )}
         </svg>
