@@ -29,11 +29,11 @@
     "@uiw/react-codemirror": "^4.23.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
-    "lucide-react": "^0.439.0",
+    "lucide-react": "^0.441.0",
     "prop-types": "^15.8.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-joyride": "^2.8.2",
+    "react-joyride": "^2.9.2",
     "react-katex": "^3.0.1",
     "react-latex": "^2.0.0",
     "react-redux": "^9.1.2",
@@ -42,7 +42,7 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^1.6.1",
+    "@tauri-apps/cli": "^1.6.2",
     "@types/node": "^22.5.4",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
@@ -50,8 +50,8 @@
     "@types/react-syntax-highlighter": "^15.5.13",
     "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.45",
-    "tailwindcss": "^3.4.10",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.11",
     "typescript": "^5.5.4",
     "vite": "^5.4.3"
   }
