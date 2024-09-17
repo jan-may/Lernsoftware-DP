@@ -188,13 +188,13 @@ export const Grid: React.FC = () => {
               <span
                 className={`inline-block w-4 h-4 ${compareColor2} mr-2`}
               ></span>
-              Zelle 1 für Vergleich
+              Zelle 1 für Berechnung
             </div>
             <div className="flex items-center">
               <span
                 className={`inline-block w-4 h-4 ${compareColor1} mr-2`}
               ></span>
-              Zelle 2 für Vergleich
+              Zelle 2 für Berechnung
             </div>
             <div className="flex items-center">
               <span className="inline-block w-4 h-4 bg-gray-100 mr-2"></span>

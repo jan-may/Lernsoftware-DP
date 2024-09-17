@@ -123,12 +123,14 @@ export const Tree2: React.FC = () => {
             </svg>
             <p className="text-sm">= ausgewählt</p>
           </div>
-          <div className="flex items-center space-x-1">
-            <svg width={16} height={16}>
-              <circle fill="green" cy={8} cx={8} r={8} />
-            </svg>
-            <p className="text-sm">= memoisierter Wert</p>
-          </div>
+          {activeButton === ActivButton.topDownMemo && (
+            <div className="flex items-center gap-1">
+              <svg width={16} height={16}>
+                <circle fill="green" cy={8} cx={8} r={8} />
+              </svg>
+              <p className="text-sm">= memoisierter Pfad</p>
+            </div>
+          )}
           <div className="flex items-center space-x-1">
             <svg width={16} height={16}>
               <circle fill="gray" cy={8} cx={8} r={8} />

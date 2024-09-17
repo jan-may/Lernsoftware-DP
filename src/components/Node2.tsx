@@ -254,7 +254,6 @@ interface NodeCircleProps {
 
 const NodeCircle: React.FC<NodeCircleProps> = React.memo(
   ({ node, dimensions, theme, clickedValue, handleClick }) => {
-    console.log(theme);
     return (
       <>
         <circle

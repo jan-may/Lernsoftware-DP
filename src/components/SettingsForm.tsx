@@ -186,7 +186,8 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
             defaultValue={settings.textSize.toString()}
             onChange={handleTextSizeChange}
           />
-          {(selectedProblem === "fibonacci" ||
+          {((selectedProblem === "fibonacci" &&
+            activeButton !== ActivButton.bottomUp) ||
             (selectedProblem === "canSum" &&
               activeButton !== ActivButton.bottomUp)) && (
             <>
@@ -218,15 +219,26 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
               defaultValue={settings.fieldSize.toString()}
             />
           ) : (
-            <Field
-              key="circleRadius"
-              name="circleRadius"
-              label="Knotenradius"
-              value={Math.floor(localDimensions.circleRadius).toString()}
-              onChange={(e) => handleChange(e, "circleRadius")}
-              disabled={true}
-            />
+            activeButton !== ActivButton.bottomUp && (
+              <Field
+                key="circleRadius"
+                name="circleRadius"
+                label="Knotenradius"
+                value={Math.floor(localDimensions.circleRadius).toString()}
+                onChange={(e) => handleChange(e, "circleRadius")}
+                disabled={true}
+              />
+            )
           )}
+          {selectedProblem === "fibonacci" &&
+            activeButton === ActivButton.bottomUp && (
+              <Field
+                key="fieldSize"
+                name="fieldSize"
+                label="Feldgröße"
+                defaultValue={settings.fieldSize.toString()}
+              />
+            )}
         </div>
         <Button
           type="submit"

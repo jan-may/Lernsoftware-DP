@@ -46,8 +46,6 @@ export function createCanSumTree(targetSum: number, numbers: number[]) {
   // Calculate node positions for visualization
   TreeHelper.calculateNodePositions(tree);
   // Adjust the tree spacing depending on the size of the input
-  const numberOfNodes = tree.children;
-  console.log(numberOfNodes);
   targetSum <= 5
     ? TreeHelper.shiftTree(tree, 0)
     : TreeHelper.shiftTree(tree, 0.25);
