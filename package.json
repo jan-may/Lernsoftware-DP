@@ -1,7 +1,7 @@
 {
   "name": "lernsoftware-dynamisches-programmieren",
   "private": true,
-  "version": "0.3.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
