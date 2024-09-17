@@ -2,7 +2,7 @@
 
 Diese Lernsoftware ist ein interaktives Tool zum Vertiefen der dynamischen Programmierung. Entwickelt mit Tauri, React und Typescript, zielt diese App darauf ab, Studierenden und Programmier-Enthusiasten ein tieferes Verständnis der dynamischen Programmierung zu vermitteln. Die Software visualisiert dabei den Aufbau von Rekursionsbäumen (Top-Down, Top-Down mit Memoisierung) und Bottom-Up-Lösungen, um die Konzepte klar und verständlich zu machen.
 
-Die App ist begleitend zum Kurs "Einführung in die Informatik 2" der Fernuniversität Hagen konzipiert. Es ist jedoch natürlich keine  Voraussetzung, Student der Fernuniversität zu sein.
+Die App ist begleitend zum Kurs "Grundlagen der Informatik 2" der Fernuniversität Hagen konzipiert. Es ist jedoch natürlich keine Voraussetzung, Student der Fernuniversität zu sein.
 Ein einleitendes Quiz prüft auf einen ausreichenden Wissensstand, um die App sinnvoll nutzen zu können.
 
 ## Funktionen
@@ -10,7 +10,7 @@ Ein einleitendes Quiz prüft auf einen ausreichenden Wissensstand, um die App si
 - **Visualisierung von Rekursionsbäumen:** Verstehen Sie, wie Top-Down-Ansätze Rekursionsbäume erstellen.
 - **Memoisierung und Bottom-Up-Lösungen:** Lernen Sie die Optimierungstechniken der dynamischen Programmierung.
 - **Interaktive Beispiele:** Vertiefen Sie Ihr Verständnis durch Beispiele.
-- **Cross-Plattform-Kompatibilität:** Verfügbar im Webbrowser oder als Desktop-Anwendung (Windows, Linux & Mac).
+- **Cross-Plattform-Kompatibilität:** Verfügbar im Webbrowser (eingeschränkte Funktionalität) oder als Desktop-Anwendung (Windows, Linux & Mac).
 
 ## Installation
 
@@ -32,8 +32,8 @@ Nach dem Start der App werden Sie durch eine intuitive Benutzeroberfläche gefü
 
 #### Voraussetzungen
 
-- node.js >= 18.0  [node-Download](https://nodejs.org/en/download/)
-- rust >= 1.5  [rust-Download](https://www.rust-lang.org/tools/install)
+- node.js >= 18.0 [node-Download](https://nodejs.org/en/download/)
+- rust >= 1.5 [rust-Download](https://www.rust-lang.org/tools/install)
 
 Repository klonen und in das Repository wechseln.
 
@@ -56,14 +56,15 @@ npm run tauri dev
 
 _Herzlichen Glückwunsch!_ Die native App sollte nun in einem separaten Fenster starten.
 
---------------------
+---
+
 Für eine lokale Entwicklung ausschließlich im Browser genügt das starten des vite Dev-Servers.
 
 ```bash
 npm run dev
 ```
 
---------------------
+---
 
 Projekt bauen und die plattformspezifische Installationsdatei erhalten.
 
@@ -83,7 +84,7 @@ Diese Software ist unter der MIT-Lizenz lizenziert. Weitere Informationen finden
 
 ## Kontakt
 
-Für weitere Fragen oder Feedback kontaktieren Sie mich gerne bei Github oder per [Mail](<hi@jan-may.dev>).
+Für weitere Fragen oder Feedback kontaktieren Sie mich gerne bei Github oder per [Mail](hi@jan-may.dev).
 
 ### Empfohlenes IDE Setup
 
