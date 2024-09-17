@@ -1,12 +1,12 @@
 // CanSumTabulatedVisualizer.tsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useAppSelector } from "../../../hooks/redux";
 import { Button } from "../../../components/ui/button";
 import { useTheme } from "../../../components/theme-provider";
 
 interface TableCell {
-  value: number; // The index value
-  isReachable: boolean; // True if reachable
+  value: number; // Der Index-Wert
+  isReachable: boolean; // True, wenn erreichbar
 }
 
 interface CanSumTabulatedVisualizerProps {
@@ -27,33 +27,50 @@ const CanSumTabulatedVisualizer: React.FC<CanSumTabulatedVisualizerProps> = ({
   const { speed } = useAppSelector((store) => store.settings);
   const { theme } = useTheme();
 
-  useEffect(() => {
-    // Initialize the table with all cells set to false (no cell is reachable initially)
+  // useRef für die Tabelle, um eine mutable Referenz zu haben
+  const tableRef = useRef<TableCell[]>([]);
+
+  // Funktion zum Zurücksetzen aller relevanten Zustände
+  const resetVisualizer = () => {
     const initialTable: TableCell[] = Array(targetSum + 1)
       .fill(false)
       .map((_, index) => ({
         value: index,
-        isReachable: false, // No cell is reachable initially
+        isReachable: false,
       }));
-    setTable(initialTable);
+    initialTable[0].isReachable = true; // Startpunkt setzen
+    tableRef.current = initialTable; // Tabelle in der Ref aktualisieren
+    setTable([...initialTable]); // Tabelle im State setzen für die Visualisierung
+    setCurrentIndex(null);
+    setCurrentNumber(null);
+    setUpdatedCells([]);
+    setNewlyReachedCells([]);
+    setIsRunning(false);
+  };
+
+  // Initialisierung der Tabelle beim Mounten oder bei Änderung der Zielsumme
+  useEffect(() => {
+    resetVisualizer();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [targetSum]);
 
   const runAlgorithm = async () => {
-    setIsRunning(true);
-    const newTable = [...table];
+    if (isRunning) return; // Verhindert Mehrfachausführungen
 
-    // Mark the first cell as reachable at the start
-    newTable[0].isReachable = true;
-    setTable([...newTable]);
+    setIsRunning(true); // Markiert den Start des Algorithmus
 
-    // Track if targetSum has been reached
-    let targetReached = newTable[targetSum].isReachable;
+    resetVisualizer(); // Setzt alle Zustände zurück
 
-    // Main DP logic with visualization
+    // Kurze Verzögerung, um sicherzustellen, dass der Reset abgeschlossen ist
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    // Lokale Kopie der Tabelle für die Algorithmus-Logik
+    const localTable = [...tableRef.current];
+
     for (let i = 0; i <= targetSum; i++) {
-      if (newTable[i].isReachable) {
+      if (localTable[i].isReachable) {
         setCurrentIndex(i);
-        setUpdatedCells([]); // Clear updated cells for the current index
+        setUpdatedCells([]);
         setNewlyReachedCells([]);
         await new Promise((resolve) => setTimeout(resolve, speed));
 
@@ -63,19 +80,14 @@ const CanSumTabulatedVisualizer: React.FC<CanSumTabulatedVisualizerProps> = ({
 
           const newSum = i + num;
           if (newSum <= targetSum) {
-            if (!newTable[newSum].isReachable) {
-              // Cell is newly reachable
-              newTable[newSum].isReachable = true;
+            if (!localTable[newSum].isReachable) {
+              // Neue erreichbare Zelle
+              localTable[newSum].isReachable = true;
               setNewlyReachedCells((prev) => [...prev, newSum]);
-              setTable([...newTable]); // Update the table
+              setTable([...localTable]); // Tabelle für die Visualisierung aktualisieren
               await new Promise((resolve) => setTimeout(resolve, speed));
-
-              if (newSum === targetSum && !targetReached) {
-                // Update 'Erreichbar?' status immediately
-                targetReached = true;
-              }
             } else {
-              // Cell is already reachable, but we're updating it again
+              // Bereits erreichbare Zelle, aber erneut aktualisiert
               setUpdatedCells((prev) => [...prev, newSum]);
               await new Promise((resolve) => setTimeout(resolve, speed));
             }
@@ -84,13 +96,14 @@ const CanSumTabulatedVisualizer: React.FC<CanSumTabulatedVisualizerProps> = ({
       }
     }
 
-    // Reset states after completion
+    // Abschluss der Visualisierung
     setCurrentIndex(null);
     setCurrentNumber(null);
     setUpdatedCells([]);
     setNewlyReachedCells([]);
-    setIsRunning(false); // Mark the algorithm as done
-    setTable([...newTable]);
+    setIsRunning(false);
+    setTable([...localTable]); // Letzte Aktualisierung der Tabelle
+    tableRef.current = localTable; // Ref aktualisieren
   };
 
   return (
@@ -129,7 +142,7 @@ const CanSumTabulatedVisualizer: React.FC<CanSumTabulatedVisualizerProps> = ({
         }}
       >
         {table.map((cell, index) => {
-          // Determine the cell's background style
+          // Bestimmung der Hintergrundfarbe der Zelle
           let cellBackgroundClass = "";
           let cellStyle = {};
 
@@ -142,9 +155,9 @@ const CanSumTabulatedVisualizer: React.FC<CanSumTabulatedVisualizerProps> = ({
             if (isNewlyReached) {
               cellBackgroundClass = "bg-yellow-300";
             } else if (isUpdatedAgain) {
-              // Cell is already reachable and is being updated again
+              // Zelle ist bereits erreichbar und wird erneut aktualisiert
               cellStyle = {
-                background: "linear-gradient(135deg, #86efac, #fde047)", // Green and Yellow gradient
+                background: "linear-gradient(135deg, #86efac, #fde047)", // Grün- und Gelbgradient
               };
             } else if (isReachable) {
               cellBackgroundClass = "bg-green-300";
@@ -152,13 +165,13 @@ const CanSumTabulatedVisualizer: React.FC<CanSumTabulatedVisualizerProps> = ({
               cellBackgroundClass = "bg-gray-100";
             }
           } else {
-            // Dark theme
+            // Dunkles Theme
             if (isNewlyReached) {
               cellBackgroundClass = "bg-yellow-400";
             } else if (isUpdatedAgain) {
-              // Cell is already reachable and is being updated again
+              // Zelle ist bereits erreichbar und wird erneut aktualisiert
               cellStyle = {
-                background: "linear-gradient(90deg, #4ade80, #facc15", // Green and Yellow gradient
+                background: "linear-gradient(90deg, #4ade80, #facc15)", // Grün- und Gelbgradient
               };
             } else if (isReachable) {
               cellBackgroundClass = "bg-green-400";
@@ -206,7 +219,7 @@ const CanSumTabulatedVisualizer: React.FC<CanSumTabulatedVisualizerProps> = ({
                   theme === "light" ? "bg-yellow-300" : "bg-yellow-400"
                 } mr-2`}
               ></span>
-              neuer ereichbarer Wert
+              neuer erreichbarer Wert
             </div>
             <div>
               <span
@@ -223,7 +236,7 @@ const CanSumTabulatedVisualizer: React.FC<CanSumTabulatedVisualizerProps> = ({
                   background:
                     theme === "light"
                       ? "linear-gradient(135deg, #86efac, #fde047)"
-                      : "linear-gradient(90deg, #4ade80, #facc15",
+                      : "linear-gradient(90deg, #4ade80, #facc15)",
                 }}
               ></span>
               erneut erreicht
