@@ -99,16 +99,14 @@ const GridTravelerDPExplain: React.FC = () => {
           <span>
             <p>
               Durch den Bottom-Up-Ansatz werden die minimalen Kosten iterativ
-              für jede Position berechnet, ohne die Nachteile von Rekursion oder
-              Memoisierung.
+              für jede Position berechnet, ohne die Nachteile von Rekursion und
+              Memoisierung (zusätzlicher Speicherbedarf). Jede Zelle in der DP-
+              Tabelle enthält die minimalen Kosten, um diese Position zu
+              erreichen, und die minimale Pfadkosten sind in{" "}
+              <InlineMath math="dp[m, n]" /> gespeichert.
             </p>
           </span>
-          <span>
-            <p>
-              Das Klicken auf eine Zelle zeigt die Berechnungsschritte und die
-              verwendeten Nachbarwerte.
-            </p>
-          </span>
+
           <p>
             <strong>Funktionsweise:</strong>
           </p>

@@ -70,23 +70,34 @@ const FibMemoExplain: React.FC = () => {
             </code>
           </pre>
           <p>
-            Der Baum spiegelt den Rekursionsbaum für den Aufruf von{" "}
+            Der dargestellte Baum spiegelt den Rekursionsbaum für den Aufruf von{" "}
             <code>FibMemo(int n, int[] memo)</code> mit dem gewählten Input
-            wider, wobei bereits berechnete Werte gespeichert werden.
+            wider, wobei bereits berechnete Werte gespeichert und
+            wiederverwendet werden.
           </p>
           <span>
             <p>
-              Durch die Speicherung von Zwischenergebnissen werden überlappende
-              Teilprobleme vermieden, was zu einer erheblichen Reduzierung der
-              Berechnungen, besonders für große Inputs führt. Grüne Knoten
-              zeigen nun bereits gespeicherte Werte an.
+              Durch die Speicherung von Zwischenergebnissen werden redundante
+              sich überlappende Teilprobleme vermieden, was zu einer erheblichen
+              Reduzierung der Berechnungen, besonders für große Inputs führt.
             </p>
+            <div className="flex items-center space-x-1">
+              <svg width={10} height={10}>
+                <circle fill="green" cy={5} cx={5} r={5} />
+              </svg>
+              <p>Grüne Knoten zeigen nun bereits gespeicherte Werte an.</p>
+            </div>
           </span>
           <span>
-            <p>
-              Das Klicken eines Knotens zeigt weiterhin mehrfach berechnete
-              Knoten an. Die Anzahl kann 2 nun nicht mehr überschreiten.
-            </p>
+            <div className="flex items-center space-x-1">
+              <svg width={10} height={10}>
+                <circle fill="red" cy={5} cx={5} r={5} />
+              </svg>
+              <p>
+                Das Klicken eines Knotens zeigt weiterhin mehrfach berechnete
+                Knoten an. Die Anzahl kann 2 nun nicht mehr überschreiten.
+              </p>
+            </div>
           </span>
           <p>
             <strong>Funktionsweise:</strong>

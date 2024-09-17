@@ -90,24 +90,50 @@ public static int MinCost(int[,] grid, int m, int n)
             </code>
           </pre>
           <p>
-            In der Visualisierung wird der Rekursionsbaum dargestellt, wobei
-            bereits berechnete Positionen aus dem Memoisierungs-Cache abgerufen
-            und nicht erneut berechnet werden.
+            In der Visualisierung wird der Rekursionsbaum in form einer Tabelle
+            dargestellt, wobei bereits berechnete Positionen aus dem
+            Memoisierungs-Cache abgerufen und nicht erneut berechnet werden.
           </p>
           <span>
             <p>
-              Durch die Speicherung der Ergebnisse werden überlappende
-              Teilprobleme vermieden, was zu einer erheblichen Reduzierung der
-              Anzahl der Berechnungen führt.
+              Der Algorithmus startet ähnlich wie der rekursive Ansatz, jedoch
+              wird werden die bereits berechneten Ergebnisse im
+              Memoisierungs-Array gespeichert und wiederverwendet. Durch die
+              Speicherung der Ergebnisse werden überlappende Teilprobleme
+              vermieden, was zu einer erheblichen Reduzierung der Anzahl der
+              Berechnungen führt.
             </p>
           </span>
           <span>
             <p>
-              Das Klicken auf eine Zelle zeigt, welche Werte aus dem Cache
-              abgerufen wurden (orange) und welche neu berechnet und gespeichert
-              wurden (blau).
+              <span
+                className={`inline-block w-3 h-3 bg-orange-300 mr-1`}
+              ></span>
+              repräsentiert Zellen, die aus dem Memo-Array abgerufen wurden und
+              nicht erneut berechnet werden mussten.
             </p>
           </span>
+          <span>
+            <p>
+              <span className={`inline-block w-3 h-3 bg-blue-300 mr-1`}></span>
+              repräsentiert Zellen, die neu berechnet wurden und dem Memo-Array
+              hinzugefügt wurden.
+            </p>
+          </span>
+          <span>
+            <p>
+              <span className={`inline-block w-3 h-3 bg-green-300 mr-1`}></span>
+              repräsentiert die minimalen Pfadkosten in Zelle{" "}
+              <InlineMath math="(m, n)" />.
+            </p>
+          </span>
+          <span>
+            <p>
+              <span className="text-sm"> (Wert) </span> repräsentiert die
+              memoisierten Pfadkosten der Zelle.
+            </p>
+          </span>
+
           <p>
             <strong>Funktionsweise:</strong>
           </p>

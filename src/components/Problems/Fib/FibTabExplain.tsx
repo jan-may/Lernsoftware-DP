@@ -21,6 +21,10 @@ import { useTheme } from "../../../components/theme-provider";
 
 const FibTabExplain: React.FC = () => {
   const { theme } = useTheme();
+  const compareColor1 = theme === "light" ? "bg-purple-300" : "bg-purple-400";
+  const compareColor2 = theme === "light" ? "bg-yellow-300" : "bg-yellow-400";
+  const finishedColor = theme === "light" ? "bg-green-300" : "bg-green-400";
+
   return (
     <Dialog>
       {/* Tooltip wrapping only the DialogTrigger Button */}
@@ -79,15 +83,37 @@ const FibTabExplain: React.FC = () => {
           <p>
             In der Visualisierung wird der Aufbau der Tabelle Schritt für
             Schritt dargestellt, wobei jede Zelle den berechneten Fibonacci-Wert
-            für einen bestimmten Index enthält.
+            für einen bestimmten Index enthält. Durch den iterativen Ansatz
+            werden überlappende Teilprobleme vermieden und der Bedarf an
+            Rekursion entfällt, was zu einer effizienteren Berechnung führt.
           </p>
           <span>
-            <p>
-              Durch den iterativen Ansatz werden überlappende Teilprobleme
-              vermieden und der Bedarf an Rekursion entfällt, was zu einer
-              effizienteren Berechnung führt.
-            </p>
+            <span
+              className={`inline-block w-3 h-3 ${compareColor2} mr-1`}
+            ></span>{" "}
+            und
+            <span
+              className={`inline-block w-3 h-3 ${compareColor1} ml-2 mr-1`}
+            ></span>{" "}
+            repräsentieren die Zellen, die für die Berechnung des aktuellen
+            Wertes verwendet werden.
           </span>
+          <span>
+            <div>
+              <span className="inline-block w-3 h-3 border-4 border-red-500 mr-2"></span>
+              Zeigt die aktuelle Zelle an, die berechnet wird.
+            </div>
+          </span>
+          <span>
+            <div>
+              <span
+                className={`inline-block w-3 h-3 ${finishedColor} mr-2`}
+              ></span>
+              Zeigt das Endergebnis (<code>table[n]</code>) an, wenn der
+              Algorithmus abgeschlossen ist.
+            </div>
+          </span>
+
           <p>
             <strong>Funktionsweise:</strong>
           </p>

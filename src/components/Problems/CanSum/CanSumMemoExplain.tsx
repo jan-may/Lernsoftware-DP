@@ -100,10 +100,50 @@ const CanSumMemoExplain: React.FC = () => {
             </p>
           </span>
           <span>
-            <p>
-              Das Klicken eines Knotens zeigt, welche Werte aus dem Cache
-              abgerufen wurden (grün) und welche neu berechnet wurden.
-            </p>
+            <div className="flex items-center space-x-2">
+              <svg width={10} height={10}>
+                <circle fill="green" cy={5} cx={5} r={5} />
+              </svg>
+              <p>Aus Memo abgerufene und wiederverwendete Werte</p>
+            </div>
+          </span>
+          <span>
+            <div className="flex items-center space-x-2">
+              <svg width={10} height={10}>
+                <circle fill="lightblue" cy={5} cx={5} r={5} />
+              </svg>
+              <p>
+                Erfolgreiche Pfade werden mit einem blauen Blatt-Knoten (Wert 0)
+                dargestellt.
+              </p>
+            </div>
+          </span>
+          <span>
+            <div className="flex items-center space-x-2">
+              <svg width={10} height={10}>
+                <circle fill="gray" cy={5} cx={5} r={5} />
+              </svg>
+              <p>
+                Negative Pfade werden mit einem grauen Blatt-Knoten dargestellt.
+              </p>
+            </div>
+          </span>
+          <span>
+            <div className="flex items-center  space-x-2">
+              <svg width={10} height={10}>
+                <circle fill="red" cy={5} cx={5} r={5} />
+              </svg>
+              <div>
+                <p>
+                  Das Klicken eines Knotens zeigt redundante Berechnungen für
+                  den jeweiligen Teilbaum.
+                </p>
+                <p>
+                  Maximal ein Knoten kann rot sein, da bei redundanter
+                  Berechnung der Wert aus dem Memo abgerufen wird.
+                </p>
+              </div>
+            </div>
           </span>
           <p>
             <strong>Funktionsweise:</strong>

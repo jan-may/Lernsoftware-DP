@@ -92,16 +92,37 @@ const CanSumRecExplain: React.FC = () => {
             </p>
           </span>
           <span>
-            <p>
-              Negative Pfade werden mit einem grauen Blatt-Knoten dargestellt.
-              Erfolgreiche mit einem blauen Blatt-Knoten (Wert 0).
-            </p>
+            <div className="flex items-center space-x-2">
+              <svg width={10} height={10}>
+                <circle fill="gray" cy={5} cx={5} r={5} />
+              </svg>
+              <p>
+                Negative Pfade werden mit einem grauen Blatt-Knoten dargestellt.
+              </p>
+            </div>
+            <div className="flex items-center space-x-2">
+              <svg width={10} height={10}>
+                <circle fill="lightblue" cy={5} cx={5} r={5} />
+              </svg>
+              <span>
+                <p>
+                  Erfolgreiche Pfade werden mit einem blauen Blatt-Knoten (Wert
+                  0) dargestellt.
+                </p>
+              </span>
+            </div>
           </span>
+
           <span>
-            <p>
-              Das Klicken eines Knotens zeigt redundante Berechnungen für den
-              jeweiligen Teilbaum (rot).
-            </p>
+            <div className="flex items-center space-x-2">
+              <svg width={10} height={10}>
+                <circle fill="red" cy={5} cx={5} r={5} />
+              </svg>
+              <p>
+                Das Klicken eines Knotens zeigt redundante Berechnungen für den
+                jeweiligen Teilbaum.
+              </p>
+            </div>
           </span>
           <p>
             <strong>Funktionsweise:</strong>
@@ -169,7 +190,8 @@ const CanSumRecExplain: React.FC = () => {
             <li>
               <strong>Iterative Methode (Bottom-Up-Ansatz):</strong> Verwendung
               eines tabellarischen Ansatzes, um die Möglichkeiten zu berechnen,
-              was ebenfalls zu einer effizienteren Laufzeit führt.
+              was ebenfalls zu einer effizienteren Laufzeit{" "}
+              <InlineMath math="O(n \cdot \text{m})" /> führt.
             </li>
           </ul>
           <p>

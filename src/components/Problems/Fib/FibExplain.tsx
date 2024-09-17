@@ -51,7 +51,7 @@ const FibExplain: React.FC = () => {
         <DialogDescription className="space-y-4">
           <p>
             Der rekursive Fibonacci-Algorithmus implementiert die mathematische
-            Definition der Sequenz direkt:
+            Definition der Fibonacci-Reihe direkt:
           </p>
           <pre
             className={
@@ -69,17 +69,26 @@ const FibExplain: React.FC = () => {
             </code>
           </pre>
           <p>
-            Der Baum spiegelt den gebildeten Rekursionsbaum für Aufruf von{" "}
-            <code>Fib(int n)</code> mit dem gewählten Input wider.
+            Der dargestellte Baum spiegelt den gebildeten Rekursionsbaum für
+            Aufruf von <code>Fib(int n)</code> mit dem gewählten Input wider.
           </p>
-          <p>
-            Bei steigendem Input werden die überlappenden Teilprobleme schnell
-            ersichtlich und führen zu redundanten Berechnungen.
-          </p>
-          <p>
-            Das Klicken eines Knotens zeigt alle redundanten Berechnungen für
-            den jeweiligen Teilbaum.
-          </p>
+          <span>
+            <p>
+              Bei steigendem Input werden die überlappenden Teilprobleme schnell
+              ersichtlich und führen zu redundanten Berechnungen.
+            </p>
+          </span>
+          <span>
+            <div className="flex items-center space-x-1">
+              <svg width={10} height={10}>
+                <circle fill="red" cy={5} cx={5} r={5} />
+              </svg>
+              <p>
+                Das Klicken eines Knotens zeigt alle redundanten Berechnungen
+                für den jeweiligen Teilbaum.
+              </p>
+            </div>
+          </span>
           <p>
             <strong>Funktionsweise:</strong>
           </p>

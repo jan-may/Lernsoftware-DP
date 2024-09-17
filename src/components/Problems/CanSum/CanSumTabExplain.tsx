@@ -89,11 +89,18 @@ const CanSumTabExplain: React.FC = () => {
             </code>
           </pre>
           <p>
-            In der Visualisierung wird die Tabelle dargestellt, wobei jede Zelle
-            anzeigt, ob eine bestimmte Summe erreichbar ist. Grün markierte
-            Zellen sind erreichbar, während die aktuelle Zelle, die verarbeitet
-            wird, rot umrandet ist.
+            In der Visualisierung wird eine Tabelle dargestellt, wobei jede
+            Zelle <code>i</code> anzeigt, ob die Summe <code>i</code> mit den
+            gegebenen Zahlen erreicht werden kann
           </p>
+          <span>
+            <p>
+              Die Tabelle wird schrittweise von 0 bis zum Zielwert gefüllt,
+              indem für jeden Wert überprüft wird, ob durch Hinzufügen einer der
+              verfügbaren Zahlen zu einem bereits erreichbaren Wert die aktuelle
+              Summe erreicht werden kann.
+            </p>
+          </span>
           <span>
             <p>
               Durch den Bottom-Up-Ansatz werden alle möglichen Kombinationen
@@ -103,8 +110,38 @@ const CanSumTabExplain: React.FC = () => {
           </span>
           <span>
             <p>
-              Das Klicken auf eine Zelle zeigt, welche Summen durch Hinzufügen
-              der verfügbaren Zahlen erreicht werden können.
+              <span
+                className={`inline-block w-3 h-3 bg-yellow-300 mr-1`}
+              ></span>
+              repräsentiert neu berechnete Zellen, die erreichbar sind.
+            </p>
+          </span>
+
+          <span>
+            <p>
+              <span
+                className={`inline-block w-3 h-3 bg-yellow-300 mr-1`}
+                style={{
+                  background: "linear-gradient(135deg, #86efac, #fde047)",
+                }}
+              ></span>
+              repräsentiert neu berechnete Zellen, die bereits erreichbar waren
+              und erneut erreicht wurden.
+            </p>
+          </span>
+          <span>
+            <p>
+              <span className={`inline-block w-3 h-3 bg-green-400 mr-1`}></span>
+              repräsentiert Zellen, die erreichbar sind.
+            </p>
+          </span>
+          <span>
+            <p>
+              <span className="text-red-500 font-bold mr-2">Zahl</span>
+              repräsentiert die aktuell verwendete Zahl aus den gegebenen Zahlen
+              für den gegebenen Index{" "}
+              <span className="inline-block w-3 h-3 border-2 border-red-500"></span>
+              .
             </p>
           </span>
           <p>
@@ -132,7 +169,7 @@ const CanSumTabExplain: React.FC = () => {
                       <InlineMath math="\text{newSum} = i + \text{num}" />.
                     </li>
                     <li>
-                      Wenn <code>newSum &leq; targetSum</code>, setze{" "}
+                      Wenn <code>newSum &le; targetSum</code>, setze{" "}
                       <code>table[newSum]</code> auf <code>true</code>.
                     </li>
                   </ul>
@@ -147,8 +184,10 @@ const CanSumTabExplain: React.FC = () => {
           <p className="!my-2">
             <strong>Laufzeitkomplexität:</strong>
           </p>
-          <InlineMath math="O(n \cdot m)" />, wobei <InlineMath math="n" /> die
-          Anzahl der Elemente in <code>numbers</code> ist.
+          <p>
+            <InlineMath math="O(n \cdot m)" />, wobei <InlineMath math="n" />{" "}
+            die Anzahl der Elemente in <code>numbers</code> ist.
+          </p>
           <p>
             <strong>Vorteile des tabellarischen Ansatzes:</strong>
           </p>

@@ -81,12 +81,15 @@ const GridTravelerExplain: React.FC = () => {
           <p>
             In der Visualisierung werden alle möglichen Pfade vom Startpunkt zum
             Zielpunkt dargestellt. Die Kosten für jeden möglichen Pfad werden
-            berechnet, um den minimalen Gesamtpfadkosten zu ermitteln.
+            berechnet, um die minimalen Gesamtpfadkosten zu ermitteln.
           </p>
           <span>
             <p>
-              Durch Anklicken eines Knotens können Sie die weiteren rekursiven
-              Aufrufe und deren Kosten einsehen.
+              Gemäß dem rekursiven Ansatz werden die minimalen Kosten für jeden
+              Pfad berechnet, indem die Kosten des aktuellen Feldes mit den
+              minimalen Kosten der beiden vorherigen Felder verglichen werden.
+              Daher läuft der Algorithmus "rückwärts" von der Zielposition zum
+              Startpunkt.
             </p>
           </span>
           <p>
@@ -125,7 +128,9 @@ const GridTravelerExplain: React.FC = () => {
           <p className="!my-2">
             <strong>Laufzeitkomplexität:</strong>
           </p>
-          <InlineMath math="O(2^{m+n})" />
+          <p>
+            <InlineMath math="O(2^{m+n})" />
+          </p>
           <p>
             <strong>Probleme des rekursiven Ansatzes:</strong>
           </p>
