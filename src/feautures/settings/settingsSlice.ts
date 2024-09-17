@@ -31,7 +31,7 @@ export type FunctionName =
   | "CanSumTab"
   | "";
 
-export const SPEED = 250;
+export const SPEED = 200;
 
 interface SettingsState {
   selectedProblem: Problem;
