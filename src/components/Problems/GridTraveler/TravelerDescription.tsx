@@ -3,7 +3,7 @@ import { InlineMath } from "react-katex";
 
 export const TravelerDescription: FC = () => {
   return (
-    <>
+    <div className="max-w-[1000px]">
       <p className="text-sm">
         <p>
           Gegeben sei ein 2-dimensionales Feld <InlineMath math="G" /> mit{" "}
@@ -71,6 +71,6 @@ export const TravelerDescription: FC = () => {
           , mit Gesamtkosten <InlineMath math="7" />.
         </p>
       </p>
-    </>
+    </div>
   );
 };

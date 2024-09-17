@@ -3,7 +3,7 @@ import { InlineMath } from "react-katex";
 
 export const CanSumDescription: FC = () => {
   return (
-    <>
+    <div className="max-w-[1000px]">
       <p>
         Gegeben sei eine Menge{" "}
         <InlineMath math="S = \{a_1, a_2, \dots, a_n\}" /> von{" "}
@@ -61,6 +61,6 @@ export const CanSumDescription: FC = () => {
           gegebenen Zahlen die Zielsumme ergibt.
         </li>
       </ul>
-    </>
+    </div>
   );
 };
