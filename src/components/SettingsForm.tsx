@@ -277,6 +277,7 @@ const Field: React.FC<FieldProps> = ({ name, label, ...props }) => (
       id={name}
       className="w-20 form-input"
       type="number"
+      min="0"
     />
   </div>
 );
