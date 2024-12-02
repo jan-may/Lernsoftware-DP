@@ -27,7 +27,7 @@
     "@replit/codemirror-lang-csharp": "^6.2.0",
     "@tauri-apps/api": "^2.1.1",
     "@uiw/react-codemirror": "^4.23.6",
-    "class-variance-authority": "^0.7.0",
+    "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.462.0",
     "prop-types": "^15.8.1",
