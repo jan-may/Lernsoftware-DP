@@ -26,7 +26,7 @@
     "@reduxjs/toolkit": "^2.5.0",
     "@replit/codemirror-lang-csharp": "^6.2.0",
     "@tauri-apps/api": "^2.1.1",
-    "@uiw/react-codemirror": "^4.23.6",
+    "@uiw/react-codemirror": "^4.23.7",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.469.0",
