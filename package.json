@@ -44,7 +44,7 @@
   "devDependencies": {
     "@tauri-apps/cli": "^2.2.7",
     "@types/node": "^22.13.5",
-    "@types/react": "^19.0.9",
+    "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@types/react-katex": "^3.0.4",
     "@types/react-syntax-highlighter": "^15.5.13",
