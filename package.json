@@ -23,7 +23,7 @@
     "@radix-ui/react-slot": "^1.2.0",
     "@radix-ui/react-toast": "^1.2.7",
     "@radix-ui/react-tooltip": "^1.2.3",
-    "@reduxjs/toolkit": "^2.6.1",
+    "@reduxjs/toolkit": "^2.7.0",
     "@replit/codemirror-lang-csharp": "^6.2.0",
     "@tauri-apps/api": "^2.5.0",
     "@uiw/react-codemirror": "^4.23.10",
