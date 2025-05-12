@@ -34,7 +34,7 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-joyride": "^2.9.3",
-    "react-katex": "^3.0.1",
+    "react-katex": "^3.1.0",
     "react-latex": "^2.0.0",
     "react-redux": "^9.2.0",
     "react-syntax-highlighter": "^15.6.1",
