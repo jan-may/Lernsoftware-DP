@@ -1,66 +1,48 @@
 {
+  "identifier": "com.jan.may",
   "build": {
     "beforeDevCommand": "npm run dev",
     "beforeBuildCommand": "npm run build",
-    "devPath": "http://localhost:1420",
-    "distDir": "../dist"
+    "frontendDist": "../dist",
+    "devUrl": "http://localhost:1420"
   },
-  "package": {
-    "productName": "Lernsoftware-dynamisches-Programmieren",
-    "version": "1.0.0"
-  },
-  "tauri": {
-    "allowlist": {
-      "all": true,
-      "shell": {
-        "all": true,
-        "open": true
-      },
-      "path": {
-        "all": true
-      },
-      "fs": {
-        "writeFile": true,
-        "scope": ["$DOWNLOAD/*", "$APPDATA", "$HOME"]
-      },
-      "dialog": {
-        "all": true
-      }
-    },
-    "bundle": {
-      "active": true,
-      "targets": "all",
-      "identifier": "com.jan.may",
-      "icon": [
-        "icons/32x32.png",
-        "icons/128x128.png",
-        "icons/128x128@2x.png",
-        "icons/icon.icns",
-        "icons/icon.ico"
-      ],
-      "shortDescription": "Lernsoftware dynamisches Programmieren",
-      "publisher": "Jan May",
-      "category": "DeveloperTool",
-      "windows": {
-        "wix": {
-          "language": ["de-DE"]
-        }
-      }
-    },
-    "security": {
-      "csp": null
-    },
+  "app": {
+    "withGlobalTauri": true,
     "windows": [
       {
-        "fullscreen": false,
-        "resizable": true,
         "title": "Lernsoftware dynamisches Programmieren",
         "width": 1300,
         "height": 800,
         "minWidth": 1024,
         "minHeight": 680,
-        "maximized": true
+        "maximized": true,
+        "resizable": true,
+        "fullscreen": false
       }
-    ]
-  }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "shortDescription": "Lernsoftware dynamisches Programmieren",
+    "publisher": "Jan May",
+    "category": "DeveloperTool",
+    "windows": {
+      "wix": {
+        "language": ["de-DE"]
+      }
+    }
+  },
+  "productName": "Lernsoftware-dynamisches-Programmieren",
+  "version": "1.0.0"
 }

@@ -6,12 +6,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "./ui/tooltip";
-import { invoke } from "@tauri-apps/api/tauri";
+import { invoke } from "@tauri-apps/api/core";
 
 export const PathDeleteBtn = () => {
   const handleClick = () => {
     try {
-      invoke("delete_dotnet_project").then((res) => {
+      invoke("delete_dotnet_project").then((res: any) => {
         console.log(res);
       });
     } catch (error) {

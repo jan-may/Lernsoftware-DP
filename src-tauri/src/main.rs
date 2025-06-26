@@ -7,6 +7,9 @@ use tauri_commands::{write_file_content, run_prog, get_dotnet_version, get_dotne
 
 fn main() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_fs::init())
+        .plugin(tauri_plugin_shell::init())
+        .plugin(tauri_plugin_dialog::init())
         .invoke_handler(tauri::generate_handler![
             write_file_content,
             run_prog,

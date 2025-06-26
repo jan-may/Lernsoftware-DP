@@ -17,7 +17,7 @@ import { useTheme } from "./theme-provider";
 import { CompilerTable } from "./CompilerTable";
 import { CompilerResponse } from "../types/CompilerTypes";
 import { CompilerInfoBtn } from "./CompilerInfoBtn";
-import { invoke } from "@tauri-apps/api/tauri";
+import { invoke } from "@tauri-apps/api/core";
 import { EditorErrorMessage } from "./EditorErrorMessage";
 import { fibCsCode } from "../trees/fibonacci";
 import { travelerCsCode } from "../components/Problems/GridTraveler/Traveler";
@@ -112,7 +112,7 @@ export function Editor() {
     // check if running in browser or tauri client
     // if in browser, show error message - code can only be run in client
     dispatch(setIsLoading(true));
-    if (!window.__TAURI__) {
+    if (!(window as any).__TAURI__) {
       setError(
         "Code kann nur im Client ausgeführt werden. Im Browser ist dies (noch) nicht möglich! Bitte laden Sie hierfür die dedizierte Desktop-App herunter. https://github.com/jan-may/Lernsoftware-DP/releases"
       );

@@ -18,7 +18,7 @@ function TableContent({
   value,
 }: {
   text: string;
-  value: string | number | JSX.Element;
+  value: string | number | React.ReactElement;
 }) {
   return (
     <TableRow>

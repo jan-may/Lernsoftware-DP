@@ -3,10 +3,9 @@ import {
   exists,
   writeTextFile,
   readTextFile,
-  createDir,
-} from "@tauri-apps/api/fs";
+  mkdir
+} from "@tauri-apps/plugin-fs";
 import { path } from "@tauri-apps/api";
-import { BaseDirectory } from "@tauri-apps/api/fs";
 
 const BASEDIR = "com.jan.may";
 const SAVEFILE = "save.txt";
@@ -24,24 +23,20 @@ export const useSaveFile = (
 
       // Create directory if it does not exist
       if (!(await exists(filePath))) {
-        await createDir(filePath, { recursive: true });
+        await mkdir(filePath, { recursive: true });
       }
 
       // Create save file if it does not exist
-      if (!(await exists(SAVEFILE, { dir: BaseDirectory.AppData }))) {
+      const saveFilePath = await path.join(await path.appDataDir(), BASEDIR, SAVEFILE);
+      if (!(await exists(saveFilePath))) {
         await writeTextFile(
-          {
-            path: SAVEFILE,
-            contents: JSON.stringify(defaultData, null, 2),
-          },
-          { dir: BaseDirectory.AppData }
+          saveFilePath,
+          JSON.stringify(defaultData, null, 2)
         );
       }
 
       // Read the save file data
-      const contents = await readTextFile(SAVEFILE, {
-        dir: BaseDirectory.AppData,
-      });
+      const contents = await readTextFile(saveFilePath);
       const data = JSON.parse(contents);
       dispatch(setIsTourCompleted(data.isTourCompleted || data.tourCompleted));
       dispatch(setIsQuizCompleted(data.isQuizCompleted || data.quizCompleted));
