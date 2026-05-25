@@ -5,7 +5,7 @@ import {
   SPEED,
 } from "../feautures/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import JoyRide from "react-joyride";
+import { Joyride as JoyRide, EventData } from "react-joyride";
 import { ActivButton } from "../feautures/navbar/navbarSlice";
 import {
   setAccordionOpen,
@@ -83,14 +83,8 @@ export const Tour = () => {
       <JoyRide
         tooltipComponent={TourTooltip as any}
         steps={TOUR_STEPS as any} // weird type error
-        showSkipButton
-        showProgress
         continuous
-        hideBackButton
-        disableOverlayClose
-        disableCloseOnEsc
-        hideCloseButton
-        callback={(data) => {
+        onEvent={(data: EventData) => {
           if (data.index == 0 && data.action == "start") {
           }
           if (data.index == 1 && data.action == "update") {
@@ -119,6 +113,15 @@ export const Tour = () => {
             handleFinishTour();
           }
         }}
+        options={{
+          arrowColor: theme == "dark" ? "#202c34" : "#fff",
+          buttons: ["primary", "skip"],
+          showProgress: true,
+          overlayClickAction: false,
+          dismissKeyAction: false,
+          spotlightRadius: 4,
+          spotlightPadding: 0,
+        }}
         styles={{
           tooltipContainer: {
             textAlign: "left",
@@ -129,14 +132,6 @@ export const Tour = () => {
           },
           buttonBack: {
             marginRight: 10,
-          },
-          spotlight: {
-            borderRadius: 4,
-            padding: 0,
-            margin: 0,
-          },
-          options: {
-            arrowColor: theme == "dark" ? "#202c34" : "#fff",
           },
         }}
         locale={{
