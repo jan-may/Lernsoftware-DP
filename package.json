@@ -37,7 +37,7 @@
     "prop-types": "^15.8.1",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "react-joyride": "^3.1.0",
+    "react-joyride": "^3.2.0",
     "react-katex": "^3.1.0",
     "react-redux": "^9.3.0",
     "react-syntax-highlighter": "^16.1.1",
